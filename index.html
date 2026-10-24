@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Deu um nó? Chegue mais. Simplificamos processos, tecnologia e automação para o seu negócio sem complicações.">
+  <meta name="theme-color" content="#f5efe6">
+  <title>IArretada | Tecnologia que simplifica a vida</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --cream: #f5efe6;
+      --forest: #0c231a;
+      --forest-soft: #15382b;
+      --coral: #e06d44;
+      --gold: #e5b97f;
+      --ink: #1f2937;
+      --muted: #526058;
+      --paper: rgba(255, 255, 255, .58);
+      --line: rgba(12, 35, 26, .15);
+      --serif: 'Plus Jakarta Sans', sans-serif;
+      --sans: 'Inter', sans-serif;
+      --content: 1160px;
+    }
+    *, *::before, *::after { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--cream); color: var(--ink); font-family: var(--sans); line-height: 1.6; }
+    a { color: inherit; text-decoration: none; }
+    button, input, select, textarea { font: inherit; }
+    button, a, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+    :focus-visible { outline: 3px solid var(--coral); outline-offset: 3px; }
+    .container { width: min(var(--content), calc(100% - 48px)); margin-inline: auto; }
+    .topline { background: var(--forest); color: #fff; font-size: .84rem; }
+    .topline-inner { min-height: 38px; display: flex; justify-content: space-between; align-items: center; gap: 20px; }
+    .text-controls { display: flex; align-items: center; gap: 8px; }
+    .text-controls button { padding: 2px 8px; background: transparent; border: 1px solid var(--gold); border-radius: 4px; color: var(--gold); cursor: pointer; }
+    .site-header { position: sticky; z-index: 5; top: 0; border-bottom: 1px solid var(--line); background: rgba(245, 239, 230, .94); backdrop-filter: blur(12px); }
+    .header-inner { min-height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+    .logo { color: var(--forest); font-family: var(--serif); font-size: 1.45rem; font-weight: 800; }
+    .logo span { color: var(--coral); }
+    nav ul { display: flex; align-items: center; gap: 26px; margin: 0; padding: 0; list-style: none; font-size: .94rem; font-weight: 600; }
+    nav a:hover { color: var(--coral); }
+    .header-cta, .button-primary, .button-secondary { display: inline-flex; align-items: center; justify-content: center; gap: 9px; min-height: 48px; padding: 12px 20px; border-radius: 6px; font-weight: 700; transition: transform .18s ease, background .18s ease; }
+    .header-cta, .button-primary { background: var(--forest); color: #fff; }
+    .button-primary:hover, .header-cta:hover { background: var(--coral); transform: translateY(-2px); }
+    .button-secondary { border: 1px solid var(--forest); color: var(--forest); }
+    .button-secondary:hover { background: rgba(12, 35, 26, .07); }
+    .hero { position: relative; overflow: hidden; padding: clamp(76px, 11vw, 138px) 0 92px; }
+    .hero::before { position: absolute; z-index: -1; top: 6%; right: -10%; width: min(58vw, 760px); aspect-ratio: 1; border: 1px solid rgba(12, 35, 26, .1); border-radius: 50%; content: ''; box-shadow: 0 0 0 46px rgba(12, 35, 26, .025), 0 0 0 92px rgba(12, 35, 26, .02); }
+    .hero-copy { max-width: 760px; animation: enter .65s ease-out both; }
+    .eyebrow { display: inline-flex; align-items: center; gap: 9px; margin: 0 0 20px; color: var(--coral); font-size: .82rem; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .eyebrow::before { width: 24px; height: 2px; background: currentColor; content: ''; }
+    h1, h2, h3 { color: var(--forest); font-family: var(--serif); line-height: 1.18; }
+    h1 { max-width: 700px; margin: 0 0 22px; font-size: clamp(2.8rem, 7vw, 5.4rem); }
+    .hero-copy > p { max-width: 610px; margin: 0; color: var(--muted); font-size: 1.18rem; }
+    .hero-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 32px; }
+    .hero-note { margin-top: 52px; color: var(--muted); font-size: .88rem; }
+    .section { padding: 88px 0; }
+    .section-head { max-width: 700px; margin: 0 auto 42px; text-align: center; }
+    .section-head .eyebrow { justify-content: center; }
+    .section-head h2 { margin: 0 0 14px; font-size: clamp(2rem, 4vw, 3rem); }
+    .section-head p { margin: 0; color: var(--muted); }
+    .portals-grid { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 14px; }
+    .portal { min-height: 208px; padding: 24px 20px; border: 1px solid rgba(229, 185, 127, .55); border-radius: 8px; background: var(--paper); box-shadow: 0 14px 32px rgba(12, 35, 26, .045); transition: transform .2s ease, border-color .2s ease; }
+    .portal:hover { transform: translateY(-4px); border-color: var(--coral); }
+    .portal-mark { display: grid; width: 42px; height: 42px; place-items: center; margin-bottom: 20px; border-radius: 50%; background: rgba(12, 35, 26, .08); color: var(--forest); font-size: 1.15rem; }
+    .portal h3 { margin: 0 0 8px; font-size: 1.05rem; }
+    .portal p { margin: 0; color: var(--muted); font-size: .9rem; }
+    .diagnostic { background: var(--forest); color: #fff; }
+    .diagnostic .section-head h2 { color: #fff; }
+    .diagnostic .section-head p { color: rgba(255, 255, 255, .72); }
+    .diagnostic .eyebrow { color: var(--gold); }
+    .diagnostic-grid { display: grid; grid-template-columns: 1.1fr .9fr; align-items: stretch; gap: 28px; }
+    .diagnostic-options { display: grid; align-content: start; gap: 10px; }
+    .diagnostic-option { min-height: 56px; padding: 14px 18px; border: 1px solid rgba(255, 255, 255, .24); border-radius: 5px; background: transparent; color: #fff; text-align: left; cursor: pointer; transition: background .18s ease, border-color .18s ease; }
+    .diagnostic-option:hover, .diagnostic-option[aria-pressed="true"] { border-color: var(--gold); background: rgba(229, 185, 127, .14); }
+    .diagnostic-result { display: flex; flex-direction: column; justify-content: space-between; min-height: 282px; padding: 30px; border: 1px solid rgba(229, 185, 127, .42); border-radius: 8px; background: rgba(255, 255, 255, .07); }
+    .diagnostic-result small { color: var(--gold); font-weight: 700; letter-spacing: .08em; text-transform: uppercase; }
+    .diagnostic-result h3 { margin: 14px 0 10px; color: #fff; font-size: 1.65rem; }
+    .diagnostic-result p { margin: 0; color: rgba(255, 255, 255, .78); }
+    .diagnostic-result a { align-self: flex-start; margin-top: 26px; color: var(--gold); font-weight: 700; }
+    .method { display: grid; grid-template-columns: .8fr 1.2fr; gap: 70px; align-items: start; }
+    .method h2 { margin: 0; font-size: clamp(2rem, 4vw, 3rem); }
+    .method-intro { color: var(--muted); }
+    .method-list { margin: 0; padding: 0; list-style: none; counter-reset: steps; }
+    .method-list li { display: grid; grid-template-columns: 52px 1fr; gap: 18px; padding: 20px 0; border-top: 1px solid var(--line); counter-increment: steps; }
+    .method-list li::before { color: var(--coral); content: '0' counter(steps); font-family: var(--serif); font-weight: 800; }
+    .method-list strong { display: block; margin-bottom: 4px; color: var(--forest); }
+    .method-list span { color: var(--muted); }
+    .contact { background: rgba(229, 185, 127, .18); }
+    .contact-layout { display: grid; grid-template-columns: .8fr 1.2fr; gap: 64px; align-items: start; }
+    .contact-copy h2 { margin: 0 0 16px; font-size: clamp(2rem, 4vw, 3rem); }
+    .contact-copy p { color: var(--muted); }
+    .contact-copy .eyebrow { margin-bottom: 14px; }
+    .form { padding: clamp(22px, 4vw, 40px); border: 1px solid rgba(229, 185, 127, .5); border-radius: 8px; background: var(--paper); box-shadow: 0 16px 42px rgba(12, 35, 26, .06); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { margin-bottom: 17px; }
+    .form-group label { display: block; margin-bottom: 6px; color: var(--forest); font-size: .9rem; font-weight: 700; }
+    .form-group input, .form-group select, .form-group textarea { width: 100%; min-height: 46px; padding: 11px 12px; border: 1px solid rgba(12, 35, 26, .24); border-radius: 4px; background: rgba(255, 255, 255, .82); color: var(--ink); }
+    .form-group textarea { min-height: 120px; resize: vertical; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus { outline: 2px solid var(--coral); outline-offset: 1px; }
+    .consent { display: flex; align-items: flex-start; gap: 10px; margin: 4px 0 18px; color: var(--muted); font-size: .88rem; }
+    .consent input { flex: 0 0 auto; width: 18px; height: 18px; margin: 3px 0 0; accent-color: var(--forest); }
+    .form-submit { width: 100%; border: 0; cursor: pointer; }
+    .form-submit:disabled { cursor: wait; opacity: .7; }
+    .form-feedback { min-height: 26px; margin: 12px 0 0; font-weight: 700; }
+    .hp-field { position: absolute !important; left: -10000px !important; width: 1px !important; height: 1px !important; overflow: hidden !important; }
+    footer { padding: 34px 0; background: var(--forest); color: rgba(255, 255, 255, .82); font-size: .9rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .footer-inner p { margin: 0; }
+    @keyframes enter { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 900px) {
+      .portals-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+      .diagnostic-grid, .contact-layout { grid-template-columns: 1fr; gap: 32px; }
+      .method { grid-template-columns: 1fr; gap: 26px; }
+    }
+    @media (max-width: 660px) {
+      .container { width: min(100% - 32px, var(--content)); }
+      .header-inner { min-height: 68px; flex-wrap: wrap; padding-block: 10px; }
+      nav { order: 3; width: 100%; overflow-x: auto; }
+      nav ul { justify-content: space-between; gap: 16px; padding-bottom: 5px; white-space: nowrap; font-size: .86rem; }
+      .header-cta { min-height: 40px; padding: 8px 12px; font-size: .85rem; }
+      .hero { padding: 76px 0 64px; }
+      .hero::before { top: 26%; right: -50%; width: 100vw; }
+      .hero-copy > p { font-size: 1.05rem; }
+      .section { padding: 64px 0; }
+      .portals-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+      .portal { min-height: 188px; padding: 18px 15px; }
+      .diagnostic-result { min-height: 250px; padding: 23px; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+      .footer-inner { flex-direction: column; }
+      .topline-inner { font-size: .76rem; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <div class="topline">
+    <div class="container topline-inner">
+      <span>Acessibilidade do portal</span>
+      <div class="text-controls" aria-label="Ajustar tamanho do texto">
+        <span>Texto</span>
+        <button type="button" data-scale="1" aria-label="Aumentar texto">A+</button>
+        <button type="button" data-scale="-1" aria-label="Diminuir texto">A-</button>
+      </div>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="logo" href="/" aria-label="IArretada, início">IArretada<span>.</span></a>
+      <nav aria-label="Navegação principal">
+        <ul>
+          <li><a href="#portais">Portais</a></li>
+          <li><a href="#diagnostico">Diagnóstico</a></li>
+          <li><a href="#metodo">O método</a></li>
+          <li><a href="#escuta">Contato</a></li>
+        </ul>
+      </nav>
+      <a class="header-cta" href="#escuta">Falar com a gente</a>
+    </div>
+  </header>
+  <main>
+    <section class="hero">
+      <div class="container hero-copy">
+        <p class="eyebrow">Tecnologia humana e descomplicada</p>
+        <h1>Deu um nó? Chegue mais.</h1>
+        <p>Tecnologia só faz sentido quando simplifica a vida. Ajudamos seu negócio a destravar processos, organizar dados e automatizar rotinas sem estresse.</p>
+        <div class="hero-actions">
+          <a class="button-primary" href="#diagnostico">Desatar meu nó agora <span aria-hidden="true">&#8594;</span></a>
+          <a class="button-secondary" href="#metodo">Como funciona</a>
+        </div>
+        <p class="hero-note">Clareza para decidir. Simplicidade para fazer acontecer.</p>
+      </div>
+    </section>
+    <section class="section" id="portais">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Nossas frentes</p>
+          <h2>5 portais para organizar sua operação</h2>
+          <p>Um ponto de partida para cada desafio, conectado ao que o seu negócio precisa.</p>
+        </div>
+        <div class="portals-grid">
+          <a class="portal" href="#escuta"><span class="portal-mark" aria-hidden="true">01</span><h3>Marca &amp; Comunicação</h3><p>Sua voz clara para o mercado.</p></a>
+          <a class="portal" href="#escuta"><span class="portal-mark" aria-hidden="true">02</span><h3>Experiência</h3><p>Jornadas fluidas para clientes.</p></a>
+          <a class="portal" href="#escuta"><span class="portal-mark" aria-hidden="true">03</span><h3>Operação</h3><p>Processos sem gargalos.</p></a>
+          <a class="portal" href="#escuta"><span class="portal-mark" aria-hidden="true">04</span><h3>Tecnologia sem susto</h3><p>Sistemas úteis e seguros.</p></a>
+          <a class="portal" href="#escuta"><span class="portal-mark" aria-hidden="true">05</span><h3>Menos desperdício</h3><p>Fim do retrabalho e das perdas.</p></a>
+        </div>
+      </div>
+    </section>
+    <section class="section diagnostic" id="diagnostico">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Diagnóstico vivo</p>
+          <h2>Onde o nó aperta hoje?</h2>
+          <p>Escolha o desafio mais próximo da sua realidade e veja por onde começar.</p>
+        </div>
+        <div class="diagnostic-grid">
+          <div class="diagnostic-options" role="group" aria-label="Escolha seu principal desafio">
+            <button class="diagnostic-option" type="button" data-problem="processos" aria-pressed="true">Processos manuais e retrabalho</button>
+            <button class="diagnostic-option" type="button" data-problem="dados" aria-pressed="false">Dados espalhados e pouca clareza</button>
+            <button class="diagnostic-option" type="button" data-problem="clientes" aria-pressed="false">Uma experiência confusa para clientes</button>
+            <button class="diagnostic-option" type="button" data-problem="tecnologia" aria-pressed="false">Tecnologia que não acompanha o negócio</button>
+          </div>
+          <div class="diagnostic-result" aria-live="polite" aria-atomic="true">
+            <div><small>Um primeiro passo</small><h3 id="diagnostic-title">Encontre o trabalho que se repete</h3><p id="diagnostic-copy">Mapeie uma rotina que consome tempo toda semana. Antes de automatizar, vale entender onde o processo emperra.</p></div>
+            <a href="#escuta">Vamos conversar <span aria-hidden="true">&#8594;</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section class="section" id="metodo">
+      <div class="container method">
+        <div>
+          <p class="eyebrow">Sem complicação</p>
+          <h2>Uma mudança de cada vez. Com propósito.</h2>
+          <p class="method-intro">A gente entende o cenário junto com você, desenha um caminho possível e acompanha a transformação na prática.</p>
+        </div>
+        <ol class="method-list">
+          <li><div><strong>Escutar</strong><span>Entender o contexto, as pessoas e o que está travando o dia a dia.</span></div></li>
+          <li><div><strong>Organizar</strong><span>Separar sintomas de causas e priorizar o que gera impacto.</span></div></li>
+          <li><div><strong>Simplificar</strong><span>Construir soluções úteis, seguras e compatíveis com a rotina.</span></div></li>
+        </ol>
+      </div>
+    </section>
+    <section class="section contact" id="escuta">
+      <div class="container contact-layout">
+        <div class="contact-copy">
+          <p class="eyebrow">Escuta inicial</p>
+          <h2>Conte um pouco do seu desafio.</h2>
+          <p>Uma conversa começa com contexto. Preencha o formulário e a equipe IArretada entra em contato.</p>
+        </div>
+        <form class="form" id="lead-form" novalidate>
+          <div class="hp-field" aria-hidden="true"><label for="website">Não preencha este campo</label><input id="website" name="website" type="text" tabindex="-1" autocomplete="off"></div>
+          <div class="form-row">
+            <div class="form-group"><label for="nome">Nome *</label><input id="nome" name="nome" autocomplete="name" required></div>
+            <div class="form-group"><label for="email">E-mail *</label><input id="email" name="email" type="email" autocomplete="email" required></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label for="whatsapp">WhatsApp *</label><input id="whatsapp" name="whatsapp" type="tel" autocomplete="tel" required></div>
+            <div class="form-group"><label for="setor">Setor *</label><select id="setor" name="setor" required><option value="">Selecione</option><option>Comércio</option><option>Serviços</option><option>Indústria</option><option>Saúde</option><option>Educação</option><option>Outro</option></select></div>
+          </div>
+          <div class="form-group"><label for="mensagem">Como podemos ajudar? *</label><textarea id="mensagem" name="mensagem" required></textarea></div>
+          <label class="consent"><input type="checkbox" name="lgpd" required><span>Concordo com o uso dos meus dados para retorno sobre esta solicitação, conforme a LGPD. *</span></label>
+          <button class="button-primary form-submit" id="submit-button" type="submit">Enviar para o time IArretada</button>
+          <p class="form-feedback" id="form-feedback" role="status" aria-live="polite"></p>
+        </form>
+      </div>
+    </section>
+  </main>
+  <footer>
+    <div class="container footer-inner"><p><strong>IArretada.</strong> Tecnologia só faz sentido quando simplifica a vida.</p><p>&copy; <span id="year"></span> IArretada</p></div>
+  </footer>
+  <script>
+    const diagnosticContent = {
+      processos: ['Encontre o trabalho que se repete', 'Mapeie uma rotina que consome tempo toda semana. Antes de automatizar, vale entender onde o processo emperra.'],
+      dados: ['Reúna o que ajuda a decidir', 'Comece identificando quais informações fazem falta para uma decisão recorrente e onde esses dados estão hoje.'],
+      clientes: ['Observe a jornada de ponta a ponta', 'Escolha uma etapa que gera dúvidas ou espera. Entender a experiência real ajuda a priorizar o ajuste mais útil.'],
+      tecnologia: ['Volte ao problema que precisa resolver', 'Liste o que a ferramenta atual não permite fazer. A tecnologia deve acompanhar o processo, não criar mais uma camada de trabalho.']
+    };
+    document.querySelectorAll('[data-problem]').forEach((option) => {
+      option.addEventListener('click', () => {
+        document.querySelectorAll('[data-problem]').forEach((item) => item.setAttribute('aria-pressed', String(item === option)));
+        const [title, copy] = diagnosticContent[option.dataset.problem];
+        document.getElementById('diagnostic-title').textContent = title;
+        document.getElementById('diagnostic-copy').textContent = copy;
+      });
+    });
+    document.querySelectorAll('[data-scale]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const current = Number.parseFloat(getComputedStyle(document.documentElement).fontSize);
+        document.documentElement.style.fontSize = `${Math.max(14, Math.min(20, current + Number(button.dataset.scale)))}px`;
+      });
+    });
+    document.getElementById('year').textContent = new Date().getFullYear();
+    const leadForm = document.getElementById('lead-form');
+    leadForm.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      const feedback = document.getElementById('form-feedback');
+      const submitButton = document.getElementById('submit-button');
+      feedback.textContent = '';
+      if (!leadForm.reportValidity()) return;
+      const formData = new FormData(leadForm);
+      const payload = Object.fromEntries(['nome', 'email', 'whatsapp', 'setor', 'mensagem', 'website'].map((key) => [key, String(formData.get(key) || '').trim()]));
+      payload.lgpd = formData.get('lgpd') === 'on';
+      submitButton.disabled = true;
+      submitButton.textContent = 'Enviando com segurança...';
+      try {
+        const response = await fetch('/api/lead', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        if (!response.ok) throw new Error(result.message || 'Não foi possível enviar sua mensagem.');
+        feedback.textContent = result.message || 'Mensagem enviada com sucesso!';
+        feedback.dataset.state = 'success';
+        leadForm.reset();
+      } catch (error) {
+        feedback.textContent = error.message || 'Erro de conexão. Verifique sua rede e tente novamente.';
+        feedback.dataset.state = 'error';
+      } finally {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Enviar para o time IArretada';
+      }
+    });
+  </script>
+</body>
+</html>
