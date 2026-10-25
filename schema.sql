@@ -1,3 +1,4 @@
+-- Cloudflare D1 Table Creation Schema for IArretada Leads
 CREATE TABLE IF NOT EXISTS leads (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     nome TEXT NOT NULL,
@@ -9,4 +10,5 @@ CREATE TABLE IF NOT EXISTS leads (
     ip_hash TEXT NOT NULL,
     created_at TEXT NOT NULL
 );
+-- Index for rate-limiting performance
 CREATE INDEX IF NOT EXISTS idx_leads_ip_created ON leads(ip_hash, created_at);
