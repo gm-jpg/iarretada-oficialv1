@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TEMPLATE_TITULO — IArretada</title>
+  <meta name="description" content="TEMPLATE_DESCRICAO">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-cream: #F5EFE6;
+      --bg-forest: #0C231A;
+      --accent-coral: #E06D44;
+      --accent-gold: #E5B97F;
+      --text-dark: #1F2937;
+      --text-muted: #526058;
+      --glass-bg: rgba(255, 255, 255, 0.55);
+      --glass-border: rgba(229, 185, 127, 0.4);
+      --radius-lg: 24px;
+      --radius-md: 14px;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: 'Inter', sans-serif; background-color: var(--bg-cream); color: var(--text-dark); line-height: 1.6; }
+    h1, h2, h3 { font-family: 'Plus Jakarta Sans', sans-serif; color: var(--bg-forest); }
+    .container { width: 100%; max-width: 1000px; margin: 0 auto; padding: 0 24px; }
+    header { padding: 24px 0; border-bottom: 1px solid rgba(12, 35, 26, 0.08); background: rgba(245, 239, 230, 0.9); }
+    .header-inner { display: flex; justify-content: space-between; align-items: center; }
+    .logo { font-family: 'Plus Jakarta Sans', sans-serif; font-size: 1.5rem; font-weight: 800; color: var(--bg-forest); text-decoration: none; }
+    .logo span { color: var(--accent-coral); }
+    .page-hero { padding: 60px 0 40px; text-align: center; }
+    .page-title { font-size: 2.5rem; margin-bottom: 16px; font-weight: 800; }
+    .page-subtitle { font-size: 1.2rem; color: var(--text-muted); max-width: 700px; margin: 0 auto 32px; }
+    .content-box { background: var(--glass-bg); backdrop-filter: blur(20px); border: 1px solid var(--glass-border); border-radius: var(--radius-lg); padding: 40px; margin-bottom: 40px; }
+    .content-box h2 { font-size: 1.5rem; margin-bottom: 16px; margin-top: 24px; }
+    .content-box h2:first-child { margin-top: 0; }
+    .content-box p { margin-bottom: 16px; color: var(--text-dark); }
+    .content-box ul { margin-left: 20px; margin-bottom: 24px; }
+    .content-box li { margin-bottom: 8px; }
+    .cta-box { background: var(--bg-forest); color: white; padding: 40px; border-radius: var(--radius-lg); text-align: center; margin-bottom: 60px; }
+    .cta-box h3 { color: white; font-size: 1.8rem; margin-bottom: 12px; }
+    .btn-cta { display: inline-block; background-color: var(--accent-coral); color: white; padding: 14px 28px; border-radius: var(--radius-md); font-weight: 600; text-decoration: none; margin-top: 16px; }
+    footer { background: var(--bg-forest); color: white; padding: 30px 0; text-align: center; font-size: 0.85rem; opacity: 0.9; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container header-inner">
+      <a href="/" class="logo">IArretada<span>.</span></a>
+      <a href="/" style="text-decoration: none; color: var(--bg-forest); font-weight: 600;">← Voltar para a Home</a>
+    </div>
+  </header>
+  <main class="container">
+    <section class="page-hero">
+      <h1 class="page-title">TEMPLATE_TITULO</h1>
+      <p class="page-subtitle">TEMPLATE_SUBTITULO</p>
+    </section>
+    <article class="content-box">
+      <h2>O que é esta frente de atuação?</h2>
+      <p>TEMPLATE_CONTEUDO_BLOCO_1</p>
+      <h2>Como desatamos o nó nesta área:</h2>
+      <ul>
+        <li><strong>Diagnóstico Atento:</strong> Entendimento profundo sem julgamentos ou termos complicados.</li>
+        <li><strong>Conexão de Ferramentas:</strong> Integração das soluções já utilizadas na sua rotina.</li>
+        <li><strong>Simplicidade na Prática:</strong> Implementação em etapas curtas para fácil assimilação.</li>
+      </ul>
+      <h2>Resultados que você pode esperar:</h2>
+      <p>TEMPLATE_CONTEUDO_BLOCO_2</p>
+    </article>
+    <div class="cta-box">
+      <h3>Sua empresa está passando por desafios nesta área?</h3>
+      <p>Chegue mais. Vamos conversar sem compromisso para entender seu momento.</p>
+      <a href="/#escuta" class="btn-cta">Falar com José no Formulário de Escuta</a>
+    </div>
+  </main>
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 IArretada. Tecnologia só faz sentido quando simplifica a vida.</p>
+    </div>
+  </footer>
+</body>
+</html>

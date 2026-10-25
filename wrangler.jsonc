@@ -1,0 +1,18 @@
+{
+  "$schema": "node_modules/wrangler/config-schema.json",
+  "name": "iarretada-oficialv1",
+  "compatibility_date": "2026-10-25",
+  "observability": {
+    "enabled": true
+  },
+  "assets": {
+    "directory": "."
+  },
+  "not_found_handling": "single-page-application",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "iarretada-db"
+    }
+  ]
+}
