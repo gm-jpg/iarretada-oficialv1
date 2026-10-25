@@ -1,862 +1,1111 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>IArretada — Tecnologia só faz sentido quando simplifica a vida</title>
-  <meta name="description" content="Deu um nó? Chegue mais. Simplificamos processos, tecnologia e automação para o seu negócio sem complicações.">
-  <style>
-    :root {
-      --bg-cream: #F5EFE6;
-      --bg-forest: #0C231A;
-      --bg-forest-light: #15382B;
-      --accent-coral: #E06D44;
-      --accent-gold: #E5B97F;
-      --text-dark: #1F2937;
-      --text-muted: #526058;
-      --text-light: #F9FAFB;
-      --glass-bg: rgba(255, 255, 255, 0.52);
-      --glass-border: rgba(229, 185, 127, 0.4);
-      --glass-shadow: 0 24px 48px -12px rgba(12, 35, 26, 0.08), inset 0 1px 1px 0 rgba(255, 255, 255, 0.6);
-      --base-font-size: 16px;
-      --radius-lg: 24px;
-      --radius-md: 14px;
-      --radius-sm: 8px;
-      --transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-    }
+ <meta charset="UTF-8" />
+ <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+ <title>IArretada — Deu um nó? Chegue mais | Tecnologia Humana &amp; Negócios Reais</title>
+ <meta name="description" content="Todo negócio tem alguma coisa que poderia funcionar melhor. Conectamos conhecimento de negócio, processos, branding e tecnologia aplicada para simplificar sua vida." />
+ <link rel="canonical" href="https://www.iarretada.com.br/" />
+ <link rel="stylesheet" href="./spatial-design-system.css" />
+ <link rel="stylesheet" href="./site.css" />
+ <link rel="icon" type="image/svg+xml" href="./favicon.svg" />
 
+ <!-- OpenGraph -->
+ <meta property="og:title" content="IArretada — Deu um nó? Chegue mais." />
+ <meta property="og:description" content="Tecnologia só faz sentido quando simplifica a vida. Consultoria prática para pessoas e negócios reais." />
+ <meta property="og:type" content="website" />
+ <meta property="og:url" content="https://www.iarretada.com.br/" />
+ <meta property="og:image" content="https://www.iarretada.com.br/assets/reference/como-ajudo-hero.webp" />
 
-    body.high-contrast {
-      --bg-cream: #000000;
-      --bg-forest: #000000;
-      --bg-forest-light: #111111;
-      --accent-coral: #FF9900;
-      --accent-gold: #FFFF00;
-      --text-dark: #FFFFFF;
-      --text-muted: #E5E7EB;
-      --text-light: #FFFFFF;
-      --glass-bg: rgba(20, 20, 20, 0.95);
-      --glass-border: #FFFF00;
-    }
-
-
-    body.dyslexic-font, body.dyslexic-font h1, body.dyslexic-font h2, body.dyslexic-font h3 {
-      font-family: 'Verdana', 'Arial', sans-serif !important;
-      letter-spacing: 0.04em !important;
-      line-height: 1.75 !important;
-    }
-
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { font-size: var(--base-font-size); scroll-behavior: smooth; }
-    body { font-family: 'Inter', system-ui, -apple-system, sans-serif; background-color: var(--bg-cream); color: var(--text-dark); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
-    h1, h2, h3, h4, h5, h6 { font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif; color: var(--bg-forest); line-height: 1.25; }
-    body.high-contrast h1, body.high-contrast h2, body.high-contrast h3 { color: var(--accent-gold); }
-    a { color: inherit; text-decoration: none; }
-    .container { width: 100%; max-width: 1240px; margin: 0 auto; padding: 0 24px; }
-
-
-    /* Accessibility Bar */
-    .a11y-bar { background-color: var(--bg-forest); color: var(--text-light); padding: 10px 0; font-size: 0.85rem; border-bottom: 1px solid var(--bg-forest-light); position: relative; z-index: 200; }
-    .a11y-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; }
-    .a11y-controls { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
-    .a11y-btn { background: rgba(255,255,255,0.06); border: 1px solid var(--accent-gold); color: var(--accent-gold); padding: 4px 10px; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.8rem; font-weight: 600; transition: var(--transition); }
-    .a11y-btn:hover, .a11y-btn.active { background: var(--accent-gold); color: var(--bg-forest); }
-
-
-    /* Header */
-    header { background: rgba(245, 239, 230, 0.82); backdrop-filter: blur(20px) saturate(180%); -webkit-backdrop-filter: blur(20px) saturate(180%); position: sticky; top: 0; z-index: 100; border-bottom: 1px solid rgba(229, 185, 127, 0.25); }
-    body.high-contrast header { background: #000; border-bottom: 2px solid #FFFF00; }
-    .header-inner { display: flex; justify-content: space-between; align-items: center; height: 80px; }
-    .logo { font-size: 1.65rem; font-weight: 800; color: var(--bg-forest); display: flex; align-items: center; gap: 4px; }
-    body.high-contrast .logo { color: #FFF; }
-    .logo span { color: var(--accent-coral); }
-    nav ul { display: flex; gap: 24px; list-style: none; font-weight: 600; font-size: 0.95rem; }
-    nav a { transition: var(--transition); color: var(--bg-forest); cursor: pointer; }
-    body.high-contrast nav a { color: #FFF; }
-    nav a:hover { color: var(--accent-coral); }
-    .btn-header { background-color: var(--bg-forest); color: var(--text-light); padding: 10px 22px; border-radius: var(--radius-md); font-weight: 600; border: 1px solid var(--accent-gold); transition: var(--transition); cursor: pointer; }
-    .btn-header:hover { background-color: var(--accent-coral); border-color: var(--accent-coral); color: #FFF; }
-
-
-    /* Spatial Liquid Glass */
-    .liquid-glass {
-      background: linear-gradient(135deg, rgba(255, 255, 255, 0.65) 0%, rgba(255, 255, 255, 0.28) 50%, rgba(255, 255, 255, 0.45) 100%);
-      backdrop-filter: blur(24px) saturate(190%);
-      -webkit-backdrop-filter: blur(24px) saturate(190%);
-      border: 1px solid var(--glass-border);
-      box-shadow: var(--glass-shadow);
-      border-radius: var(--radius-lg);
-    }
-    body.high-contrast .liquid-glass { background: #111; border: 2px solid #FFFF00; }
-    .glass-dark {
-      background: linear-gradient(135deg, rgba(12, 35, 26, 0.92) 0%, rgba(21, 56, 43, 0.85) 100%);
-      backdrop-filter: blur(24px) saturate(180%);
-      border: 1px solid rgba(229, 185, 127, 0.35);
-      box-shadow: 0 24px 48px rgba(0, 0, 0, 0.25), inset 0 1px 1px rgba(255, 255, 255, 0.15);
-      color: var(--text-light);
-      border-radius: var(--radius-lg);
-    }
-
-
-    /* Hero Section */
-    .hero { position: relative; padding: 90px 0 80px; min-height: 85vh; display: flex; align-items: center; overflow: hidden; }
-    .hero-bg-video { position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; z-index: -1; opacity: 0.14; filter: saturate(110%); }
-    .hero-grid { display: grid; grid-template-columns: 1.15fr 0.85fr; gap: 48px; align-items: center; }
-    .hero-badge { display: inline-flex; align-items: center; gap: 8px; padding: 6px 16px; background: rgba(224, 109, 68, 0.12); border: 1px solid var(--accent-coral); border-radius: 50px; color: var(--accent-coral); font-weight: 700; font-size: 0.85rem; margin-bottom: 20px; }
-    .hero-title { font-size: 3.3rem; font-weight: 800; letter-spacing: -0.025em; margin-bottom: 20px; color: var(--bg-forest); }
-    .hero-subtitle { font-size: 1.22rem; color: var(--text-muted); margin-bottom: 32px; max-width: 580px; }
-    .hero-actions { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
-    .btn-primary { background-color: var(--accent-coral); color: white; padding: 16px 32px; border-radius: var(--radius-md); font-weight: 700; font-size: 1rem; border: none; cursor: pointer; transition: var(--transition); display: inline-flex; align-items: center; gap: 8px; }
-    .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 12px 24px rgba(224, 109, 68, 0.35); }
-    .btn-secondary { background: rgba(255,255,255,0.5); color: var(--bg-forest); border: 1px solid var(--bg-forest); padding: 16px 32px; border-radius: var(--radius-md); font-weight: 700; transition: var(--transition); cursor: pointer; }
-    .btn-secondary:hover { background: var(--bg-forest); color: var(--text-light); }
-
-
-    .hero-video-card { padding: 18px; position: relative; }
-    .video-container { position: relative; width: 100%; height: 350px; border-radius: var(--radius-md); overflow: hidden; background: linear-gradient(135deg, #0C231A, #15382B); display: flex; align-items: center; justify-content: center; }
-    .video-container video { width: 100%; height: 100%; object-fit: cover; }
-    .player-controls { position: absolute; bottom: 12px; left: 12px; right: 12px; padding: 10px 16px; background: rgba(12, 35, 26, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(229, 185, 127, 0.3); border-radius: var(--radius-sm); color: white; display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; }
-
-
-    /* Portals Section */
-    .portals { padding: 80px 0; }
-    .section-header { text-align: center; max-width: 720px; margin: 0 auto 56px; }
-    .section-tag { color: var(--accent-coral); text-transform: uppercase; font-weight: 800; font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 8px; display: block; }
-    .section-title { font-size: 2.3rem; margin-bottom: 16px; }
-    .portals-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
-    .portal-card { padding: 32px 24px; text-align: center; transition: var(--transition); display: flex; flex-direction: column; align-items: center; cursor: pointer; }
-    .portal-card:hover { transform: translateY(-6px); border-color: var(--accent-coral); }
-    .portal-icon { width: 60px; height: 60px; background: rgba(12, 35, 26, 0.06); border: 1px solid var(--glass-border); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-bottom: 20px; font-size: 1.6rem; color: var(--bg-forest); }
-    .portal-card h3 { font-size: 1.15rem; margin-bottom: 12px; }
-    .portal-card p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 16px; }
-    .portal-link { margin-top: auto; font-size: 0.85rem; font-weight: 700; color: var(--accent-coral); }
-
-
-    /* Universal Discovery Core + Procedural Canvas */
-    .discovery { padding: 80px 0; background: var(--bg-forest); color: var(--text-light); border-radius: 32px; margin: 40px 24px; position: relative; overflow: hidden; }
-    .discovery h2 { color: var(--text-light); }
-    #discoveryCanvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; opacity: 0.55; }
-    .discovery .container { position: relative; z-index: 1; }
-    .discovery-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; margin-top: 40px; align-items: center; }
-    .pain-pills { display: flex; flex-wrap: wrap; gap: 12px; }
-    .pill { background: rgba(255, 255, 255, 0.08); border: 1px solid rgba(229, 185, 127, 0.25); color: var(--text-light); padding: 12px 20px; border-radius: 50px; cursor: pointer; transition: var(--transition); font-size: 0.92rem; font-weight: 500; text-align: left; }
-    .pill:hover, .pill.active { background: var(--accent-coral); border-color: var(--accent-gold); transform: scale(1.02); box-shadow: 0 8px 20px rgba(224, 109, 68, 0.35); }
-    .diagnostic-panel { padding: 36px; position: relative; min-height: 290px; display: flex; flex-direction: column; justify-content: space-between; }
-    .sphere-container { display: flex; align-items: center; gap: 16px; margin-bottom: 20px; }
-    .harmonic-sphere { width: 28px; height: 28px; background: radial-gradient(circle, var(--accent-gold) 0%, var(--accent-coral) 100%); border-radius: 50%; box-shadow: 0 0 20px var(--accent-gold); animation: pulse 3s infinite ease-in-out; }
-    @keyframes pulse { 0%, 100% { transform: scale(1); opacity: 0.85; } 50% { transform: scale(1.25); opacity: 1; } }
-    .method-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-top: 48px; border-top: 1px solid rgba(229, 185, 127, 0.2); padding-top: 32px; }
-    .step-item { text-align: center; }
-    .step-num { width: 36px; height: 36px; background: var(--accent-gold); color: var(--bg-forest); font-weight: 800; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 12px; font-size: 0.95rem; }
-
-
-    /* Bento Pillars */
-    .bento { padding: 80px 0; }
-    .bento-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
-    .bento-card { padding: 48px; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: space-between; }
-    .bento-card h3 { font-size: 1.85rem; margin-bottom: 16px; }
-    .bento-card p { font-size: 1.05rem; color: var(--text-muted); margin-bottom: 24px; }
-
-
-    /* Capabilities & 7 Sectors */
-    .capabilities { padding: 80px 0; background: rgba(12, 35, 26, 0.03); }
-    .cap-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 40px; }
-    .cap-item { padding: 24px; border-radius: var(--radius-md); background: rgba(255,255,255,0.75); border: 1px solid var(--glass-border); transition: var(--transition); }
-    .cap-item:hover { transform: translateY(-3px); background: #FFF; }
-    .cap-item h4 { font-size: 1.08rem; margin-bottom: 8px; color: var(--accent-coral); }
-    .sectors-flex { display: flex; flex-wrap: wrap; justify-content: center; gap: 14px; margin-top: 32px; }
-    .sector-tag { background: white; border: 1px solid var(--accent-gold); padding: 14px 24px; border-radius: var(--radius-md); font-weight: 700; color: var(--bg-forest); cursor: pointer; transition: var(--transition); box-shadow: 0 4px 12px rgba(12,35,26,0.05); }
-    .sector-tag:hover { background: var(--bg-forest); color: var(--accent-gold); transform: translateY(-3px); }
-
-
-    /* Curator Section */
-    .indica { padding: 80px 0; }
-    .indica-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-top: 32px; }
-    .indica-card { padding: 26px; border-radius: var(--radius-md); background: rgba(255,255,255,0.8); border: 1px solid var(--glass-border); transition: var(--transition); display: block; }
-    .indica-card:hover { border-color: var(--accent-coral); transform: translateY(-4px); background: #FFF; }
-    .indica-card h4 { margin-bottom: 8px; font-size: 1.1rem; color: var(--bg-forest); }
-    .indica-card p { font-size: 0.88rem; color: var(--text-muted); }
-
-
-    /* About José */
-    .about-jose { padding: 80px 0; background: var(--bg-forest); color: var(--text-light); border-radius: 32px; margin: 0 24px; }
-    .jose-grid { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 48px; align-items: center; }
-    .jose-img-wrapper { position: relative; border-radius: var(--radius-lg); overflow: hidden; border: 2px solid var(--accent-gold); background: #15382B; min-height: 380px; display: flex; align-items: center; justify-content: center; text-align: center; padding: 24px; }
-    .jose-content h2 { color: var(--text-light); font-size: 2.3rem; margin-bottom: 16px; }
-    .jose-quote { font-style: italic; font-size: 1.25rem; color: var(--accent-gold); margin-bottom: 24px; padding-left: 16px; border-left: 3px solid var(--accent-coral); }
-    .principles-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-top: 24px; }
-    .principle-item { font-size: 0.92rem; opacity: 0.95; }
-
-
-    /* Listening Form */
-    .contact-section { padding: 100px 0; }
-    .form-container { max-width: 680px; margin: 0 auto; padding: 48px; }
-    .form-group { margin-bottom: 20px; }
-    .form-group label { display: block; font-weight: 700; margin-bottom: 8px; font-size: 0.92rem; }
-    .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 14px; border: 1px solid rgba(12, 35, 26, 0.25); border-radius: var(--radius-sm); background: rgba(255,255,255,0.9); font-family: inherit; font-size: 0.95rem; color: #1F2937; }
-    .form-group input:focus, .form-group textarea:focus, .form-group select:focus { outline: none; border-color: var(--accent-coral); background: white; box-shadow: 0 0 0 3px rgba(224,109,68,0.15); }
-    .hp-field { display: none !important; }
-    .lgpd-check { display: flex; gap: 12px; align-items: flex-start; font-size: 0.85rem; color: var(--text-muted); margin-bottom: 24px; }
-
-
-    /* Dedicated SPA Route Modal / View System for 17 Pages */
-    .route-modal-overlay { position: fixed; inset: 0; background: rgba(12, 35, 26, 0.72); backdrop-filter: blur(12px); z-index: 500; display: none; align-items: center; justify-content: center; padding: 24px; overflow-y: auto; }
-    .route-modal-overlay.open { display: flex; }
-    .route-modal { width: 100%; max-width: 880px; background: var(--bg-cream); border: 2px solid var(--accent-gold); border-radius: var(--radius-lg); padding: 48px; position: relative; max-height: 90vh; overflow-y: auto; box-shadow: 0 30px 60px rgba(0,0,0,0.4); }
-    .route-close { position: absolute; top: 20px; right: 20px; background: var(--bg-forest); color: var(--accent-gold); border: 1px solid var(--accent-gold); padding: 8px 16px; border-radius: var(--radius-sm); cursor: pointer; font-weight: 700; }
-
-
-    /* Footer */
-    footer { background: var(--bg-forest); color: var(--text-light); padding: 60px 0 30px; border-top: 1px solid rgba(255,255,255,0.1); }
-    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 48px; margin-bottom: 40px; }
-    .footer-col h4 { color: var(--accent-gold); margin-bottom: 16px; font-size: 1rem; }
-    .footer-col ul { list-style: none; }
-    .footer-col li { margin-bottom: 8px; font-size: 0.9rem; }
-    .footer-col a { color: rgba(255,255,255,0.75); transition: var(--transition); cursor: pointer; }
-    .footer-col a:hover { color: var(--accent-gold); }
-    .footer-bottom { text-align: center; padding-top: 24px; border-top: 1px solid rgba(255,255,255,0.08); font-size: 0.85rem; color: rgba(255,255,255,0.6); }
-
-
-    @media (max-width: 900px) {
-      .hero-grid, .discovery-grid, .bento-grid, .jose-grid, .footer-grid, .cap-grid, .indica-grid { grid-template-columns: 1fr; }
-      .method-steps { grid-template-columns: 1fr 1fr; }
-      .hero-title { font-size: 2.3rem; }
-      .discovery, .about-jose { margin: 20px 12px; }
-    }
-  </style>
+ <!-- Schema.org JSON-LD -->
+ <script type="application/ld+json">
+ {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "IArretada",
+  "url": "https://www.iarretada.com.br",
+  "description": "Consultoria estratégica, branding, processos e tecnologia aplicada para pessoas e negócios reais.",
+  "founder": {
+   "@type": "Person",
+   "name": "José Todescato"
+  }
+ }
+ </script>
 </head>
 <body>
+ <a href="#conteudo-principal" class="skip-link">Pular para o conteúdo principal</a>
 
+ <!-- =========================================================================
+    SVG FILTERS DE FÍSICA ÓPTICA (LIQUID GLASS REFRACTION & NEURAL DISPLACEMENT)
+    ========================================================================= -->
+ <svg style="position: absolute; width: 0; height: 0; overflow: hidden;" aria-hidden="true">
+  <defs>
+   <!-- Refração com Dispersão Cromática para Liquid Glass -->
+   <filter id="liquid-refraction" x="-20%" y="-20%" width="140%" height="140%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="12" xChannelSelector="R" yChannelSelector="G" />
+   </filter>
 
-  <!-- Accessibility Controls Bar (Mandamentos 21, 22, 23) -->
-  <div class="a11y-bar">
-    <div class="container a11y-content">
-      <span><strong>Preferências de Experiência & Acessibilidade:</strong></span>
-      <div class="a11y-controls">
-        <button class="a11y-btn" onclick="adjustFontSize(1)" title="Aumentar Fonte">Texto A+</button>
-        <button class="a11y-btn" onclick="adjustFontSize(-1)" title="Diminuir Fonte">Texto A-</button>
-        <button class="a11y-btn" onclick="toggleContrast()" id="contrastBtn">Alto Contraste</button>
-        <button class="a11y-btn" onclick="toggleDyslexicFont()" id="fontBtn">Fonte Legível</button>
-        <button class="a11y-btn" onclick="toggleMotion()" id="motionBtn">Pausar Movimento</button>
-      </div>
+   <!-- Distorção Harmônica e Turbulência para Esfera Neural -->
+   <filter id="neural-refraction-filter" x="-25%" y="-25%" width="150%" height="150%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" result="noise" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="8" xChannelSelector="R" yChannelSelector="G" />
+   </filter>
+  </defs>
+ </svg>
+
+ <!-- =========================================================================
+    BARRA DE ACESSIBILIDADE DISCRETA (SEM EMOJIS)
+    ========================================================================= -->
+ 
+
+ <!-- =========================================================================
+    1. FLOATING HUD PILL HEADER (Cápsula Flutuante em Vidro visionOS)
+    ========================================================================= -->
+ <header class="floating-hud-header" role="banner">
+  <div class="floating-hud-inner">
+   <a href="/" class="hud-brand" aria-label="IArretada — Página Inicial">
+    <div class="hud-brand-emblem" aria-hidden="true">
+     <svg width="24" height="24" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M8 20h28M15 20a7 7 0 0 1 14 0M22 4v5M10 9l3.5 3.5M34 9l-3.5 3.5M4 16l4.5 1M40 16l-4.5 1"/>
+     </svg>
     </div>
+    <span class="hud-brand-title">IArretada</span>
+   </a>
+
+   <nav class="hud-nav" aria-label="Navegação Principal">
+    <a href="/" class="hud-nav-link is-active">Início</a>
+    <a href="#como-ajudo" class="hud-nav-link">Como ajudo</a>
+    <a href="#na-pratica" class="hud-nav-link">Na prática</a>
+    <a href="#sobre" class="hud-nav-link">Sobre</a>
+    <a href="#conteudos" class="hud-nav-link">Conteúdos</a>
+   </nav>
+
+   <a href="#contato" class="hud-btn-cta">
+    <span>Bora conversar</span>
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+     <path d="M5 12h14M12 5l7 7-7 7"/>
+    </svg>
+   </a>
   </div>
+ </header>
 
+ <main id="conteudo-principal">
+  <!-- =========================================================================
+     2. HERO SECTION COM VÍDEO INTEGRADO, FUSÃO ÓPTICA & CONTROLES EM VIDRO
+     40% texto à esquerda ("Deu um nó? Chegue mais.") e 60% mídia à direita
+     ========================================================================= -->
+  <section class="spatial-hero-section" aria-labelledby="hero-title">
+   <!-- Ambient Video Bleed Glow Layer -->
+   <div class="ambient-video-bleed" aria-hidden="true"></div>
 
-  <!-- Header -->
-  <header>
-    <div class="container header-inner">
-      <a href="/" class="logo">IArretada<span>.</span></a>
-      <nav>
-        <ul>
-          <li><a href="#portais">5 Portais</a></li>
-          <li><a href="#metodo">Diagnóstico Vivo</a></li>
-          <li><a href="#setores">7 Setores</a></li>
-          <li><a onclick="openRoute('sobre')">Sobre José</a></li>
-          <li><a onclick="openRoute('mapa')">Mapa das 17 Páginas</a></li>
-        </ul>
-      </nav>
-      <a href="#escuta" class="btn-header">Desatar meu nó</a>
+   <div class="spatial-container">
+    <div class="hero-layout-grid">
+     <!-- 40% Coluna de Texto à Esquerda -->
+     <div class="hero-copy-column">
+      <span class="hero-micro-eyebrow">
+       IDEIAS REAIS PARA NEGÓCIOS DE GENTE REAL
+      </span>
+
+      <h1 id="hero-title" class="hero-monumental-title">
+       Deu um nó?<br />
+       <em>Chegue mais.</em>
+      </h1>
+
+      <p class="hero-narrative-lead">
+       Todo negócio tem alguma coisa que poderia funcionar melhor. Às vezes é comunicação. Às vezes atendimento. Operação. Tecnologia. Tempo. Custo. Desperdício. A gente começa descobrindo onde está o nó.
+      </p>
+
+      <div class="hero-quote-highlight">
+       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <circle cx="12" cy="12" r="4"></circle>
+        <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M6.34 17.66l-1.41 1.41M19.07 4.93l-1.41 1.41"/>
+       </svg>
+       <span>Tecnologia só faz sentido quando simplifica a vida.</span>
+      </div>
+
+      <div class="hero-actions-row">
+       <a href="#contato" class="btn-primary-terracotta">
+        <span>Bora conversar</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </a>
+       <a href="#como-ajudo" class="btn-ghost-glass">
+        <span>Descobrir onde está o nó</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M12 5v14M19 12l-7 7-7-7"/>
+        </svg>
+       </a>
+      </div>
+
+      <!-- Fio Condutor / Indicador Gráfico do Nó que se desata no scroll -->
+      <div class="hero-knot-track" aria-hidden="true">
+       <svg id="heroScrollKnot" class="hero-knot-svg" viewBox="0 0 48 48">
+        <path d="M12 24 C12 16, 24 16, 24 24 C24 32, 36 32, 36 24 C36 16, 24 16, 24 24 C24 32, 12 32, 12 24 Z" />
+       </svg>
+       <span class="hero-knot-label">Desatando o nó passo a passo</span>
+      </div>
+     </div>
+
+     <!-- 60% Coluna de Mídia à Direita com Máscara e Controles Liquid Glass -->
+     <div class="hero-media-column">
+      <div id="heroVideoViewport" class="hero-video-viewport">
+       <!-- Vídeo em alta definição em loop sutil -->
+       <video
+        id="heroLiveVideo"
+        class="hero-video-masked"
+        src="./assets/video/hero-background.mp4"
+        poster="./assets/reference/como-ajudo-hero.webp"
+        autoplay
+        loop
+        muted
+        playsinline
+        preload="metadata"
+       ></video>
+
+       <!-- In-Scene Chalkboard Note -->
+       <div class="hero-scene-chalkboard">
+        <strong>NEGÓCIOS TAMBÉM MUDAM PESSOAS</strong>
+        <div class="hero-scene-chalkboard-icon">
+         <svg width="22" height="22" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M8 20h28M15 20a7 7 0 0 1 14 0M22 4v5M10 9l3.5 3.5M34 9l-3.5 3.5"/>
+         </svg>
+        </div>
+       </div>
+
+       <!-- Botão Central de Play em Liquid Glass -->
+       <button
+        type="button"
+        id="heroPlayCenterBtn"
+        class="hero-liquid-play-center"
+        aria-label="Assistir apresentação com áudio"
+       >
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+         <polygon points="5 3 19 12 5 21 5 3"></polygon>
+        </svg>
+       </button>
+
+       <!-- Barra Inferior do Player em Liquid Glass -->
+       <div class="hero-liquid-player-bar" role="region" aria-label="Controles do Vídeo">
+        <button type="button" id="heroBarPlayBtn" class="player-btn-action" aria-label="Pausar ou reproduzir">
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <rect x="6" y="4" width="4" height="16"></rect>
+          <rect x="14" y="4" width="4" height="16"></rect>
+         </svg>
+        </button>
+
+        <div id="heroProgressContainer" class="player-progress-container" role="progressbar" aria-valuenow="16" aria-valuemin="0" aria-valuemax="100">
+         <div id="heroProgressFill" class="player-progress-fill"></div>
+        </div>
+
+        <span id="heroTimeDisplay" class="player-time-badge">0:00 / 1:28</span>
+
+        <button type="button" id="heroVolumeBtn" class="player-btn-action" aria-label="Alternar áudio">
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+         </svg>
+        </button>
+
+        <button type="button" id="heroFullscreenBtn" class="player-btn-action" aria-label="Tela cheia">
+         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"></path>
+         </svg>
+        </button>
+       </div>
+      </div>
+     </div>
     </div>
-  </header>
+   </div>
+  </section>
 
-
-  <main>
-    <!-- Hero Section -->
-    <section class="hero">
-      <video class="hero-bg-video" autoplay loop muted playsinline aria-hidden="true">
-        <source src="hero-brazil-loop.mp4" type="video/mp4">
-      </video>
-      <div class="container hero-grid">
-        <div class="hero-text-content">
-          <div class="hero-badge">Tecnologia Humana, Nacional & Descomplicada</div>
-          <h1 class="hero-title">Deu um nó? Chegue mais.</h1>
-          <p class="hero-subtitle">Tecnologia só faz sentido quando simplifica a vida. Ajudamos seu negócio a organizar processos, conectar ferramentas e automatizar rotinas no seu ritmo e sem sustos.</p>
-          <div class="hero-actions">
-            <a href="#escuta" class="btn-primary">Fazer Escuta Inicial</a>
-            <a href="#metodo" class="btn-secondary">Testar Diagnóstico Vivo</a>
-          </div>
-        </div>
-        <div class="hero-video-card liquid-glass">
-          <div class="video-container">
-            <video autoplay loop muted playsinline id="mainHeroVideo">
-              <source src="hero-brazil-loop.mp4" type="video/mp4">
-            </video>
-            <div class="player-controls">
-              <span id="videoStatus">Cena Real: Equipe Brasileira em Harmonia</span>
-              <button onclick="toggleHeroVideo()" style="background:var(--accent-gold); border:none; color:var(--bg-forest); padding:4px 10px; border-radius:4px; font-weight:700; cursor:pointer;" id="playPauseBtn">Pausar</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- 5 Portals Section -->
-    <section class="portals" id="portais">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Nossas 5 Frentes de Atuação</span>
-          <h2 class="section-title">5 Portais para Destravar sua Operação</h2>
-          <p>Clique em qualquer portal abaixo para abrir sua página dedicada completa:</p>
-        </div>
-        <div class="portals-grid">
-          <div onclick="openRoute('marca')" class="portal-card liquid-glass">
-            <div class="portal-icon">📣</div>
-            <h3>Marca & Comunicação</h3>
-            <p>Sua voz clara para o mercado, sem ruídos ou jargões desnecessários.</p>
-            <span class="portal-link">Abrir Portal →</span>
-          </div>
-          <div onclick="openRoute('experiencia')" class="portal-card liquid-glass">
-            <div class="portal-icon">🤝</div>
-            <h3>Experiência</h3>
-            <p>Jornadas fluidas para seus clientes amarem seu atendimento do início ao fim.</p>
-            <span class="portal-link">Abrir Portal →</span>
-          </div>
-          <div onclick="openRoute('operacao')" class="portal-card liquid-glass">
-            <div class="portal-icon">⚙️</div>
-            <h3>Operação</h3>
-            <p>Processos organizados que funcionam como relógio, sem gargalos.</p>
-            <span class="portal-link">Abrir Portal →</span>
-          </div>
-          <div onclick="openRoute('tecnologia')" class="portal-card liquid-glass">
-            <div class="portal-icon">🛡️</div>
-            <h3>Tecnologia Sem Susto</h3>
-            <p>Sistemas úteis e seguros sem custos ocultos ou complicações técnicas.</p>
-            <span class="portal-link">Abrir Portal →</span>
-          </div>
-          <div onclick="openRoute('desperdicio')" class="portal-card liquid-glass">
-            <div class="portal-icon">🌱</div>
-            <h3>Menos Desperdício</h3>
-            <p>Eliminação de retrabalho, perda de tempo e investimentos em vão.</p>
-            <span class="portal-link">Abrir Portal →</span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Interactive Discovery Core with Procedural Canvas & Dynamic Wires -->
-    <section class="discovery" id="metodo">
-      <canvas id="discoveryCanvas"></canvas>
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag" style="color: var(--accent-gold);">Campo de Descoberta Universal</span>
-          <h2>Às vezes o problema que aparece não é o problema de verdade</h2>
-          <p style="color: rgba(255,255,255,0.85);">Toque em um sintoma abaixo para traçar os fios dinâmicos até o núcleo de diagnóstico:</p>
-        </div>
-
-
-        <div class="discovery-grid">
-          <div class="pain-pills" id="pillsContainer">
-            <button class="pill active" onclick="selectPain(0)">Mensagens acumuladas no WhatsApp</button>
-            <button class="pill" onclick="selectPain(1)">Sistemas que não se conversam</button>
-            <button class="pill" onclick="selectPain(2)">Equipe presa em tarefas manuais</button>
-            <button class="pill" onclick="selectPain(3)">Falta de clareza nas vendas do mês</button>
-            <button class="pill" onclick="selectPain(4)">Demora no atendimento ao cliente</button>
-            <button class="pill" onclick="selectPain(5)">Medo de adotar sistemas novos</button>
-            <button class="pill" onclick="selectPain(6)">Planilhas confusas e duplicadas</button>
-            <button class="pill" onclick="selectPain(7)">Sensação de estagnação diária</button>
-          </div>
-
-
-          <div class="diagnostic-panel glass-dark" id="diagBox">
-            <div class="sphere-container">
-              <div class="harmonic-sphere"></div>
-              <strong style="color: var(--accent-gold); font-size:1.1rem;" id="diagTitle">Mensagens acumuladas no WhatsApp</strong>
-            </div>
-            <p id="diagDescription" style="font-size: 1.08rem; line-height: 1.65;">Gargalos de comunicação geram ansiedade no cliente e sobrecarregam a equipe. O problema raramente é o volume de mensagens, mas a falta de triagem inicial e respostas organizadas.</p>
-            <div style="margin-top: 20px; padding-top:16px; border-top:1px solid rgba(255,255,255,0.15); font-size: 0.92rem; color: var(--accent-gold);" id="diagSolution">
-              👉 <strong>Caminho IArretada:</strong> Organização do fluxo de entrada e automação acolhedora de triagem.
-            </div>
-          </div>
-        </div>
-
-
-        <div class="method-steps">
-          <div class="step-item">
-            <div class="step-num">1</div>
-            <h4>Organizar</h4>
-            <p style="font-size: 0.85rem; opacity: 0.85;">Mapear o fluxo real e eliminar o caos visual.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">2</div>
-            <h4>Conectar</h4>
-            <p style="font-size: 0.85rem; opacity: 0.85;">Fazer as ferramentas conversarem entre si.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">3</div>
-            <h4>Simplificar</h4>
-            <p style="font-size: 0.85rem; opacity: 0.85;">Remover passos desnecessários da rotina.</p>
-          </div>
-          <div class="step-item">
-            <div class="step-num">4</div>
-            <h4>Automatizar</h4>
-            <p style="font-size: 0.85rem; opacity: 0.85;">Automatizar apenas quando fizer sentido.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Bento Human Pillars -->
-    <section class="bento">
-      <div class="container">
-        <div class="bento-grid">
-          <div class="bento-card liquid-glass">
-            <div>
-              <span class="section-tag">Pilar Humano 01</span>
-              <h3>Mais autonomia.<br>Mais participação.</h3>
-              <p>Não criamos dependências tecnológicas. Ensinamos sua equipe a dominar cada ferramenta para que seu negócio caminhe com as próprias pernas e total liberdade.</p>
-            </div>
-            <button onclick="openRoute('autonomia')" class="btn-secondary" style="align-self: flex-start;">Ler Página de Autonomia →</button>
-          </div>
-          <div class="bento-card liquid-glass" style="background: rgba(229, 185, 127, 0.18);">
-            <div>
-              <span class="section-tag">Pilar Humano 02</span>
-              <h3>Sem pressa.<br>Sem vergonha de perguntar.</h3>
-              <p>Respeitamos o ritmo humano da sua empresa. Explicamos quantas vezes for preciso, sem siglas em inglês e sem arrogância técnica.</p>
-            </div>
-            <button onclick="openRoute('ritmo')" class="btn-primary" style="align-self: flex-start;">Ler Tecnologia no Seu Ritmo →</button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- 15 Capabilities & 7 Sectors -->
-    <section class="capabilities" id="setores">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Atuação Completa</span>
-          <h2 class="section-title">15 Capacidades Práticas & 7 Setores</h2>
-          <p>Clique em qualquer um dos 7 setores abaixo para ver os casos práticos dedicados:</p>
-        </div>
-
-
-        <div style="margin-bottom: 56px; text-align: center;">
-          <div class="sectors-flex">
-            <button onclick="openRoute('hotelaria')" class="sector-tag">🏨 Hotelaria & Pousadas</button>
-            <button onclick="openRoute('alimentacao')" class="sector-tag">🍽️ Alimentação & Gastronomia</button>
-            <button onclick="openRoute('comercio')" class="sector-tag">🛍️ Comércio & Varejo</button>
-            <button onclick="openRoute('saude')" class="sector-tag">🩺 Saúde & Clínicas</button>
-            <button onclick="openRoute('servicos')" class="sector-tag">💼 Serviços Profissionais</button>
-            <button onclick="openRoute('turismo')" class="sector-tag">🚌 Turismo & Receptivo</button>
-            <button onclick="openRoute('transporte')" class="sector-tag">📦 Transporte & Logística</button>
-          </div>
-        </div>
-
-
-        <div class="cap-grid">
-          <div class="cap-item"><h4>01. Atendimento Inicial</h4><p>Triagem inteligente e acolhedora no WhatsApp e Instagram.</p></div>
-          <div class="cap-item"><h4>02. Agendamento Fácil</h4><p>Sistemas diretos para reservas e marcação de horários sem conflito.</p></div>
-          <div class="cap-item"><h4>03. Gestão de Clientes</h4><p>Histórico organizado de contatos, pedidos e preferências.</p></div>
-          <div class="cap-item"><h4>04. Pagamentos Integrados</h4><p>Cobrança via Pix e links seguros direto na conversa.</p></div>
-          <div class="cap-item"><h4>05. Avisos e Lembretes</h4><p>Redução de faltas e cancelamentos com confirmações automáticas.</p></div>
-          <div class="cap-item"><h4>06. Rotina da Equipe</h4><p>Painéis simples de tarefas diárias para ninguém ficar perdido.</p></div>
-          <div class="cap-item"><h4>07. Controle de Insumos</h4><p>Alertas práticos de estoque mínimo e compras.</p></div>
-          <div class="cap-item"><h4>08. Orçamentos Rápidos</h4><p>Envio de propostas padronizadas e claras em segundos.</p></div>
-          <div class="cap-item"><h4>09. Pós-Venda Ativo</h4><p>Pesquisa de satisfação e cuidado com quem já comprou.</p></div>
-          <div class="cap-item"><h4>10. Central de Documentos</h4><p>Arquivos e contratos organizados em nuvem segura.</p></div>
-          <div class="cap-item"><h4>11. Painel de Números</h4><p>Visão clara do caixa e das vendas sem planilhas quebradas.</p></div>
-          <div class="cap-item"><h4>12. Resgate de Orçamentos</h4><p>Acompanhamento gentil de clientes que pediram preço e sumiram.</p></div>
-          <div class="cap-item"><h4>13. Manuais da Casa</h4><p>Guias em vídeo e texto curto para treinar funcionários novos.</p></div>
-          <div class="cap-item"><h4>14. Presença no Google</h4><p>Destaque local para seu negócio ser encontrado na sua região.</p></div>
-          <div class="cap-item"><h4>15. Segurança & LGPD</h4><p>Proteção honesta dos dados dos seus clientes sem burocracia.</p></div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Curator Section (Mandamento 31) -->
-    <section class="indica">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">IArretada Indica</span>
-          <h2 class="section-title">Capacitação Gratuita de Nível Mundial</h2>
-          <p>Conhecimento bom é conhecimento livre. Curadoria oficial de cursos gratuitos com certificado:</p>
-        </div>
-        <div class="indica-grid">
-          <div class="indica-card">
-            <h4>IBM SkillsBuild</h4>
-            <p>Fundamentos de inteligência artificial, tecnologia prática e gestão para negócios.</p>
-          </div>
-          <div class="indica-card">
-            <h4>Microsoft Learn</h4>
-            <p>Trilhas gratuitas de produtividade, organização de dados e ferramentas digitais.</p>
-          </div>
-          <div class="indica-card">
-            <h4>Fortinet Training Academy</h4>
-            <p>Proteção digital e segurança da informação explicada de forma acessível.</p>
-          </div>
-          <div class="indica-card">
-            <h4>AWS Skill Builder</h4>
-            <p>Conceitos de computação em nuvem e ferramentas modernas em português.</p>
-          </div>
-          <div class="indica-card">
-            <h4>Cresça com o Google</h4>
-            <p>Presença local, marketing digital e ferramentas gratuitas para pequenas empresas.</p>
-          </div>
-          <div class="indica-card">
-            <h4>HubSpot Academy</h4>
-            <p>Cursos práticos de relacionamento com o cliente, vendas e comunicação.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- About José & 6 Principles (Mandamentos 32, 33) -->
-    <section class="about-jose" id="sobre">
-      <div class="container">
-        <div class="jose-grid">
-          <div class="jose-img-wrapper">
-            <div>
-              <div style="font-size:3.5rem; margin-bottom:12px;">🤝</div>
-              <h3 style="color:var(--accent-gold); margin-bottom:8px;">José</h3>
-              <p style="font-size:0.9rem; opacity:0.85;">Mais de 17 anos de experiência em Hospitalidade Internacional, Gestão de Operações e Inteligência Artificial aplicada a pessoas.</p>
-            </div>
-          </div>
-          <div class="jose-content">
-            <span class="section-tag" style="color: var(--accent-gold);">Apresentação Pessoal</span>
-            <h2>Prazer, eu sou o José.</h2>
-            <div class="jose-quote">
-              "Não quero mostrar o quanto eu sei. Quero usar o que sei para ajudar."
-            </div>
-            <p style="opacity: 0.92; margin-bottom: 16px;">
-              Depois de anos liderando operações exigentes na hotelaria de luxo internacional e estudando a fundo Inteligência Artificial e Serviço Social, percebi que a tecnologia só tem valor quando respeita quem está do outro lado da tela.
-            </p>
-            <p style="opacity: 0.92; margin-bottom: 24px;">
-              Criei a IArretada para sentar ao seu lado, escutar onde o sapato aperta na sua rotina e construir soluções limpas, humanas e que trazem paz para o seu dia a dia.
-            </p>
-            <h4 style="color: var(--accent-gold); margin-bottom: 12px;">Os 6 Princípios Inegociáveis da IArretada:</h4>
-            <div class="principles-grid">
-              <div class="principle-item">✓ 1. Escuta atenta antes de qualquer ferramenta</div>
-              <div class="principle-item">✓ 2. Zero jargão técnico para confundir você</div>
-              <div class="principle-item">✓ 3. Solução na medida certa, sem empurrar pacote</div>
-              <div class="principle-item">✓ 4. Respeito total ao ritmo da sua equipe</div>
-              <div class="principle-item">✓ 5. Autonomia para você não depender da gente</div>
-              <div class="principle-item">✓ 6. Transparência e olho no olho do início ao fim</div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-
-    <!-- Initial Listening Form (Mandamentos 34-39) -->
-    <section class="contact-section" id="escuta">
-      <div class="container">
-        <div class="section-header">
-          <span class="section-tag">Escuta Inicial Sem Compromisso</span>
-          <h2 class="section-title">Qual nó podemos desatar juntos?</h2>
-          <p>Preencha abaixo. Seus dados são protegidos com criptografia e recebidos diretamente no banco seguro da IArretada.</p>
-        </div>
-
-
-        <div class="form-container liquid-glass">
-          <form id="leadForm" onsubmit="submitForm(event)">
-            <div class="hp-field">
-              <input type="text" name="website" id="hp_website" tabindex="-1" autocomplete="off">
-            </div>
-
-
-            <div class="form-group">
-              <label for="nome">Como podemos chamar você? *</label>
-              <input type="text" id="nome" name="nome" required placeholder="Seu nome completo">
-            </div>
-
-
-            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
-              <div class="form-group">
-                <label for="email">Seu melhor e-mail *</label>
-                <input type="email" id="email" name="email" required placeholder="voce@empresa.com.br">
-              </div>
-              <div class="form-group">
-                <label for="whatsapp">WhatsApp com DDD *</label>
-                <input type="tel" id="whatsapp" name="whatsapp" required placeholder="(00) 90000-0000">
-              </div>
-            </div>
-
-
-            <div class="form-group">
-              <label for="setor">Setor do seu negócio *</label>
-              <select id="setor" name="setor" required>
-                <option value="">Selecione seu setor...</option>
-                <option value="Hotelaria">Hotelaria & Pousadas</option>
-                <option value="Alimentacao">Alimentação & Gastronomia</option>
-                <option value="Comercio">Comércio & Varejo</option>
-                <option value="Saude">Saúde & Bem-Estar</option>
-                <option value="Servicos">Serviços Profissionais</option>
-                <option value="Turismo">Turismo & Lazer</option>
-                <option value="Transporte">Transporte & Logística</option>
-                <option value="Outro">Outro Setor</option>
-              </select>
-            </div>
-
-
-            <div class="form-group">
-              <label for="mensagem">Conte qual é o principal nó da sua rotina hoje *</label>
-              <textarea id="mensagem" name="mensagem" rows="4" required placeholder="Pode escrever do seu jeito, sem termos técnicos..."></textarea>
-            </div>
-
-
-            <div class="lgpd-check">
-              <input type="checkbox" id="lgpd" name="lgpd" required style="width: auto; margin-top: 4px;">
-              <label for="lgpd">Concordo com o uso dos dados informados exclusivamente para o retorno desta Escuta Inicial, em total conformidade com a LGPD.</label>
-            </div>
-
-
-            <button type="submit" class="btn-primary" style="width: 100%; justify-content: center;" id="submitBtn">
-              Enviar para Escuta Inicial
-            </button>
-            <div id="formFeedback" style="margin-top: 16px; text-align: center; font-weight: 700;"></div>
-          </form>
-        </div>
-      </div>
-    </section>
-  </main>
-
-
-  <!-- Dedicated Route Viewer Modal (Todas as 17 Páginas Integradas) -->
-  <div class="route-modal-overlay" id="routeModal" onclick="if(event.target===this) closeRoute()">
-    <div class="route-modal">
-      <button class="route-close" onclick="closeRoute()">✕ Fechar Página</button>
-      <span class="section-tag" id="modalTag">Página Dedicada</span>
-      <h2 id="modalTitle" style="font-size:2.1rem; margin-bottom:12px;">Título</h2>
-      <p id="modalSub" style="font-size:1.1rem; color:var(--text-muted); margin-bottom:24px;"></p>
-      <div id="modalBody" style="line-height:1.7; font-size:1rem;"></div>
-      <div style="margin-top:32px; padding-top:24px; border-top:1px solid rgba(12,35,26,0.15); display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:12px;">
-        <strong>Quer aplicar isso na sua realidade?</strong>
-        <a href="#escuta" onclick="closeRoute()" class="btn-primary">Ir para Escuta Inicial</a>
-      </div>
+  <!-- =========================================================================
+     3. SEÇÃO 'ONDE PODERIA FUNCIONAR MELHOR?' (5 CARDS + VIDRO JATEADO)
+     ========================================================================= -->
+  <section id="como-ajudo" class="section-discovery-paths" aria-labelledby="paths-title">
+   <div class="spatial-container">
+    <div class="section-discovery-header">
+     <h2 id="paths-title" class="section-discovery-title">
+      Onde poderia funcionar melhor?
+     </h2>
+     <span class="section-discovery-subtitle">
+      EXPLORE AS PRINCIPAIS FRENTES DO SEU NEGÓCIO
+     </span>
     </div>
+
+    <div class="discovery-5col-grid">
+     <!-- 1. Marca & Comunicação -->
+     <a href="/marca/" class="path-card-spatial">
+      <img class="path-card-bg-photo" src="./assets/approved/brand-scene.jpg" alt="Marca e Comunicação da IArretada" />
+      <div class="path-card-frosted-plate">
+       <div class="path-card-icon-circle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14M15.54 8.46a5 5 0 0 1 0 7.07"/>
+        </svg>
+       </div>
+       <h3 class="path-card-title">Marca &amp; Comunicação</h3>
+       <div class="path-card-footer-row">
+        <span class="path-card-action-text">Conhecer</span>
+        <div class="path-card-arrow-circle" aria-hidden="true">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+         </svg>
+        </div>
+       </div>
+      </div>
+     </a>
+
+     <!-- 2. Experiência -->
+     <a href="/experiencia/" class="path-card-spatial">
+      <img class="path-card-bg-photo" src="./assets/approved/hero-scene.jpg" alt="Experiência e Acolhimento" />
+      <div class="path-card-frosted-plate">
+       <div class="path-card-icon-circle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+         <circle cx="9" cy="7" r="4"></circle>
+         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+       </div>
+       <h3 class="path-card-title">Experiência</h3>
+       <div class="path-card-footer-row">
+        <span class="path-card-action-text">Conhecer</span>
+        <div class="path-card-arrow-circle" aria-hidden="true">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+         </svg>
+        </div>
+       </div>
+      </div>
+     </a>
+
+     <!-- 3. Operação -->
+     <a href="/operacao/" class="path-card-spatial">
+      <img class="path-card-bg-photo" src="./assets/approved/practice-scene.jpg" alt="Operação e Processos" />
+      <div class="path-card-frosted-plate">
+       <div class="path-card-icon-circle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <circle cx="12" cy="12" r="3"></circle>
+         <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+        </svg>
+       </div>
+       <h3 class="path-card-title">Operação</h3>
+       <div class="path-card-footer-row">
+        <span class="path-card-action-text">Conhecer</span>
+        <div class="path-card-arrow-circle" aria-hidden="true">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+         </svg>
+        </div>
+       </div>
+      </div>
+     </a>
+
+     <!-- 4. Tecnologia Sem Susto -->
+     <a href="/tecnologia/" class="path-card-spatial">
+      <img class="path-card-bg-photo" src="./assets/uhd/como-ajudo-hero-uhd.webp" alt="Tecnologia Sem Susto" />
+      <div class="path-card-frosted-plate">
+       <div class="path-card-icon-circle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect>
+         <line x1="8" y1="21" x2="16" y2="21"></line>
+         <line x1="12" y1="17" x2="12" y2="21"></line>
+        </svg>
+       </div>
+       <h3 class="path-card-title">Tecnologia sem susto</h3>
+       <div class="path-card-footer-row">
+        <span class="path-card-action-text">Conhecer</span>
+        <div class="path-card-arrow-circle" aria-hidden="true">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+         </svg>
+        </div>
+       </div>
+      </div>
+     </a>
+
+     <!-- 5. Menos Desperdício -->
+     <a href="/menos-desperdicio/" class="path-card-spatial">
+      <img class="path-card-bg-photo" src="./assets/approved/frame-02.jpg" alt="Menos Desperdício e Eficiência" />
+      <div class="path-card-frosted-plate">
+       <div class="path-card-icon-circle">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"></path>
+        </svg>
+       </div>
+       <h3 class="path-card-title">Menos desperdício</h3>
+       <div class="path-card-footer-row">
+        <span class="path-card-action-text">Conhecer</span>
+        <div class="path-card-arrow-circle" aria-hidden="true">
+         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+         </svg>
+        </div>
+       </div>
+      </div>
+     </a>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     4. SEÇÃO DA ESFERA TECNOLÓGICA (VIBRAÇÃO ORGÂNICA & DIAGNÓSTICO VIVO)
+     Fundo verde profundo (#0D261C) com vinheta de folhagens desfocadas (filter: blur(18px))
+     Esfera com micro-vibração harmônica e distorção SVG; 6 Pílulas em Spatial Glass
+     ========================================================================= -->
+  <section id="metodo" class="section-neural-stage" aria-labelledby="neural-title">
+   <!-- Vinheta de Folhagens Desfocadas nas Extremidades -->
+   <div class="neural-vignette-foliage" aria-hidden="true"></div>
+
+   <div class="spatial-container" style="position: relative; z-index: 2;">
+    <div class="neural-stage-header">
+     <h2 id="neural-title" class="neural-stage-title">
+      Às vezes o problema que aparece não é o problema de verdade.
+     </h2>
+     <p class="neural-stage-subtitle">
+      Escolha o que mais parece com o seu dia.
+     </p>
+    </div>
+
+    <div class="neural-core-ecosystem">
+     <!-- Linhas SVG com Feixes de Luz Animados conectando Pílulas à Esfera -->
+     <svg class="neural-beams-canvas" viewBox="0 0 1140 580" preserveAspectRatio="none" aria-hidden="true">
+      <!-- Linhas do Lado Esquerdo -->
+      <path class="discovery-beam-line" data-beam-for="tempo" d="M 320 120 Q 480 200, 570 290" />
+      <path class="discovery-beam-line" data-beam-for="informacao" d="M 320 290 L 570 290" />
+      <path class="discovery-beam-line" data-beam-for="espera" d="M 320 460 Q 480 380, 570 290" />
+
+      <!-- Linhas do Lado Direito -->
+      <path class="discovery-beam-line" data-beam-for="custo" d="M 820 120 Q 660 200, 570 290" />
+      <path class="discovery-beam-line" data-beam-for="ferramentas" d="M 820 290 L 570 290" />
+      <path class="discovery-beam-line" data-beam-for="travando" d="M 820 460 Q 660 380, 570 290" />
+     </svg>
+
+     <!-- Esfera Central Harmônica Neural com Vibração Discreta e Distorção SVG -->
+     <div id="neuralNucleus" class="neural-sphere-nucleus" role="img" aria-label="Núcleo neural harmônico IArretada">
+      <svg class="neural-nucleus-emblem" viewBox="0 0 44 22" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+       <circle cx="22" cy="11" r="7"></circle>
+       <path d="M8 20h28M15 20a7 7 0 0 1 14 0M22 2v4M10 6l3 3M34 6l-3 3"/>
+      </svg>
+     </div>
+
+     <!-- As 6 Pílulas de Dor em Spatial Glassmorphism -->
+     <div class="neural-pills-columns">
+      <!-- 3 Pílulas da Esquerda -->
+      <div class="neural-pill-group">
+       <button type="button" class="pain-pill-spatial" data-pain-pill="tempo">
+        <div class="pain-pill-icon">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12 6 12 12 16 14"></polyline>
+         </svg>
+        </div>
+        <span class="pain-pill-text">Estou perdendo muito tempo</span>
+       </button>
+
+       <button type="button" class="pain-pill-spatial is-active" data-pain-pill="informacao">
+        <div class="pain-pill-icon">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+         </svg>
+        </div>
+        <span class="pain-pill-text">A informação fica espalhada</span>
+       </button>
+
+       <button type="button" class="pain-pill-spatial" data-pain-pill="espera">
+        <div class="pain-pill-icon">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+          <circle cx="9" cy="7" r="4"></circle>
+         </svg>
+        </div>
+        <span class="pain-pill-text">Clientes estão esperando</span>
+       </button>
+      </div>
+
+      <!-- 3 Pílulas da Direita -->
+      <div class="neural-pill-group" style="align-items: flex-end;">
+       <button type="button" class="pain-pill-spatial" data-pain-pill="custo">
+        <div class="pain-pill-icon">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <rect x="2" y="6" width="20" height="12" rx="2"></rect>
+          <circle cx="12" cy="12" r="2"></circle>
+          <path d="M6 12h.01M18 12h.01"></path>
+         </svg>
+        </div>
+        <span class="pain-pill-text">Estou gastando mais do que deveria</span>
+       </button>
+
+       <button type="button" class="pain-pill-spatial" data-pain-pill="ferramentas">
+        <div class="pain-pill-icon">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"></path>
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"></path>
+         </svg>
+        </div>
+        <span class="pain-pill-text">Tenho ferramentas, mas elas não conversam</span>
+       </button>
+
+       <button type="button" class="pain-pill-spatial" data-pain-pill="travando">
+        <div class="pain-pill-icon">
+         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="12" cy="12" r="10"></circle>
+          <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"></path>
+          <line x1="12" y1="17" x2="12.01" y2="17"></line>
+         </svg>
+        </div>
+        <span class="pain-pill-text">Não sei explicar. Só sei que alguma coisa está travando.</span>
+       </button>
+      </div>
+     </div>
+    </div>
+
+    <!-- Painel de Diagnóstico Vivo (Organizar → Conectar → Simplificar → Automatizar) -->
+    <div class="neural-diagnostic-panel">
+     <div id="diagnosticSummary" class="diagnostic-core-summary">
+      Talvez o problema não seja falta de tempo. Talvez seja informação espalhada.
+     </div>
+
+     <div class="diagnostic-steps-row">
+      <span class="diagnostic-step-pill is-highlighted" data-method-step="0">Organizar</span>
+      <span class="diagnostic-step-separator">→</span>
+      <span class="diagnostic-step-pill" data-method-step="1">Conectar</span>
+      <span class="diagnostic-step-separator">→</span>
+      <span class="diagnostic-step-pill" data-method-step="2">Simplificar</span>
+      <span class="diagnostic-step-separator">→</span>
+      <span class="diagnostic-step-pill" data-method-step="3">Automatizar quando fizer sentido</span>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     5. JORNADA (10 ÍCONES CONECTADOS POR LINHA TRACEJADA SVG)
+     ========================================================================= -->
+  <section id="na-pratica" class="section-journey-track" aria-labelledby="journey-title">
+   <div class="spatial-container">
+    <div class="journey-header">
+     <h2 id="journey-title" class="journey-title">
+      Do desconhecido ao cliente.
+     </h2>
+     <p class="journey-subtitle">
+      SOLUÇÕES QUE SE CONECTAM PARA O SEU NEGÓCIO CRESCER DE FORMA MAIS SIMPLES.
+     </p>
+    </div>
+
+    <div class="journey-nodes-container">
+     <!-- Linha SVG conectando os 10 ícones -->
+     <svg class="journey-svg-connection" viewBox="0 0 1100 4" preserveAspectRatio="none" aria-hidden="true">
+      <line id="journeySvgLine" class="journey-connection-line" x1="0" y1="2" x2="1100" y2="2" />
+     </svg>
+
+     <div class="journey-nodes-row">
+      <!-- 1. Marketing -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M11 5L6 9H2v6h4l5 4V5zM19.07 4.93a10 10 0 0 1 0 14.14"/>
+        </svg>
+       </div>
+       <span class="journey-node-label">Marketing</span>
+      </div>
+
+      <!-- 2. Branding -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M6 3h12l4 6-10 12L2 9l4-6z"/>
+        </svg>
+       </div>
+       <span class="journey-node-label">Branding</span>
+      </div>
+
+      <!-- 3. Design -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M12 19l7-7 3 3-7 7-3-3z"></path>
+         <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"></path>
+         <path d="M2 2l7.586 7.586"></path>
+         <circle cx="11" cy="11" r="2"></circle>
+        </svg>
+       </div>
+       <span class="journey-node-label">Design</span>
+      </div>
+
+      <!-- 4. Websites -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <rect x="2" y="3" width="20" height="14" rx="2"></rect>
+         <line x1="2" y1="9" x2="22" y2="9"></line>
+        </svg>
+       </div>
+       <span class="journey-node-label">Websites</span>
+      </div>
+
+      <!-- 5. SEO -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <circle cx="11" cy="11" r="8"></circle>
+         <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+        </svg>
+       </div>
+       <span class="journey-node-label">SEO</span>
+      </div>
+
+      <!-- 6. Chatbots -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+        </svg>
+       </div>
+       <span class="journey-node-label">Chatbots</span>
+      </div>
+
+      <!-- 7. Automações -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <circle cx="18" cy="5" r="3"></circle>
+         <circle cx="6" cy="12" r="3"></circle>
+         <circle cx="18" cy="19" r="3"></circle>
+         <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+         <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+        </svg>
+       </div>
+       <span class="journey-node-label">Automações</span>
+      </div>
+
+      <!-- 8. Sistemas -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <ellipse cx="12" cy="5" rx="9" ry="3"></ellipse>
+         <path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path>
+         <path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path>
+        </svg>
+       </div>
+       <span class="journey-node-label">Sistemas</span>
+      </div>
+
+      <!-- 9. CRM -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+         <circle cx="9" cy="7" r="4"></circle>
+         <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"></path>
+        </svg>
+       </div>
+       <span class="journey-node-label">CRM</span>
+      </div>
+
+      <!-- 10. Analytics -->
+      <div class="journey-node-item">
+       <div class="journey-node-circle">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+         <line x1="18" y1="20" x2="18" y2="10"></line>
+         <line x1="12" y1="20" x2="12" y2="4"></line>
+         <line x1="6" y1="20" x2="6" y2="14"></line>
+        </svg>
+       </div>
+       <span class="journey-node-label">Analytics</span>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     6. SETORES: 'NEGÓCIOS REAIS. DESAFIOS REAIS.' (HORIZONTAL DRAG DECK)
+     Os 7 nichos com fotos inéditas de alta resolução estilo 35mm
+     ========================================================================= -->
+  <section class="section-sectors-deck" aria-labelledby="sectors-title">
+   <div class="spatial-container">
+    <div class="sectors-header">
+     <div>
+      <h2 id="sectors-title" class="sectors-title">
+       Negócios reais. Desafios reais.
+      </h2>
+      <p class="sectors-subtitle">
+       CONHEÇA OS SETORES EM QUE ATUO.
+      </p>
+     </div>
+
+     <div class="sectors-deck-controls">
+      <button type="button" id="deckPrevBtn" class="deck-nav-btn" aria-label="Voltar setores">
+       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6"/>
+       </svg>
+      </button>
+      <button type="button" id="deckNextBtn" class="deck-nav-btn" aria-label="Avançar setores">
+       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+        <path d="M9 18l6-6-6-6"/>
+       </svg>
+      </button>
+     </div>
+    </div>
+
+    <div id="sectorsDragDeck" class="sectors-drag-deck">
+     <!-- 1. Hotelaria & Hospedagem -->
+     <a href="/setores/hotelaria/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/uhd/sector-v1-hotelaria.webp" alt="Hotelaria e Hospedagem" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Pousadas &amp; Hotéis</span>
+       <h3 class="sector-card-title">Hotelaria &amp; Hospedagem</h3>
+       <div class="sector-card-cta-row">
+        <span>Economia de 3h diárias em check-ins</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- 2. Alimentação & Gastronomia -->
+     <a href="/setores/alimentacao/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/uhd/sector-v1-alimentacao.webp" alt="Alimentação e Gastronomia" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Restaurantes &amp; Cafés</span>
+       <h3 class="sector-card-title">Alimentação &amp; Gastronomia</h3>
+       <div class="sector-card-cta-row">
+        <span>Cozinha e salão sincronizados</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- 3. Comércio & Varejo -->
+     <a href="/setores/comercio/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/uhd/sector-v1-comercio.webp" alt="Comércio e Varejo" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Lojas &amp; Conveniências</span>
+       <h3 class="sector-card-title">Comércio &amp; Varejo</h3>
+       <div class="sector-card-cta-row">
+        <span>Estoque enxuto e Pix no WhatsApp</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- 4. Saúde & Clínicas -->
+     <a href="/setores/saude/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/uhd/sector-v1-saude.webp" alt="Saúde e Clínicas" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Consultórios &amp; Clínicas</span>
+       <h3 class="sector-card-title">Saúde &amp; Clínicas</h3>
+       <div class="sector-card-cta-row">
+        <span>Confirmação sem faltas e LGPD</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- 5. Serviços Profissionais -->
+     <a href="/setores/servicos/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/approved/sector-commerce.jpg" alt="Serviços Profissionais" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Escritórios &amp; Salões</span>
+       <h3 class="sector-card-title">Serviços Profissionais</h3>
+       <div class="sector-card-cta-row">
+        <span>Orçamentos rápidos e prazos em dia</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- 6. Turismo & Experiências -->
+     <a href="/setores/turismo/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/uhd/sector-v1-turismo.webp" alt="Turismo e Experiências" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Passeios &amp; Receptivo</span>
+       <h3 class="sector-card-title">Turismo &amp; Experiências</h3>
+       <div class="sector-card-cta-row">
+        <span>Roteiros claros e vouchers digitais</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- 7. Transporte & Mobilidade -->
+     <a href="/setores/transporte/" class="sector-deck-card">
+      <img class="sector-card-photo" src="./assets/uhd/sector-v1-transporte.webp" alt="Transporte e Mobilidade" />
+      <div class="sector-card-overlay-gradient"></div>
+      <div class="sector-card-content-box">
+       <span class="sector-card-case-pill">Transfers &amp; Frotas</span>
+       <h3 class="sector-card-title">Transporte &amp; Mobilidade</h3>
+       <div class="sector-card-cta-row">
+        <span>Rastreio simples e comprovantes</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     7. BENTO DUPLO DOS PILARES HUMANOS (AUTONOMIA & NO SEU RITMO)
+     ========================================================================= -->
+  <section class="section-human-bento" aria-labelledby="bento-title">
+   <div class="spatial-container">
+    <h2 id="bento-title" class="sr-only">Pilares de Autonomia e Ritmo</h2>
+    <div class="human-bento-grid">
+     <!-- Banner 1: Mais autonomia para o seu negócio -->
+     <a href="/autonomia/" class="bento-banner-card">
+      <img class="bento-banner-bg" src="./assets/original/historia-autonomia.webp" alt="Mais autonomia para o seu negócio" />
+      <div class="bento-banner-overlay"></div>
+      <div class="bento-banner-content">
+       <h3 class="bento-banner-title">
+        Mais autonomia para o seu negócio.
+       </h3>
+       <p class="bento-banner-lead">
+        PROCESSOS MAIS CLAROS, EQUIPES MAIS SEGURAS E TEMPO PARA O QUE REALMENTE IMPORTA.
+       </p>
+       <div class="bento-btn-action">
+        <span>Ver como funciona</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+
+     <!-- Banner 2: Tecnologia no seu ritmo -->
+     <a href="/no-seu-ritmo/" class="bento-banner-card">
+      <img class="bento-banner-bg" src="./assets/uhd/na-pratica-hero-uhd.webp" alt="Tecnologia no seu ritmo" />
+      <div class="bento-banner-overlay"></div>
+      <div class="bento-banner-content">
+       <h3 class="bento-banner-title">
+        Tecnologia no seu ritmo.
+       </h3>
+       <p class="bento-banner-lead">
+        SEM COMPLICAÇÃO, SEM PRESSA, COM O QUE FAZ SENTIDO PARA A SUA REALIDADE.
+       </p>
+       <div class="bento-btn-action">
+        <span>Saiba mais</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </div>
+      </div>
+     </a>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     8. IARRETADA INDICA: CAPACITAÇÃO GRATUITA INTERNACIONAL CURADA
+     ========================================================================= -->
+  <section id="conteudos" class="section-indica-hub" aria-labelledby="indica-title">
+   <div class="spatial-container">
+    <div class="indica-header">
+     <span class="indica-eyebrow">IARRETADA INDICA • CONTEÚDOS</span>
+     <h2 id="indica-title" class="indica-title">
+      Conhecimento prático e de padrão mundial para a sua equipe.
+     </h2>
+    </div>
+
+    <div class="indica-cards-grid">
+     <!-- 1. IBM SkillsBuild -->
+     <a href="https://skillsbuild.org" target="_blank" rel="noopener noreferrer" class="indica-platform-card">
+      <div>
+       <span class="indica-tag">IA &amp; Profissões</span>
+       <h3 class="indica-card-heading">IBM SkillsBuild</h3>
+       <p class="indica-card-desc">Cursos gratuitos de tecnologia, inteligência artificial e habilidades de carreira com certificados globais.</p>
+      </div>
+      <span class="indica-link-cta">Acessar plataforma gratuita ↗</span>
+     </a>
+
+     <!-- 2. Microsoft Learn -->
+     <a href="https://learn.microsoft.com" target="_blank" rel="noopener noreferrer" class="indica-platform-card">
+      <div>
+       <span class="indica-tag">Produtividade &amp; Nuvem</span>
+       <h3 class="indica-card-heading">Microsoft Learn</h3>
+       <p class="indica-card-desc">Trilhas de aprendizado práticas sobre ferramentas de escritório, colaboração em equipe e fundamentos de nuvem.</p>
+      </div>
+      <span class="indica-link-cta">Acessar plataforma gratuita ↗</span>
+     </a>
+
+     <!-- 3. Fortinet Training Academy -->
+     <a href="https://www.fortinet.com/training/careers-in-cybersecurity" target="_blank" rel="noopener noreferrer" class="indica-platform-card">
+      <div>
+       <span class="indica-tag">Segurança Digital &amp; LGPD</span>
+       <h3 class="indica-card-heading">Fortinet Training Academy</h3>
+       <p class="indica-card-desc">Treinamentos fundamentais sobre segurança cibernética e proteção de dados no ambiente diário de trabalho.</p>
+      </div>
+      <span class="indica-link-cta">Acessar plataforma gratuita ↗</span>
+     </a>
+
+     <!-- 4. AWS Skill Builder -->
+     <a href="https://aws.amazon.com/pt/training/" target="_blank" rel="noopener noreferrer" class="indica-platform-card">
+      <div>
+       <span class="indica-tag">Infraestrutura Moderna</span>
+       <h3 class="indica-card-heading">AWS Skill Builder</h3>
+       <p class="indica-card-desc">Conceitos básicos e aplicados sobre armazenamento em nuvem, computação segura e ferramentas modernas sem custo.</p>
+      </div>
+      <span class="indica-link-cta">Acessar plataforma gratuita ↗</span>
+     </a>
+
+     <!-- 5. Google Skillshop -->
+     <a href="https://grow.google/intl/pt-BR/" target="_blank" rel="noopener noreferrer" class="indica-platform-card">
+      <div>
+       <span class="indica-tag">Presença Digital &amp; Vendas</span>
+       <h3 class="indica-card-heading">Google Skillshop &amp; Cresça</h3>
+       <p class="indica-card-desc">Cursos práticos de presença no Google Meu Negócio, ferramentas de produtividade e atração de clientes locais.</p>
+      </div>
+      <span class="indica-link-cta">Acessar plataforma gratuita ↗</span>
+     </a>
+
+     <!-- 6. HubSpot Academy -->
+     <a href="https://academy.hubspot.com/" target="_blank" rel="noopener noreferrer" class="indica-platform-card">
+      <div>
+       <span class="indica-tag">Vendas &amp; Atendimento</span>
+       <h3 class="indica-card-heading">HubSpot Academy</h3>
+       <p class="indica-card-desc">Aulas práticas sobre encantamento do cliente, organização do fluxo comercial e comunicação atenciosa.</p>
+      </div>
+      <span class="indica-link-cta">Acessar plataforma gratuita ↗</span>
+     </a>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     9. APRESENTAÇÃO DO FUNDADOR ("PRAZER, JOSÉ")
+     ========================================================================= -->
+  <section id="sobre" class="section-founder-stage" aria-labelledby="founder-title">
+   <div class="spatial-container">
+    <div class="founder-grid-layout">
+     <div class="founder-photo-wrapper">
+      <img class="founder-photo-img" src="./assets/approved/about-scene.jpg" alt="José Todescato, fundador da IArretada" />
+     </div>
+
+     <div>
+      <span class="founder-eyebrow">A Mão Humana Por Trás do Projeto</span>
+      <h2 id="founder-title" class="founder-title">Prazer, José.</h2>
+
+      <div class="founder-golden-quote">
+       “Não quero mostrar o quanto eu sei. Quero usar o que sei para ajudar.”
+      </div>
+
+      <p class="founder-narrative">
+       Acredito que a tecnologia perdeu seu propósito quando se tornou uma barreira cheia de termos difíceis e cobranças excessivas. Meu compromisso com o projeto IArretada é simplificar essa relação para pessoas e negócios de verdade. Trago a experiência prática para a mesa, mas deixo a complicação do lado de fora.
+      </p>
+
+      <span class="founder-eyebrow" style="color: var(--accent-gold);">NOSSOS 6 PRINCÍPIOS INEGOCIÁVEIS:</span>
+      <div class="principles-2col-grid">
+       <div class="principle-check-pill">
+        <svg class="principle-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Escuta atenta antes de qualquer proposta</span>
+       </div>
+       <div class="principle-check-pill">
+        <svg class="principle-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Sem jargões técnicos para confundir</span>
+       </div>
+       <div class="principle-check-pill">
+        <svg class="principle-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Soluções na medida, sem exageros</span>
+       </div>
+       <div class="principle-check-pill">
+        <svg class="principle-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Respeito absoluto ao seu tempo</span>
+       </div>
+       <div class="principle-check-pill">
+        <svg class="principle-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Transferência total de conhecimento</span>
+       </div>
+       <div class="principle-check-pill">
+        <svg class="principle-check-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <polyline points="20 6 9 17 4 12"></polyline>
+        </svg>
+        <span>Honestidade acima do lucro fácil</span>
+       </div>
+      </div>
+     </div>
+    </div>
+   </div>
+  </section>
+
+  <!-- =========================================================================
+     10. FORMULÁRIO DE ESCUTA INICIAL ("DESATAR MEU NÓ" / CONTATO)
+     ========================================================================= -->
+  <section id="contato" class="section-lead-capture" aria-labelledby="contact-title">
+   <div class="spatial-container">
+    <div class="lead-capture-grid">
+     <div>
+      <span class="hero-micro-eyebrow">PRIMEIRO PASSO</span>
+      <h2 id="contact-title" class="lead-sidebar-title">
+       Deu um nó?<br />
+       <em>Chegue mais.</em>
+      </h2>
+      <p class="lead-sidebar-lead">
+       Não precisa preparar apresentações nem falar termos difíceis. A gente senta junto, escuta seu desafio do dia a dia e desenha a saída mais prática.
+      </p>
+
+      <div style="background: rgba(13,38,28,0.04); border-radius: 18px; padding: 24px; border: 1px solid rgba(13,38,28,0.1);">
+       <span class="micro-label" style="color: var(--accent-terracotta); display: block; margin-bottom: 8px;">COMO FUNCIONA O NOSSO PAPO:</span>
+       <p style="font-size: 0.95rem; color: var(--text-dark); margin-bottom: 8px;">
+        <strong>1. Conversa direta com José:</strong> sem intermediários ou atendentes robóticos.
+       </p>
+       <p style="font-size: 0.95rem; color: var(--text-dark); margin-bottom: 8px;">
+        <strong>2. Escuta sem compromisso:</strong> sentamos para entender sua rotina antes de propor qualquer coisa.
+       </p>
+       <p style="font-size: 0.95rem; color: var(--text-dark);">
+        <strong>3. Foco na sua necessidade real:</strong> seja na pousada, no restaurante, no comércio ou no serviço.
+       </p>
+      </div>
+     </div>
+
+     <!-- Formulário Seguro de Ingestão de Leads -->
+     <div class="lead-form-spatial-card">
+      <form id="directEscutaForm" class="lead-form-grid" novalidate>
+       <input type="text" name="website_hp" style="display:none !important;" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+       <div class="form-field-group">
+        <label class="form-field-label">1. Como posso te chamar? *</label>
+        <input type="text" name="name" class="form-input-control" placeholder="Seu nome completo ou da sua empresa" required />
+       </div>
+
+       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 14px;">
+        <div class="form-field-group">
+         <label class="form-field-label">2. Seu WhatsApp (com DDD) *</label>
+         <input type="tel" name="whatsapp" class="form-input-control" placeholder="(DDD) 99999-9999" required />
+        </div>
+        <div class="form-field-group">
+         <label class="form-field-label">3. Seu E-mail *</label>
+         <input type="email" name="email" class="form-input-control" placeholder="seu@email.com" required />
+        </div>
+       </div>
+
+       <div class="form-field-group">
+        <label class="form-field-label">4. Qual é o seu segmento ou negócio? *</label>
+        <select name="business_type" class="form-input-control" required>
+         <option value="" disabled selected>Selecione seu negócio...</option>
+         <option value="Hotelaria & Hospedagem">Pousada ou Hotelaria</option>
+         <option value="Alimentação & Gastronomia">Restaurante, Café ou Bar</option>
+         <option value="Comércio & Varejo">Comércio, Loja ou Conveniência</option>
+         <option value="Saúde & Clínicas">Clínica ou Consultório</option>
+         <option value="Serviços Profissionais">Serviços Profissionais ou Salão</option>
+         <option value="Turismo & Experiências">Turismo, Passeios ou Transfers</option>
+         <option value="Transporte & Mobilidade">Transporte &amp; Mobilidade</option>
+         <option value="Outro Negócio">Outro segmento de negócio</option>
+        </select>
+       </div>
+
+       <div class="form-field-group">
+        <label class="form-field-label">5. Me conta: qual é o principal "nó" na sua rotina hoje? *</label>
+        <textarea name="improvement_need" rows="3" class="form-input-control" placeholder="Em poucas palavras: o que toma muito tempo ou trava o seu dia a dia?" required></textarea>
+       </div>
+
+       <label class="form-checkbox-row">
+        <input type="checkbox" name="consent" required checked style="accent-color: var(--accent-terracotta); width: 16px; height: 16px;" />
+        <span>Concordo com o contato direto para a escuta inicial conforme a LGPD.</span>
+       </label>
+
+       <button type="submit" class="form-submit-btn">
+        <span>Chamar José para desatar o nó</span>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true">
+         <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+       </button>
+
+       <div class="form-status-alert" role="status" aria-live="polite" style="font-weight: 600; font-size: 0.92rem; text-align: center; margin-top: 8px;"></div>
+      </form>
+     </div>
+    </div>
+   </div>
+  </section>
+ </main>
+
+ <!-- =========================================================================
+    RODAPÉ EDITORIAL COMPLETO
+    ========================================================================= -->
+ <footer class="spatial-footer" role="contentinfo">
+  <div class="spatial-container">
+   <div class="footer-top-grid">
+    <div>
+     <div class="footer-brand-title">IArretada</div>
+     <p style="font-size: 0.95rem; line-height: 1.6; max-width: 340px; margin-bottom: 20px;">
+      Ideias reais, gente no centro. Tecnologia só faz sentido quando simplifica a vida e seu trabalho.
+     </p>
+     <span class="micro-label" style="color: var(--accent-gold);">BRASIL • PORTO SEGURO &amp; NACIONAL</span>
+    </div>
+
+    <div>
+     <h4 class="footer-col-heading">Grandes Áreas</h4>
+     <div class="footer-links-list">
+      <a href="/marca/">Marca &amp; Comunicação</a>
+      <a href="/experiencia/">Experiência do Cliente</a>
+      <a href="/operacao/">Operação &amp; Processos</a>
+      <a href="/tecnologia/">Tecnologia sem Susto</a>
+      <a href="/menos-desperdicio/">Menos Desperdício</a>
+     </div>
+    </div>
+
+    <div>
+     <h4 class="footer-col-heading">Setores</h4>
+     <div class="footer-links-list">
+      <a href="/setores/hotelaria/">Hotelaria &amp; Pousadas</a>
+      <a href="/setores/alimentacao/">Alimentação &amp; Gastronomia</a>
+      <a href="/setores/comercio/">Comércio &amp; Varejo</a>
+      <a href="/setores/saude/">Saúde &amp; Clínicas</a>
+      <a href="/setores/servicos/">Serviços Profissionais</a>
+      <a href="/setores/turismo/">Turismo &amp; Passeios</a>
+      <a href="/setores/transporte/">Transporte &amp; Mobilidade</a>
+     </div>
+    </div>
+
+    <div>
+     <h4 class="footer-col-heading">Institucional</h4>
+     <div class="footer-links-list">
+      <a href="/sobre/">Sobre José</a>
+      <a href="#conteudos">IArretada Indica</a>
+      <a href="/autonomia/">Autonomia</a>
+      <a href="/no-seu-ritmo/">No Seu Ritmo</a>
+      <a href="/sitemap/">Mapa do Site</a>
+      <a href="/privacidade/">Privacidade &amp; LGPD</a>
+     </div>
+    </div>
+   </div>
+
+   <div class="footer-bottom-bar">
+    <span>&copy; 2026 IArretada. Todos os direitos reservados.</span>
+    <span>Tecnologia humana, limpa e descomplicada.</span>
+   </div>
   </div>
+ </footer>
 
-
-  <footer>
-    <div class="container">
-      <div class="footer-grid">
-        <div>
-          <div class="logo" style="color: white; margin-bottom: 12px;">IArretada<span>.</span></div>
-          <p style="font-size: 0.92rem; opacity: 0.85; max-width: 400px;">
-            "Deu um nó? Chegue mais. Tecnologia só faz sentido quando simplifica a vida."
-          </p>
-        </div>
-        <div class="footer-col">
-          <h4>Os 5 Portais</h4>
-          <ul>
-            <li><a onclick="openRoute('marca')">Marca & Comunicação</a></li>
-            <li><a onclick="openRoute('experiencia')">Experiência do Cliente</a></li>
-            <li><a onclick="openRoute('operacao')">Operação Sem Gargalos</a></li>
-            <li><a onclick="openRoute('tecnologia')">Tecnologia Sem Susto</a></li>
-            <li><a onclick="openRoute('desperdicio')">Menos Desperdício</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4>Páginas & Pilares</h4>
-          <ul>
-            <li><a onclick="openRoute('autonomia')">Mais Autonomia</a></li>
-            <li><a onclick="openRoute('ritmo')">Tecnologia no Seu Ritmo</a></li>
-            <li><a onclick="openRoute('sobre')">Sobre José & 6 Pilares</a></li>
-            <li><a onclick="openRoute('mapa')">Mapa Completo (17 Páginas)</a></li>
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>&copy; 2026 IArretada (www.iarretada.com.br). Todos os direitos reservados. Construído com respeito humano e rigor técnico.</p>
-      </div>
-    </div>
-  </footer>
-
-
-  <script>
-    const painsData = [
-      { title: "Mensagens acumuladas no WhatsApp", desc: "Gargalos de comunicação geram ansiedade no cliente e sobrecarregam a equipe. Organizar o fluxo de entrada e automatizar triagens simples resolve até 70% dos atrasos.", sol: "Organização do fluxo de entrada e triagem acolhedora." },
-      { title: "Sistemas que não se conversam", desc: "Redigitar dados de um sistema para outro é fonte direta de erros humanos e perda de tempo precioso. A solução é conectar as ferramentas via integrações leves.", sol: "Ponte automática entre atendimento, agenda e financeiro." },
-      { title: "Equipe presa em tarefas manuais", desc: "Pessoas talentosas gastando energia em copiar e colar. A automação entra para libertar sua equipe para o atendimento olho no olho.", sol: "Automação de rotinas repetitivas com supervisão humana." },
-      { title: "Falta de clareza nas vendas do mês", desc: "Sem saber de onde vêm os clientes e qual o resultado limpo. Organização visual dos números em relatórios despoluídos traz paz para decidir.", sol: "Painel visual claro em uma única tela." },
-      { title: "Demora no atendimento ao cliente", desc: "O cliente não quer esperar horas por uma dúvida básica. Respostas imediatas e humanas mantêm a confiança lá no alto.", sol: "Atendimento assistido com respostas rápidas." },
-      { title: "Medo de adotar sistemas novos", desc: "Ferramentas difíceis geram rejeição. Focamos em treinamentos calmos e telas simples que qualquer pessoa domina sem susto.", sol: "Implantação guiada passo a passo no ritmo da equipe." },
-      { title: "Planilhas confusas e duplicadas", desc: "Várias versões do mesmo arquivo causam perda de dados importantes. Consolidamos as informações numa fonte única e confiável.", sol: "Centralização limpa e segura de dados." },
-      { title: "Sensação de estagnação diária", desc: "Trabalhar até o cansaço sem ver a empresa avançar é sinal de processos truncados. Simplificar o caminho libera energia para crescer.", sol: "Diagnóstico completo dos 4 passos: Organizar, Conectar, Simplificar e Automatizar." }
-    ];
-
-
-    let activePainIndex = 0;
-    function selectPain(index) {
-      activePainIndex = index;
-      document.querySelectorAll('.pain-pills .pill').forEach((pill, i) => {
-        pill.classList.toggle('active', i === index);
-      });
-      document.getElementById('diagTitle').innerText = painsData[index].title;
-      document.getElementById('diagDescription').innerText = painsData[index].desc;
-      document.getElementById('diagSolution').innerHTML = "👉 <strong>Caminho IArretada:</strong> " + painsData[index].sol;
-      drawDiscoveryWires();
-    }
-
-
-    const canvas = document.getElementById('discoveryCanvas');
-    const ctx = canvas.getContext('2d');
-    function resizeCanvas() {
-      const section = document.getElementById('metodo');
-      canvas.width = section.offsetWidth;
-      canvas.height = section.offsetHeight;
-      drawDiscoveryWires();
-    }
-    window.addEventListener('resize', resizeCanvas);
-    setTimeout(resizeCanvas, 200);
-
-
-    function drawDiscoveryWires() {
-      if (!ctx) return;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const sectionRect = document.getElementById('metodo').getBoundingClientRect();
-      const pills = document.querySelectorAll('.pain-pills .pill');
-      const diagBox = document.getElementById('diagBox').getBoundingClientRect();
-      const targetX = diagBox.left - sectionRect.left + 20;
-      const targetY = diagBox.top - sectionRect.top + diagBox.height / 2;
-
-
-      pills.forEach((pill, idx) => {
-        const r = pill.getBoundingClientRect();
-        const startX = r.right - sectionRect.left;
-        const startY = r.top - sectionRect.top + r.height / 2;
-        ctx.beginPath();
-        ctx.moveTo(startX, startY);
-        const cpX = (startX + targetX) / 2;
-        ctx.bezierCurveTo(cpX, startY, cpX, targetY, targetX, targetY);
-        if (idx === activePainIndex) {
-          ctx.strokeStyle = 'rgba(224, 109, 68, 0.85)';
-          ctx.lineWidth = 2.5;
-        } else {
-          ctx.strokeStyle = 'rgba(229, 185, 127, 0.18)';
-          ctx.lineWidth = 1;
-        }
-        ctx.stroke();
-      });
-    }
-
-
-    const routesData = {
-      marca: { tag: "Portal 01", title: "Marca & Comunicação", sub: "Sua presença digital clara, acolhedora e sem ruídos.", body: "<p>Muitas empresas excelentes perdem clientes porque sua comunicação na internet parece confusa ou distante. No Portal de Marca & Comunicação, nós organizamos como sua empresa se apresenta no Google, no WhatsApp e nas redes.</p><ul style='margin:16px 0 16px 20px;'><li>Alinhamento da identidade visual e tom de voz humano.</li><li>Páginas rápidas que explicam seu serviço em 5 segundos.</li><li>Mensagens automáticas que parecem escritas à mão, sem cara de robô frio.</li></ul>" },
-      experiencia: { tag: "Portal 02", title: "Experiência do Cliente", sub: "Do primeiro 'bom dia' ao pós-venda que fideliza.", body: "<p>Inspirado na hospitalidade de excelência, desenhamos a jornada do seu cliente para que ele se sinta cuidado em cada etapa.</p><ul style='margin:16px 0 16px 20px;'><li>Eliminação de filas de espera no WhatsApp.</li><li>Confirmações claras e lembretes gentis.</li><li>Pesquisa de escuta rápida após o atendimento.</li></ul>" },
-      operacao: { tag: "Portal 03", title: "Operação Sem Gargalos", sub: "Bastidores organizados para você trabalhar em paz.", body: "<p>Quando a operação está desorganizada, o dono vira bombeiro do próprio negócio. Mapeamos passo a passo suas rotinas internas para tirar o peso das suas costas.</p><ul style='margin:16px 0 16px 20px;'><li>Quadros visuais de tarefas para toda a equipe.</li><li>Padronização simples de processos repetitivos.</li><li>Visão clara de quem faz o quê e até quando.</li></ul>" },
-      tecnologia: { tag: "Portal 04", title: "Tecnologia Sem Susto", sub: "Ferramentas confiáveis, seguras e fáceis de usar.", body: "<p>Chega de contratar softwares caros que ninguém na empresa sabe usar. Escolhemos e configuramos apenas o que traz resultado imediato.</p><ul style='margin:16px 0 16px 20px;'><li>Integração entre os aplicativos que você já usa.</li><li>Segurança de dados e conformidade com a LGPD.</li><li>Configuração limpa sem cobranças surpresa.</li></ul>" },
-      desperdicio: { tag: "Portal 05", title: "Menos Desperdício", sub: "Recupere seu tempo, sua energia e seu caixa.", body: "<p>O maior desperdício de uma empresa é o retrabalho humano e as assinaturas de sistemas esquecidos. Fazemos uma limpeza completa na sua rotina.</p><ul style='margin:16px 0 16px 20px;'><li>Fim da digitação dupla em planilhas diferentes.</li><li>Corte de ferramentas redundantes.</li><li>Aproveitamento inteligente dos recursos da equipe.</li></ul>" },
-      autonomia: { tag: "Pilar Humano 01", title: "Mais Autonomia. Mais Participação.", sub: "Tecnologia que liberta você, nunca que aprisiona.", body: "<p>Nosso maior orgulho é quando você não precisa mais da gente para tocar a rotina. Entregamos manuais em vídeo curto, treinamos sua equipe passo a passo e deixamos todas as senhas e acessos 100% nas suas mãos.</p>" },
-      ritmo: { tag: "Pilar Humano 02", title: "Sem Pressa. Sem Vergonha de Perguntar.", sub: "Tecnologia no seu ritmo humano.", body: "<p>Aqui nenhuma dúvida é boba. Caminhamos na velocidade que sua equipe consegue absorver com segurança, testando cada melhoria antes de dar o próximo passo.</p>" },
-      sobre: { tag: "Fundador & Governança", title: "Sobre José & Os 6 Pilares", sub: "Não quero mostrar o quanto eu sei. Quero usar o que sei para ajudar.", body: "<p>Com mais de 17 anos de carreira internacional em hospitalidade de alto padrão, Executive MBA em Inteligência Artificial e formação em Serviço Social, José uniu rigor operacional e sensibilidade humana para criar a IArretada.</p>" },
-      hotelaria: { tag: "Setor 01", title: "Hotelaria & Pousadas", sub: "Mais reservas diretas e hóspedes encantados.", body: "<p>Automação de pré-checkin, respostas rápidas de disponibilidade no WhatsApp, guia digital do hóspede e gestão de avaliações para meios de hospedagem.</p>" },
-      alimentacao: { tag: "Setor 02", title: "Alimentação & Gastronomia", sub: "Pedidos organizados e cozinha sincronizada.", body: "<p>Cardápios digitais claros, fluxo de pedidos sem erro no atendimento, controle de insumos e fidelização de clientes recorrentes.</p>" },
-      comercio: { tag: "Setor 03", title: "Comércio & Varejo", sub: "Atendimento ágil no balcão e no digital.", body: "<p>Catálogo conectado ao WhatsApp, recuperação de clientes inativos, controle de estoque enxuto e links rápidos de pagamento.</p>" },
-      saude: { tag: "Setor 04", title: "Saúde & Bem-Estar", sub: "Agenda cheia e redução drástica de faltas.", body: "<p>Confirmação automática de consultas, triagem humanizada de pacientes e organização segura de cadastros conforme a LGPD.</p>" },
-      servicos: { tag: "Setor 05", title: "Serviços Profissionais", sub: "Orçamentos rápidos e contratos organizados.", body: "<p>Fluxo de propostas, acompanhamento de clientes em negociação e centralização de documentos e prazos.</p>" },
-      turismo: { tag: "Setor 06", title: "Turismo & Lazer", sub: "Roteiros claros e vouchers sem confusão.", body: "<p>Agendamento de passeios, envio automático de orientações de embarque e atendimento multilíngue assistido.</p>" },
-      transporte: { tag: "Setor 07", title: "Transporte & Logística", sub: "Rastreio simples e comunicação direta.", body: "<p>Avisos automáticos de status de entrega, organização de rotas e comprovantes digitais centralizados.</p>" },
-      mapa: { tag: "Arquitetura Completa", title: "Mapa das 17 Páginas do Ecossistema IArretada", sub: "Navegue diretamente para qualquer página dedicada:", body: "<p>1. Home Principal (/)<br>2. Portal Marca & Comunicação (/marca-e-comunicacao)<br>3. Portal Experiência (/experiencia)<br>4. Portal Operação (/operacao)<br>5. Portal Tecnologia Sem Susto (/tecnologia-sem-susto)<br>6. Portal Menos Desperdício (/menos-desperdicio)<br>7. Pilar Autonomia (/autonomia)<br>8. Pilar Tecnologia no Seu Ritmo (/tecnologia-no-seu-ritmo)<br>9. Sobre José & 6 Pilares (/sobre)<br>10. Setor Hotelaria (/setores/hotelaria)<br>11. Setor Alimentação (/setores/alimentacao)<br>12. Setor Comércio (/setores/comercio)<br>13. Setor Saúde (/setores/saude)<br>14. Setor Serviços (/setores/servicos)<br>15. Setor Turismo (/setores/turismo)<br>16. Setor Transporte (/setores/transporte)<br>17. Mapa do Site Humano (/mapa-do-site.html)</p>" }
-    };
-
-
-    function openRoute(key) {
-      const data = routesData[key];
-      if (!data) return;
-      document.getElementById('modalTag').innerText = data.tag;
-      document.getElementById('modalTitle').innerText = data.title;
-      document.getElementById('modalSub').innerText = data.sub;
-      document.getElementById('modalBody').innerHTML = data.body;
-      document.getElementById('routeModal').classList.add('open');
-    }
-    function closeRoute() {
-      document.getElementById('routeModal').classList.remove('open');
-    }
-
-
-    let currentScale = 1;
-    function adjustFontSize(delta) {
-      currentScale += delta * 0.06;
-      if (currentScale < 0.9) currentScale = 0.9;
-      if (currentScale > 1.3) currentScale = 1.3;
-      document.documentElement.style.fontSize = (16 * currentScale) + 'px';
-      setTimeout(drawDiscoveryWires, 100);
-    }
-    function toggleContrast() {
-      document.body.classList.toggle('high-contrast');
-      document.getElementById('contrastBtn').classList.toggle('active');
-    }
-    function toggleDyslexicFont() {
-      document.body.classList.toggle('dyslexic-font');
-      document.getElementById('fontBtn').classList.toggle('active');
-      setTimeout(drawDiscoveryWires, 100);
-    }
-    let reducedMotion = false;
-    function toggleMotion() {
-      reducedMotion = !reducedMotion;
-      const video = document.getElementById('mainHeroVideo');
-      const btn = document.getElementById('motionBtn');
-      btn.classList.toggle('active', reducedMotion);
-      if (reducedMotion) {
-        if (video) video.pause();
-        btn.innerText = "Restaurar Movimento";
-      } else {
-        if (video) video.play();
-        btn.innerText = "Pausar Movimento";
-      }
-    }
-    function toggleHeroVideo() {
-      const video = document.getElementById('mainHeroVideo');
-      const btn = document.getElementById('playPauseBtn');
-      if (video.paused) { video.play(); btn.innerText = "Pausar"; }
-      else { video.pause(); btn.innerText = "Reproduzir"; }
-    }
-
-
-    async function submitForm(e) {
-      e.preventDefault();
-      const form = e.target;
-      const feedback = document.getElementById('formFeedback');
-      const submitBtn = document.getElementById('submitBtn');
-      if (form.website.value !== '') return;
-
-
-      const payload = {
-        nome: form.nome.value,
-        email: form.email.value,
-        whatsapp: form.whatsapp.value,
-        setor: form.setor.value,
-        mensagem: form.mensagem.value,
-        lgpd: form.lgpd.checked
-      };
-
-
-      submitBtn.disabled = true;
-      submitBtn.innerText = "Enviando com segurança...";
-
-
-      try {
-        const response = await fetch('/api/lead', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(payload)
-        });
-        const result = await response.json();
-        if (response.ok) {
-          feedback.style.color = '#0C231A';
-          feedback.innerText = "✓ Recebemos sua mensagem com carinho! Em breve o José entrará em contato.";
-          form.reset();
-        } else {
-          feedback.style.color = '#E06D44';
-          feedback.innerText = result.message || "Não conseguimos concluir o envio agora. Tente novamente em instantes.";
-        }
-      } catch (err) {
-        feedback.style.color = '#E06D44';
-        feedback.innerText = "Erro de conexão com o servidor.";
-      } finally {
-        submitBtn.disabled = false;
-        submitBtn.innerText = "Enviar para Escuta Inicial";
-      }
-    }
-  </script>
+ <script src="./spatial-interactive.js"></script>
 </body>
 </html>

@@ -1,3 +1,14 @@
-# Redirecionamentos Canônicos
-/socorro / 301
-/parceiros / 301
+https://iarretada.com.br/* https://www.iarretada.com.br/:splat 301
+/marca-e-comunicacao /marca/ 301
+/marca-e-comunicacao.html /marca/ 301
+/tecnologia-no-seu-ritmo /no-seu-ritmo/ 301
+/tecnologia-no-seu-ritmo.html /no-seu-ritmo/ 301
+/tecnologia-sem-susto /tecnologia/ 301
+/tecnologia-sem-susto.html /tecnologia/ 301
+/mapa-do-site /sitemap/ 301
+/mapa-do-site.html /sitemap/ 301
+/autonomia.html /autonomia/ 301
+/experiencia.html /experiencia/ 301
+/operacao.html /operacao/ 301
+/menos-desperdicio.html /menos-desperdicio/ 301
+/sobre.html /sobre/ 301

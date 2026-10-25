@@ -8,11 +8,11 @@
   "assets": {
     "directory": "."
   },
-  "not_found_handling": "single-page-application",
   "d1_databases": [
     {
       "binding": "DB",
-      "database_name": "iarretada-db"
+      "database_name": "iarretada-db",
+      "database_id": "e2d8a01b-0250-4eb2-acfe-1d11b08e3b6a"
     }
   ]
 }
