@@ -10,13 +10,13 @@ export async function onRequestPost(context) {
     const nome = body.nome || body.name || "";
     const email = body.email || "nao-informado@iarretada.com.br";
     const whatsapp = body.whatsapp || body.phone || "";
-    const setor = body.setor || body.sector || "Geral";
-    const mensagem = body.mensagem || body.message || "";
-    const lgpd = body.lgpd !== undefined ? (body.lgpd ? 1 : 0) : 1;
+    const setor = body.setor || body.sector || body.business_type || "Geral";
+    const mensagem = body.mensagem || body.message || body.improvement_need || "";
+    const lgpd = body.consent === true || body.lgpd === true ? 1 : 0;
 
 
     // 1. Verificação Anti-Bot Honeypot (Mandamento 35)
-    if (body.website && body.website.trim() !== "") {
+    if ((body.website_hp || body.website || "").trim() !== "") {
       return new Response(JSON.stringify({ success: true, message: "Recebido." }), {
         status: 200,
         headers: { "Content-Type": "application/json" }
@@ -25,6 +25,7 @@ export async function onRequestPost(context) {
 
 
     // 2. Validação Obrigatória (Mandamento 34)
+    if (!lgpd) return new Response(JSON.stringify({ success: false, message: "É necessário aceitar a política de privacidade." }), { status: 400, headers: { "Content-Type": "application/json" } });
     if (!nome || !whatsapp || !mensagem) {
       return new Response(JSON.stringify({
         success: false,
@@ -79,8 +80,8 @@ export async function onRequestPost(context) {
   } catch (error) {
     return new Response(JSON.stringify({
       success: false,
-      message: "Erro interno no servidor.",
-      details: error.message
+      message: "Erro interno no servidor."
+      
     }), {
       status: 500,
       headers: { "Content-Type": "application/json" }
