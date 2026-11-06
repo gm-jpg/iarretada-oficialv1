@@ -1,89 +1,61 @@
-export async function onRequestPost(context) {
-  const { request, env } = context;
-
+export async function onRequestPost({ request, env }) {
+  const json = (payload, status = 200) =>
+    new Response(JSON.stringify(payload), {
+      status,
+      headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
+    });
 
   try {
+    if (!env?.DB) return json({ success: false, message: 'Serviço temporariamente indisponível.' }, 503);
+
+    const contentType = request.headers.get('content-type') || '';
+    if (!contentType.includes('application/json')) {
+      return json({ success: false, message: 'Formato de envio inválido.' }, 415);
+    }
+
     const body = await request.json();
+    if (!body || typeof body !== 'object' || Array.isArray(body)) {
+      return json({ success: false, message: 'Dados inválidos.' }, 400);
+    }
+    const string = (value, max) => typeof value === 'string' ? value.trim().slice(0, max) : '';
+    const nome = string(body.name || body.nome, 120);
+    const email = string(body.email, 254) || 'nao-informado@iarretada.com.br';
+    const whatsapp = string(body.whatsapp || body.phone, 30);
+    const setor = string(body.sector || body.setor || body.business_type || body.interest, 120) || 'Geral';
+    const mensagem = string(body.message || body.mensagem || body.improvement_need, 4000);
+    const consent = body.consent === true || body.lgpd === true;
 
-
-    // Suporte híbrido aos nomes de campos em português ou inglês
-    const nome = body.nome || body.name || "";
-    const email = body.email || "nao-informado@iarretada.com.br";
-    const whatsapp = body.whatsapp || body.phone || "";
-    const setor = body.setor || body.sector || "Geral";
-    const mensagem = body.mensagem || body.message || "";
-    const lgpd = body.lgpd !== undefined ? (body.lgpd ? 1 : 0) : 1;
-
-
-    // 1. Verificação Anti-Bot Honeypot (Mandamento 35)
-    if (body.website && body.website.trim() !== "") {
-      return new Response(JSON.stringify({ success: true, message: "Recebido." }), {
-        status: 200,
-        headers: { "Content-Type": "application/json" }
-      });
+    // Honeypot field names from both the homepage and older forms.
+    if (string(body.website_hp || body.website, 500)) {
+      return json({ success: true, message: 'Recebido.' });
     }
 
-
-    // 2. Validação Obrigatória (Mandamento 34)
-    if (!nome || !whatsapp || !mensagem) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: "Por favor, preencha seu nome, WhatsApp e a descrição do seu nó."
-      }), {
-        status: 400,
-        headers: { "Content-Type": "application/json" }
-      });
+    if (!consent) {
+      return json({ success: false, message: 'É necessário autorizar o contato e aceitar a política de privacidade.' }, 400);
+    }
+    if (nome.length < 2 || whatsapp.replace(/\D/g, '').length < 10 || mensagem.length < 5) {
+      return json({ success: false, message: 'Informe nome, WhatsApp com DDD e descrição da sua necessidade.' }, 400);
     }
 
-
-    // 3. Anonimização de IP em Hash SHA-256 para LGPD (Mandamento 37)
-    const clientIP = request.headers.get("CF-Connecting-IP") || "127.0.0.1";
-    const msgUint8 = new TextEncoder().encode(clientIP);
-    const hashBuffer = await crypto.subtle.digest("SHA-256", msgUint8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    const ipHash = hashArray.map(b => b.toString(16).padStart(2, "0")).join("");
-
-
-    // 4. Rate Limiting: máximo de 3 envios a cada 15 minutos por IP (Mandamento 39)
-    const fifteenMinsAgo = new Date(Date.now() - 15 * 60 * 1000).toISOString();
-    const rateCheck = await env.DB.prepare(
-      "SELECT COUNT(*) as count FROM leads WHERE ip_hash = ? AND created_at > ?"
-    ).bind(ipHash, fifteenMinsAgo).first();
-
-
-    if (rateCheck && rateCheck.count >= 3) {
-      return new Response(JSON.stringify({
-        success: false,
-        message: "Limite de envios atingido. Aguarde 15 minutos antes de enviar novamente."
-      }), {
-        status: 429,
-        headers: { "Content-Type": "application/json" }
-      });
+    // Pseudonymous per-IP abuse throttle; do not store raw IP addresses.
+    const ip = request.headers.get('CF-Connecting-IP') || 'unknown';
+    const digest = await crypto.subtle.digest('SHA-256', new TextEncoder().encode(ip));
+    const ipHash = [...new Uint8Array(digest)].map(b => b.toString(16).padStart(2, '0')).join('');
+    const cutoff = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+    const rate = await env.DB.prepare(
+      'SELECT COUNT(*) AS count FROM leads WHERE ip_hash = ? AND created_at > ?'
+    ).bind(ipHash, cutoff).first();
+    if (Number(rate?.count || 0) >= 3) {
+      return json({ success: false, message: 'Limite de envios atingido. Aguarde 15 minutos.' }, 429);
     }
 
-
-    // 5. Gravação Segura no Cloudflare D1 (Mandamento 38)
-    const now = new Date().toISOString();
     await env.DB.prepare(
-      "INSERT INTO leads (nome, email, whatsapp, setor, mensagem, lgpd_accepted, ip_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)"
-    ).bind(nome, email, whatsapp, setor, mensagem, lgpd, ipHash, now).run();
+      'INSERT INTO leads (nome, email, whatsapp, setor, mensagem, lgpd_accepted, ip_hash, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+    ).bind(nome, email, whatsapp, setor, mensagem, 1, ipHash, new Date().toISOString()).run();
 
-
-    return new Response(JSON.stringify({
-      success: true,
-      message: "Lead cadastrado com sucesso!"
-    }), {
-      status: 200,
-      headers: { "Content-Type": "application/json" }
-    });
+    return json({ success: true, message: 'Mensagem recebida com sucesso!' });
   } catch (error) {
-    return new Response(JSON.stringify({
-      success: false,
-      message: "Erro interno no servidor.",
-      details: error.message
-    }), {
-      status: 500,
-      headers: { "Content-Type": "application/json" }
-    });
+    console.error('Lead submission failed', error instanceof Error ? error.name : 'unknown');
+    return json({ success: false, message: 'Não foi possível enviar agora. Tente novamente.' }, 500);
   }
 }
