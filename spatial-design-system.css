@@ -59,6 +59,7 @@
 }
 
 html {
+  overflow-x: clip;
   font-size: calc(16px * var(--font-scale));
   scroll-behavior: smooth;
   background-color: var(--bg-cream);
@@ -426,7 +427,7 @@ button, input, select, textarea {
   border-radius: 28px;
   overflow: hidden;
   box-shadow: 0 35px 80px -15px rgba(13, 38, 28, 0.22);
-  background: #0D261C url('./assets/reference/como-ajudo-hero.webp') no-repeat center center / cover;
+  background: #0D261C url('./assets/video/hero-poster.webp') no-repeat center center / cover;
   transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
@@ -437,7 +438,7 @@ button, input, select, textarea {
   object-fit: cover;
   object-position: center;
   display: block;
-  background: #0D261C url('./assets/reference/como-ajudo-hero.webp') no-repeat center center / cover;
+  background: #0D261C url('./assets/video/hero-poster.webp') no-repeat center center / cover;
   mask-image: linear-gradient(to right, transparent 0%, black 22%);
   -webkit-mask-image: linear-gradient(to right, transparent 0%, black 22%);
   transition: all 0.5s ease;
@@ -1564,6 +1565,13 @@ button, input, select, textarea {
 }
 
 @media (max-width: 600px) {
+  .hero-layout-grid { grid-template-columns: minmax(0, 1fr); }
+  .hero-media-column { min-height: 0; }
+  .hero-video-viewport { height: auto; aspect-ratio: 16 / 9; }
+  .hero-video-masked { mask-image: none; -webkit-mask-image: none; }
+  .hero-scene-chalkboard { display: none; }
+  .journey-nodes-row { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .journey-svg-connection { display: none; }
   .principles-2col-grid {
     grid-template-columns: 1fr;
   }
@@ -1645,6 +1653,18 @@ button, input, select, textarea {
 .lead-form-grid {
   display: grid;
   gap: 18px;
+}
+
+@media (max-width: 600px) {
+  .floating-hud-header { width: calc(100% - 24px); }
+  .floating-hud-inner { flex-wrap: wrap; gap: 8px; padding: 10px 14px; }
+  .hud-nav { order: 3; width: 100%; min-width: 0; overflow-x: auto; gap: 14px; }
+  .hud-nav-link { white-space: nowrap; flex: 0 0 auto; }
+  .lead-capture-grid { grid-template-columns: minmax(0, 1fr); }
+  .lead-capture-grid > *, .lead-form-spatial-card, .lead-form-grid { min-width: 0; }
+  .lead-form-spatial-card { padding: 20px; }
+  .lead-form-grid > div[style*="grid-template-columns"] { grid-template-columns: minmax(0, 1fr) !important; }
+  .form-input-control { min-width: 0; width: 100%; }
 }
 
 .form-field-group {

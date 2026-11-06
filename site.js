@@ -212,51 +212,51 @@
   const TRANSVERSAL_CASES = {
     hotelaria: {
       sectorTag: 'Hotelaria & Hospedagem',
-      title: 'Hóspede insatisfeito com espera e recepção sobrecarregada',
-      problemTitle: 'O Sintoma Aparente',
-      problemText: 'A gerência achava que o problema era lentidão dos recepcionistas ao atender no balcão e responder WhatsApp de reservas.',
-      investigationTitle: 'A Investigação Transversal',
-      investigationText: 'A IArretada analisou os bastidores: governança e recepção usavam planilhas e papéis desconectados. O quarto estava limpo, mas a recepção não sabia. Além disso, 70% das dúvidas no balcão eram sobre horários de café e passeios que nunca foram enviados antes da viagem.',
-      possibilityTitle: 'As Pontes Construídas',
-      possibilityText: 'Integramos um checklist leve de governança que avisa a liberação do quarto em tempo real, criamos o Guia Digital de Pré-Estadia enviado 24h antes e automatizamos respostas de rotina com o tom acolhedor da pousada.',
-      resultTitle: 'Cenário Ilustrativo de Transformação',
-      resultText: 'Cenário ilustrativo: Fim das filas no saguão, liberação ágil de chaves, equipe com fôlego para receber de verdade e aumento consistente nas avaliações espontâneas dos hóspedes.'
+      title: 'Check-in fora do horário, sem deixar o hóspede sem resposta',
+      problemTitle: 'Situação',
+      problemText: 'Uma pessoa avisa que chegará depois do expediente da recepção e precisa saber como entrar.',
+      investigationTitle: 'O que precisamos confirmar',
+      investigationText: 'Reserva, horário previsto e procedimento real da pousada para chegadas tardias.',
+      possibilityTitle: 'Aplicação possível',
+      possibilityText: 'Um formulário curto reúne esses dados e avisa a equipe responsável. A resposta ao hóspede segue a orientação aprovada pela pousada.',
+      resultTitle: 'O que melhora',
+      resultText: 'A equipe recebe o contexto completo e pode confirmar a chegada sem pedir as mesmas informações de novo.'
     },
     alimentacao: {
-      sectorTag: 'Alimentação & Restaurante',
-      title: 'CMV descontrolado e perdas no final de semana',
-      problemTitle: 'O Sintoma Aparente',
-      problemText: 'O dono acreditava que os preços de compra estavam muito altos e cogitou cortar funcionários ou aumentar os preços bruscamente.',
-      investigationTitle: 'A Investigação Transversal',
-      investigationText: 'Descobrimos que não havia fichas técnicas dinâmicas: o porcionamento na cozinha variava conforme o cozinheiro e itens descartados venciam antes de virar prato porque o cardápio tinha itens pouco pedidos que exigiam ingredientes exclusivos.',
-      possibilityTitle: 'As Pontes Construídas',
-      possibilityText: 'Engenharia de cardápio para eliminar ingredientes reféns, fichas técnicas visuais para a equipe e planilha automatizada que sugere compras exatas baseadas nas vendas previstas.',
-      resultTitle: 'Cenário Ilustrativo de Transformação',
-      resultText: 'Cenário ilustrativo: Estancamento de perdas de insumos perecíveis, recuperação da margem líquida dos pratos principais e mise-en-place muito mais ágil e padronizado.'
+      sectorTag: 'Alimentação & Gastronomia',
+      title: 'Reserva de grupo com restrições alimentares claras',
+      problemTitle: 'Situação',
+      problemText: 'Um grupo quer reservar mesa e informa que duas pessoas têm restrições alimentares.',
+      investigationTitle: 'O que precisamos confirmar',
+      investigationText: 'Data, horário, quantidade de pessoas, restrições e capacidade do restaurante para atender ao pedido.',
+      possibilityTitle: 'Aplicação possível',
+      possibilityText: 'A solicitação chega estruturada à equipe; somente ela confirma disponibilidade e alternativas do cardápio.',
+      resultTitle: 'O que melhora',
+      resultText: 'Menos troca de mensagens para coletar dados básicos e mais segurança na resposta ao cliente.'
     },
     comercio: {
       sectorTag: 'Comércio & Varejo',
-      title: 'Estoque encalhado e clientes sumindo sem comprar',
-      problemTitle: 'O Sintoma Aparente',
-      problemText: 'A equipe achava que a concorrência na internet estava canibalizando as vendas da loja física.',
-      investigationTitle: 'A Investigação Transversal',
-      investigationText: 'O atendimento demorava para enviar fotos e preços de produtos solicitados por WhatsApp. Quando o cliente ia à loja, produtos complementares não ficavam juntos nem eram oferecidos no caixa.',
-      possibilityTitle: 'As Pontes Construídas',
-      possibilityText: 'Catálogo digital inteligente e leve para envio instantâneo, identificação de produtos que vendem juntos para criar combos e treinamento da equipe para sugestões no caixa.',
-      resultTitle: 'Cenário Ilustrativo de Transformação',
-      resultText: 'Cenário ilustrativo: Elevação do ticket médio com ofertas de balcão bem posicionadas, giro rápido de mercadorias paradas e resposta no WhatsApp em instantes.'
+      title: 'Pedido de produto sem promessa de estoque inexistente',
+      problemTitle: 'Situação',
+      problemText: 'Uma pessoa pergunta se um produto está disponível e se pode retirá-lo hoje.',
+      investigationTitle: 'O que precisamos confirmar',
+      investigationText: 'Modelo, variação, unidade desejada e estoque atualizado antes de responder.',
+      possibilityTitle: 'Aplicação possível',
+      possibilityText: 'A consulta reúne os dados e encaminha a conferência ao vendedor. Só o estoque confirmado vira resposta.',
+      resultTitle: 'O que melhora',
+      resultText: 'O atendimento mantém o pedido em contexto e evita orientar o cliente com informação desatualizada.'
     },
     servicos: {
       sectorTag: 'Serviços Profissionais',
-      title: 'Semana inteira montando propostas e poucas contratações',
-      problemTitle: 'O Sintoma Aparente',
-      problemText: 'O profissional achava que precisava abaixar o preço para competir no mercado.',
-      investigationTitle: 'A Investigação Transversal',
-      investigationText: 'As reuniões de briefing eram longas e confusas, cada proposta levava horas para ser escrita do zero e o cliente recebia um PDF genérico que não valorizava a autoridade técnica do trabalho.',
-      possibilityTitle: 'As Pontes Construídas',
-      possibilityText: 'Formulário inteligente pré-reunião para qualificar a demanda, gerador de propostas personalizadas e transparentes e régua elegante de acompanhamento (follow-up).',
-      resultTitle: 'Cenário Ilustrativo de Transformação',
-      resultText: 'Cenário ilustrativo: Elaboração de propostas no mesmo dia do briefing, clientes altamente qualificados e posicionamento de autoridade que defende o preço justo do trabalho.'
+      title: 'Primeiro contato que ajuda a preparar uma proposta útil',
+      problemTitle: 'Situação',
+      problemText: 'Um cliente pede orçamento, mas ainda não explicou prazo, escopo nem local do serviço.',
+      investigationTitle: 'O que precisamos confirmar',
+      investigationText: 'Objetivo, entregáveis esperados, prazo e restrições que mudam o esforço necessário.',
+      possibilityTitle: 'Aplicação possível',
+      possibilityText: 'Uma triagem breve organiza as respostas para o profissional avaliar e construir uma proposta sob medida.',
+      resultTitle: 'O que melhora',
+      resultText: 'A conversa comercial começa com contexto e deixa claro o que ainda depende de avaliação humana.'
     }
   };
 
@@ -460,7 +460,6 @@
     initHeroVideoToggle();
     initLiquidGlass();
     initTransversalDemonstration();
-    initLeadForms();
   });
 })();
 

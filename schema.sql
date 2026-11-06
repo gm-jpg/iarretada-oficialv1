@@ -6,7 +6,7 @@ CREATE TABLE IF NOT EXISTS leads (
     whatsapp TEXT NOT NULL,
     setor TEXT NOT NULL,
     mensagem TEXT NOT NULL,
-    lgpd_accepted INTEGER NOT NULL DEFAULT 1 CHECK (lgpd_accepted IN (0, 1)),
+    lgpd_accepted INTEGER NOT NULL DEFAULT 0 CHECK (lgpd_accepted IN (0, 1)),
     ip_hash TEXT NOT NULL,
     created_at TEXT NOT NULL
 );
