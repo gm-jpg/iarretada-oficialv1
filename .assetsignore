@@ -1,9 +1,0 @@
-.git/
-.wrangler/
-node_modules/
-functions/
-worker.js
-schema.sql
-wrangler.jsonc
-README.md
-interna-template.html
