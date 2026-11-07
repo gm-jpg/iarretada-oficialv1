@@ -6,10 +6,16 @@ CREATE TABLE IF NOT EXISTS leads (
     whatsapp TEXT NOT NULL,
     setor TEXT NOT NULL,
     mensagem TEXT NOT NULL,
-    lgpd_accepted INTEGER NOT NULL DEFAULT 1 CHECK (lgpd_accepted IN (0, 1)),
+    lgpd_accepted INTEGER NOT NULL DEFAULT 0 CHECK (lgpd_accepted IN (0, 1)),
     ip_hash TEXT NOT NULL,
     created_at TEXT NOT NULL
 );
 
 
 CREATE INDEX IF NOT EXISTS idx_leads_ip_created ON leads(ip_hash, created_at);
+
+CREATE TABLE IF NOT EXISTS chat_limits (
+  ip_bucket_hash TEXT PRIMARY KEY,
+  request_count INTEGER NOT NULL DEFAULT 0,
+  expires_at TEXT NOT NULL
+);

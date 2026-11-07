@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://iarretada.com.br/sitemap.xml
