@@ -1,0 +1,987 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#080d1e">
+  <title>IArretada — Painel do Comandante & Radar Sentinela</title>
+  <meta name="robots" content="noindex,nofollow">
+  <link rel="icon" href="/assets/brand/iarretada-mark.png" type="image/png">
+  <link rel="stylesheet" href="/styles.css?v=iarretado3d-v5">
+  <script src="/app.js?v=iarretado3d-v5" defer></script>
+  <style>
+    :root {
+      --bg-dark: #070b16;
+      --card-bg: rgba(18, 25, 48, 0.72);
+      --card-border: rgba(255, 255, 255, 0.1);
+      --accent-lime: #CBEA57;
+      --accent-blue: #213BD6;
+      --accent-green: #25D366;
+      --accent-orange: #F05A28;
+      --text-muted: #94a3b8;
+      --text-light: #f8fafc;
+    }
+    body {
+      background: radial-gradient(circle at 50% 0%, #131e4e 0%, #070b16 60%, #03050a 100%);
+      color: var(--text-light);
+      font-family: var(--sans, system-ui, -apple-system, sans-serif);
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+    }
+    .dash-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 24px 16px 64px;
+    }
+    /* Header */
+    .dash-header {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      padding-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 24px;
+    }
+    .dash-brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+    .dash-emblem-wrap {
+      width: 64px;
+      height: 64px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .dash-brand-info h1 {
+      font-size: 1.45rem;
+      margin: 0 0 4px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 40%, var(--accent-lime) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .dash-brand-info p {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+    .dash-metrics-bar {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+    .metric-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 16px 18px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    }
+    .metric-card-label {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--text-muted);
+      margin-bottom: 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .metric-card-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #ffffff;
+    }
+    .metric-card-sub {
+      font-size: 0.8rem;
+      color: var(--accent-lime);
+      margin-top: 4px;
+    }
+    /* Tabs Navigation */
+    .dash-tabs {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 8px;
+      margin-bottom: 24px;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .dash-tab-btn {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      padding: 10px 18px;
+      border-radius: 999px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: all 0.2s ease;
+    }
+    .dash-tab-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ffffff;
+    }
+    .dash-tab-btn.active {
+      background: var(--accent-blue);
+      border-color: var(--accent-blue);
+      color: #ffffff;
+      box-shadow: 0 4px 14px rgba(33, 59, 214, 0.4);
+    }
+    /* Content Sections */
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    /* Filters */
+    .filter-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 20px;
+    }
+    .filter-input {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      outline: none;
+      min-width: 220px;
+    }
+    .filter-select {
+      background: #0f162c;
+      border: 1px solid var(--card-border);
+      color: #ffffff;
+      padding: 8px 14px;
+      border-radius: 12px;
+      font-size: 0.88rem;
+      outline: none;
+    }
+    /* Leads Grid */
+    .leads-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+      gap: 16px;
+    }
+    .lead-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 18px;
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
+    }
+    .lead-card:hover {
+      transform: translateY(-3px);
+      border-color: rgba(163, 230, 53, 0.4);
+    }
+    .lead-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 10px;
+    }
+    .lead-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 4px;
+    }
+    .lead-city-tag {
+      font-size: 0.72rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(33, 59, 214, 0.25);
+      border: 1px solid rgba(33, 59, 214, 0.4);
+      color: #93c5fd;
+    }
+    .lead-sector {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-bottom: 12px;
+    }
+    .lead-ratings {
+      display: flex;
+      gap: 10px;
+      font-size: 0.78rem;
+      margin-bottom: 14px;
+    }
+    .rating-badge {
+      padding: 3px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      color: #fbbf24;
+      font-weight: 600;
+    }
+    .lead-pain-box {
+      background: rgba(240, 90, 40, 0.08);
+      border-left: 3px solid var(--accent-orange);
+      padding: 10px 12px;
+      border-radius: 0 10px 10px 0;
+      font-size: 0.82rem;
+      color: #fed7aa;
+      margin-bottom: 14px;
+      line-height: 1.4;
+    }
+    .lead-solution-box {
+      background: rgba(163, 230, 53, 0.08);
+      border: 1px solid rgba(163, 230, 53, 0.2);
+      padding: 8px 12px;
+      border-radius: 10px;
+      font-size: 0.82rem;
+      color: #d9f99d;
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .lead-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .btn-wa-direct {
+      background: linear-gradient(135deg, var(--accent-green) 0%, #15803d 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.9rem;
+      padding: 11px 16px;
+      border-radius: 12px;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .btn-wa-direct:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+    .btn-copy-script {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--card-border);
+      color: var(--text-light);
+      font-size: 0.8rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.2s ease;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+    .btn-copy-script:hover {
+      background: rgba(255, 255, 255, 0.12);
+    }
+    .lead-status-select {
+      background: #0f172a;
+      border: 1px solid var(--card-border);
+      color: var(--text-muted);
+      font-size: 0.76rem;
+      padding: 6px 10px;
+      border-radius: 8px;
+      margin-top: 4px;
+      width: 100%;
+      outline: none;
+    }
+    /* Toast Notification */
+    .toast {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #1e293b;
+      border: 1px solid var(--accent-lime);
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+      font-size: 0.88rem;
+      font-weight: 600;
+      z-index: 9999;
+      transform: translateY(100px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .toast.show {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    /* Products Grid */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+    }
+    .product-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      backdrop-filter: blur(16px);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-badge {
+      align-self: flex-start;
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(163, 230, 53, 0.15);
+      border: 1px solid rgba(163, 230, 53, 0.35);
+      color: var(--accent-lime);
+      margin-bottom: 10px;
+    }
+    .product-price {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin: 8px 0;
+    }
+    .product-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-bottom: 16px;
+    }
+    /* Content Script Cards */
+    .content-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 18px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .content-day-badge {
+      display: inline-block;
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(33, 59, 214, 0.3);
+      color: #93c5fd;
+      margin-bottom: 10px;
+    }
+    .content-theme {
+      font-size: 1.15rem;
+      font-weight: 700;
+      margin: 0 0 12px;
+      color: #ffffff;
+    }
+    .content-block {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid rgba(255, 255, 255, 0.06);
+      padding: 12px 14px;
+      border-radius: 12px;
+      margin-bottom: 12px;
+      font-size: 0.88rem;
+      line-height: 1.5;
+    }
+    .content-block-label {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      font-weight: 700;
+      color: var(--accent-lime);
+      margin-bottom: 4px;
+    }
+  </style>
+</head>
+<body>
+  <div class="dash-container">
+    <!-- Header -->
+    <header class="dash-header">
+      <div class="dash-brand">
+        <div class="dash-emblem-wrap" id="dashEmblem"></div>
+        <div class="dash-brand-info">
+          <h1>Painel do Comandante · IArretada</h1>
+          <p>Supervisão Pessoal & Central de Operações com WhatsApp</p>
+        </div>
+      </div>
+      <div style="display:flex;gap:10px;align-items:center;">
+        <a href="/links/" class="dash-tab-btn" style="text-decoration:none;display:flex;align-items:center;gap:6px;">
+          <span>🌐 Ver Links Públicos</span>
+        </a>
+        <a href="https://wa.me/5573999313401" target="_blank" rel="noopener noreferrer" class="btn-wa-direct" style="padding:8px 14px;font-size:0.82rem;">
+          <span>Meu WhatsApp</span>
+        </a>
+      </div>
+    </header>
+
+    <!-- Metrics Bar -->
+    <div class="dash-metrics-bar">
+      <div class="metric-card">
+        <div class="metric-card-label">
+          <span>Meta Diária</span>
+          <span>🎯</span>
+        </div>
+        <div class="metric-card-val">R$ 100,00 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:normal;">/ dia</span></div>
+        <div class="metric-card-sub">Equivale a R$ 3.000,00 por mês</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card-label">
+          <span>Equivalência em Clientes</span>
+          <span>⚡</span>
+        </div>
+        <div class="metric-card-val">38 Clientes</div>
+        <div class="metric-card-sub">A R$ 79/mês cobre 100% da sua meta</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card-label">
+          <span>Leads no Radar Local</span>
+          <span>📍</span>
+        </div>
+        <div class="metric-card-val" id="totalLeadsCount">12 Ativos</div>
+        <div class="metric-card-sub">Porto Seguro, Arraial, Trancoso, Eunápolis</div>
+      </div>
+
+      <div class="metric-card">
+        <div class="metric-card-label">
+          <span>Rotina de Monitoramento</span>
+          <span>🛡️</span>
+        </div>
+        <div class="metric-card-val">3 Toques/Dia</div>
+        <div class="metric-card-sub">Direto no WhatsApp, sem tomar seu tempo</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <nav class="dash-tabs" aria-label="Abas de Navegação">
+      <button class="dash-tab-btn active" onclick="switchTab('radar')">📡 Radar Sentinela (Leads WhatsApp)</button>
+      <button class="dash-tab-btn" onclick="switchTab('produtos')">💎 Vitrine de 18 Micro-Produtos & Links</button>
+      <button class="dash-tab-btn" onclick="switchTab('conteudo')">🎬 Fábrica de Vídeos Sem Rosto (7 Dias)</button>
+      <button class="dash-tab-btn" onclick="switchTab('automacao')">⚙️ Automação 24/7 & Google Cloud</button>
+    </nav>
+
+    <!-- TAB 1: RADAR SENTINELA -->
+    <section id="tab-radar" class="tab-content active">
+      <div class="filter-bar">
+        <input type="text" id="leadSearch" class="filter-input" placeholder="Buscar por pousada, restaurante, clínica..." oninput="filterLeads()">
+        <select id="cityFilter" class="filter-select" onchange="filterLeads()">
+          <option value="todas">Todas as Cidades</option>
+          <option value="Porto Seguro">Porto Seguro</option>
+          <option value="Arraial d'Ajuda">Arraial d'Ajuda</option>
+          <option value="Trancoso">Trancoso</option>
+          <option value="Caraíva">Caraíva</option>
+          <option value="Eunápolis">Eunápolis</option>
+          <option value="Santa Cruz Cabrália">Santa Cruz Cabrália</option>
+        </select>
+        <select id="statusFilter" class="filter-select" onchange="filterLeads()">
+          <option value="todos">Todos os Status</option>
+          <option value="pendente">A Contatar (Pendente)</option>
+          <option value="em-conversa">Em Conversa</option>
+          <option value="fechado">Fechado (R$ 79/mês)</option>
+        </select>
+      </div>
+
+      <div class="leads-grid" id="leadsContainer">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 2: PRODUTOS & LINKS -->
+    <section id="tab-produtos" class="tab-content">
+      <div style="margin-bottom:18px;">
+        <h2 style="font-size:1.2rem;margin:0 0 6px;">Catálogo de 18 Micro-Produtos Prontos para Venda</h2>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+          Links estruturados para compartilhar em conversas de WhatsApp, direct do Instagram ou adicionar à sua bio.
+        </p>
+      </div>
+      <div class="products-grid" id="productsContainer">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 3: CONTEÚDO SEM ROSTO -->
+    <section id="tab-conteudo" class="tab-content">
+      <div style="margin-bottom:18px;">
+        <h2 style="font-size:1.2rem;margin:0 0 6px;">Fábrica de Roteiros Faceless (45 Segundos)</h2>
+        <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
+          Grave apenas a tela do seu celular com o WhatsApp funcionando ou coloque vídeos de praias locais da Bahia com legendas automáticas no CapCut. Zero necessidade de aparecer.
+        </p>
+      </div>
+      <div id="contentContainer">
+        <!-- Renderizado dinamicamente via JS -->
+      </div>
+    </section>
+
+    <!-- TAB 4: AUTOMAÇÃO 24/7 & GOOGLE CLOUD -->
+    <section id="tab-automacao" class="tab-content">
+      <div class="metric-card" style="margin-bottom:20px;">
+        <h2 style="font-size:1.2rem;margin:0 0 10px;color:var(--accent-lime);">Sua Estratégia de Automação Silenciosa (Zero Estresse)</h2>
+        <p style="font-size:0.9rem;line-height:1.6;color:#cbd5e1;margin-bottom:14px;">
+          Como você cuida dos seus pais e preza pelo controle visual simples ("quanto menos melhor"), sua operação roda com arquitetura <strong>100% gratuita e sem servidores pesados</strong>:
+        </p>
+        <ul style="font-size:0.88rem;color:#94a3b8;line-height:1.7;padding-left:20px;margin-bottom:16px;">
+          <li><strong>Cloudflare Pages & Workers (Ativo):</strong> Mantém o site, painel e as 42 páginas de SEO no ar 24 horas por dia com custo zero e carregamento instantâneo.</li>
+          <li><strong>Disparos Diretos no WhatsApp (Ativo):</strong> Em vez de bots terceiros complicados, o painel gera o link <code>https://wa.me/...</code> com a abordagem perfeita. Você só toca em "Enviar" no celular.</li>
+          <li><strong>Opção Google Cloud / Cloudflare Worker Cron (Pronto para plugar):</strong> Uma rotina serverless gratuita pode rodar diariamente às 09h da manhã e gerar novas oportunidades automaticamente no painel.</li>
+        </ul>
+        <div style="display:flex;gap:12px;flex-wrap:wrap;">
+          <a href="https://wa.me/5573999313401?text=Alerta%20de%20teste%20do%20Painel%20IArretada!" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
+            <span>📲 Testar Notificação no meu WhatsApp</span>
+          </a>
+          <button class="btn-copy-script" onclick="showToast('Backup dos dados do painel salvo no seu navegador!')">
+            <span>💾 Salvar Status Local</span>
+          </button>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Toast -->
+  <div id="toast" class="toast">Mensagem copiada para a área de transferência!</div>
+
+  <script>
+    // Carregar dados incorporados
+    const LEADS_DATA = [
+      {
+        id: "lead-01",
+        name: "Pousada Recanto dos Corais",
+        city: "Arraial d'Ajuda",
+        sector: "Hotelaria & Pousadas",
+        rating_tripadvisor: 3.4,
+        rating_google: 3.7,
+        complaint_snippet: "Tentamos reservar pelo WhatsApp durante 2 dias e ninguém respondeu. Acabamos reservando outra pousada.",
+        phone: "5573998811223",
+        pain: "Perda de reservas diretas por demora no WhatsApp durante horário de expediente e finais de semana.",
+        solution_name: "Assistente Pousada Express",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, equipe da Recanto dos Corais! Vi que a pousada tem uma localização linda em Arraial. Notei que muitos viajantes mandam WhatsApp tarde da noite buscando disponibilidade e tarifas. Eu desenvolvi um assistente inteligente aqui na região que responde fotos dos quartos, valores e localização em 3 segundos no próprio WhatsApp, 24 horas por dia, por apenas R$ 79/mês. Se quiser testar por 48 horas grátis sem compromisso, me avise por aqui!"
+      },
+      {
+        id: "lead-02",
+        name: "Restaurante Sabor da Terra",
+        city: "Porto Seguro",
+        sector: "Gastronomia",
+        rating_tripadvisor: 3.5,
+        rating_google: 3.8,
+        complaint_snippet: "Pedimos o cardápio no WhatsApp para pedir delivery e demorou mais de 50 minutos para mandarem um PDF ilegível.",
+        phone: "5573999443322",
+        pain: "Cardápio em PDF pesado e demora no retorno de pedidos pelo WhatsApp gerando cancelamento de clientes famintos.",
+        solution_name: "Cardápio Inteligente WhatsApp",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Boa tarde, pessoal do Sabor da Terra! Vi que o cardápio de vocês é elogiado, mas no WhatsApp às vezes o envio do PDF fica pesado e demora para o cliente escolher. Criamos uma automação leve que exibe os pratos, valores do dia e fecha o pedido no próprio WhatsApp em 3 toques, por R$ 79 mensais. Posso mandar uma demonstração de 30 segundos no seu WhatsApp?"
+      },
+      {
+        id: "lead-03",
+        name: "Pousada Mar & Falésias",
+        city: "Trancoso",
+        sector: "Hotelaria & Pousadas",
+        rating_tripadvisor: 3.6,
+        rating_google: 3.9,
+        complaint_snippet: "Mandei mensagem querendo saber como chegar a partir do Quadrado e se aceitavam pet. Responderam só no dia seguinte.",
+        phone: "5573998115544",
+        pain: "Dúvidas repetitivas sobre localização, política pet-friendly e horários travando a recepção.",
+        solution_name: "Assistente Pousada Express",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, equipe da Pousada Mar & Falésias! Em Trancoso os hóspedes sempre perguntam distância do Quadrado, política pet e transfer. Nós configuramos uma inteligência local no WhatsApp que tira todas essas dúvidas na hora, 24/7, e já encaminha o hóspede pronto para fechar a reserva com vocês. O custo é apenas R$ 79 por mês. Gostariam de ver como funciona no celular?"
+      },
+      {
+        id: "lead-04",
+        name: "Clínica Vida & Odonto",
+        city: "Eunápolis",
+        sector: "Saúde & Consultórios",
+        rating_tripadvisor: null,
+        rating_google: 3.6,
+        complaint_snippet: "Recepção ocupada demais, fiquei 40 minutos esperando confirmação do horário pelo WhatsApp.",
+        phone: "5573999778899",
+        pain: "Alta taxa de faltas de pacientes (no-show) e sobrecarga das recepcionistas no telefone.",
+        solution_name: "Confirmação & Triagem de Consultas",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá! Notei a dedicação da equipe da Vida & Odonto em Eunápolis. Sei que clínicas perdem em média 20% das consultas por esquecimento do paciente ou secretária sobrecarregada. Temos um sistema automático no WhatsApp que confirma a presença na véspera e reagenda em caso de imprevisto, custando R$ 79/mês. Posso apresentar como reduz as faltas já na primeira semana?"
+      },
+      {
+        id: "lead-05",
+        name: "Pousada Vista de Caraíva",
+        city: "Caraíva",
+        sector: "Hotelaria & Pousadas",
+        rating_tripadvisor: 3.7,
+        rating_google: 3.8,
+        complaint_snippet: "Sinal em Caraíva é instável e o atendimento no WhatsApp demorou muito para dar instruções sobre a balsa e estacionamento em Nova Caraíva.",
+        phone: "5573998336655",
+        pain: "Hóspedes confusos sobre logística de travessia do rio, estacionamento e carregadores de bagagem.",
+        solution_name: "Assistente Pousada Express",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, pessoal da Vista de Caraíva! Quem viaja para Caraíva sempre tem aquela ansiedade sobre a travessia da balsa, onde deixar o carro em Nova Caraíva e dicas de chegada. Criamos um assistente no WhatsApp que envia esse guia completo automaticamente no segundo em que o hóspede pergunta, mesmo se a recepção estiver sem sinal momentâneo. Custa apenas R$ 79/mês. Quer dar uma olhadinha no teste?"
+      },
+      {
+        id: "lead-06",
+        name: "Bar & Quiosque Sol de Coroa",
+        city: "Santa Cruz Cabrália",
+        sector: "Gastronomia & Praia",
+        rating_tripadvisor: 3.3,
+        rating_google: 3.7,
+        complaint_snippet: "Pedimos informação sobre reserva de barraca e consumação mínima no fim de semana e não tivemos retorno.",
+        phone: "5573998554411",
+        pain: "Perda de grupos de turistas que buscam barraca de praia com antecedência.",
+        solution_name: "Cardápio & Reservas de Praia",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, equipe do Sol de Coroa! Muitos turistas planejam com antecedência a ida para Coroa Vermelha e perguntam no WhatsApp sobre mesas, consumação e pratos. Nós montamos uma resposta automática humanizada no WhatsApp que atende esses clientes na hora e organiza as reservas, por R$ 79/mês. Que tal testar 48h sem custo?"
+      },
+      {
+        id: "lead-07",
+        name: "Casa de Carnes & Empório Eunápolis",
+        city: "Eunápolis",
+        sector: "Comércio Local",
+        rating_tripadvisor: null,
+        rating_google: 3.8,
+        complaint_snippet: "Sexta-feira à tarde tentei pedir cortes para churrasco e demoraram 2 horas para passar a tabela de preços.",
+        phone: "5573999112244",
+        pain: "Horários de pico de fim de semana geram filas virtuais no WhatsApp e perdem pedidos para concorrentes.",
+        solution_name: "Atendente Automático de Varejo",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, tudo bem? Sei que na sexta e no sábado o balcão fica lotado e o WhatsApp acaba acumulando mensagens de clientes querendo tabela de carnes e taxa de entrega. Nós criamos um atendente automático que responde os preços e formas de pagamento no ato por R$ 79 por mês. Se quiser ver uma demonstração funcionando no seu celular, só me avisar!"
+      },
+      {
+        id: "lead-08",
+        name: "Villas & Casas Trancoso Temporada",
+        city: "Trancoso",
+        sector: "Imobiliária & Temporada",
+        rating_tripadvisor: null,
+        rating_google: 3.9,
+        complaint_snippet: "Muito tempo para saber se a casa estava disponível para o Réveillon e qual o valor da diária mínima.",
+        phone: "5573998998877",
+        pain: "Corretor gasta horas filtrando curiosos sem orçamento em vez de atender clientes qualificados.",
+        solution_name: "Triagem Aluguel de Temporada VIP",
+        solution_price: "R$ 99/mês",
+        icebreaker: "Olá! Em Trancoso, o volume de cotações para temporada é enorme, mas muitos contatos são apenas curiosos sem data definida. Desenvolvemos uma triagem no WhatsApp que já coleta período, número de pessoas e orçamento pretendido antes de passar ao corretor, economizando horas da sua equipe por R$ 99/mês. Vale 5 minutos para ver uma prévia?"
+      },
+      {
+        id: "lead-09",
+        name: "Auto Socorro & Mecânica 24h",
+        city: "Porto Seguro",
+        sector: "Serviços Automotivos",
+        rating_tripadvisor: null,
+        rating_google: 3.5,
+        complaint_snippet: "Carro quebrou na estrada e mandei mensagem de emergência, só responderam quando eu já tinha chamado outro guincho.",
+        phone: "5573999223355",
+        pain: "Emergências noturnas e feriados na BR-367 que vão para concorrentes por falta de resposta imediata.",
+        solution_name: "Plantão Automotivo & Guincho 24h",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, equipe do Auto Socorro! Motoristas na estrada que quebram precisam de resposta no primeiro minuto. Criamos um sistema de plantão no WhatsApp que pede a localização em tempo real do motorista na hora e já dispara um alerta de socorro no seu celular, sem deixar o cliente esperando, por R$ 79/mês. Topam ver como funciona?"
+      },
+      {
+        id: "lead-10",
+        name: "Studio & Barbearia Costa do Cacau",
+        city: "Porto Seguro",
+        sector: "Estética & Beleza",
+        rating_tripadvisor: null,
+        rating_google: 3.7,
+        complaint_snippet: "Não consegui marcar horário no sábado de manhã porque ninguém atendeu o zap.",
+        phone: "5573998667788",
+        pain: "Profissionais cortando cabelo com as mãos ocupadas sem conseguir agendar novos clientes.",
+        solution_name: "Recepção Automática para Barbearia & Salão",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Fala pessoal do Studio! Sei que enquanto vocês estão na tesoura ou na máquina é impossível parar para responder WhatsApp. Criamos uma recepção automática que passa valores de corte, barba e envia os horários livres para o cliente agendar sozinho, por apenas R$ 79/mês. Quer testar 48h sem pagar nada?"
+      },
+      {
+        id: "lead-11",
+        name: "Passeios & Mergulho Recife Encantado",
+        city: "Porto Seguro",
+        sector: "Turismo & Passeios",
+        rating_tripadvisor: 3.6,
+        rating_google: 3.8,
+        complaint_snippet: "Queria saber se o passeio saía com chuva ou maré alta e a resposta demorou, perdemos o dia.",
+        phone: "5573999884422",
+        pain: "Dúvidas sobre tábua de marés, horários de saída de escuna e valores para crianças.",
+        solution_name: "Assistente de Passeios & Ecoturismo",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, equipe do Recife Encantado! Em Porto Seguro os turistas sempre perguntam sobre tábua de maré, saída de barco com chuva e transfer do hotel. Nosso assistente no WhatsApp responde isso automaticamente e já envia a chave Pix para garantir a vaga do passeio, por R$ 79 mensais. Posso mostrar uma demonstração rápida?"
+      },
+      {
+        id: "lead-12",
+        name: "Pousada Flor de Hibisco",
+        city: "Arraial d'Ajuda",
+        sector: "Hotelaria & Pousadas",
+        rating_tripadvisor: 3.5,
+        rating_google: 3.8,
+        complaint_snippet: "Pousada aconchegante, mas a comunicação pré-chegada é bem difícil, demoram horas no WhatsApp.",
+        phone: "5573998442211",
+        pain: "Dificuldade na comunicação pré-chegada e envio de regras da pousada.",
+        solution_name: "Assistente Pousada Express",
+        solution_price: "R$ 79/mês",
+        icebreaker: "Olá, tudo bem? Vi os elogios sobre o charme da Flor de Hibisco em Arraial! Sei que a rotina de pousada é corrida entre café e check-in. Nosso assistente inteligente responde aos hóspedes no WhatsApp no primeiro segundo com fotos, valores e localização, custando só R$ 79/mês. Gostaria de ver como ele atende um hóspede em tempo real?"
+      }
+    ];
+
+    const PRODUTOS_DATA = [
+      { id: "pousada-express", name: "Assistente Pousada Express", category: "Hotelaria & Pousadas", price: "R$ 79/mês", badge: "Mais Procurado", desc: "Atendimento 24/7 no WhatsApp da pousada com envio de fotos, diárias e mapa.", wa_text: "Olá José! Quero ativar o Assistente Pousada Express (R$ 79/mês) na minha pousada." },
+      { id: "temporada-vip", name: "Triagem Aluguel de Temporada & Casas", category: "Hotelaria & Pousadas", price: "R$ 99/mês", badge: "Alto Padrão", desc: "Filtra contatos no WhatsApp coletando datas, pessoas e orçamento antes de passar ao corretor.", wa_text: "Olá José! Gostaria de ativar a Triagem de Temporada & Casas VIP (R$ 99/mês)." },
+      { id: "guia-hospede-digital", name: "Guia Digital do Hóspede com QR Code", category: "Hotelaria & Pousadas", price: "R$ 67", badge: "Entrega Rápida", desc: "Página mobile personalizada com Wi-Fi automático, passeios e delivery local.", wa_text: "Olá José! Quero encomendar o Guia Digital do Hóspede com QR Code (R$ 67)." },
+      { id: "planilha-reservas", name: "Planilha Inteligente de Ocupação & Tarifas", category: "Hotelaria & Pousadas", price: "R$ 37", badge: "Download Imediato", desc: "Planilha pronta no Google Sheets com cálculo de ocupação mensal e receita líquida.", wa_text: "Olá José! Quero o link da Planilha Inteligente de Ocupação & Tarifas para Pousadas (R$ 37)." },
+      { id: "cardapio-zap", name: "Cardápio Inteligente no WhatsApp", category: "Gastronomia & Restaurantes", price: "R$ 79/mês", badge: "Campeão de Vendas", desc: "Apresenta opções em texto leve e fotos rápidas, fechando o pedido sem travar o garçom.", wa_text: "Olá José! Quero instalar o Cardápio Inteligente no WhatsApp (R$ 79/mês)." },
+      { id: "reserva-mesas", name: "Gestor Automático de Reservas & Fila", category: "Gastronomia & Restaurantes", price: "R$ 89/mês", badge: "Alta Temporada", desc: "Organiza fila de espera e reservas de mesas com confirmação automática de tolerância.", wa_text: "Olá José! Quero saber sobre o Gestor Automático de Reservas (R$ 89/mês)." },
+      { id: "kit-google-nota5", name: "Kit Google Meu Negócio Nota 5.0", category: "Gastronomia & Restaurantes", price: "R$ 47", badge: "Download Imediato", desc: "Templates elegantes para placas com QR Code e respostas prontas a reviews negativos.", wa_text: "Olá José! Quero adquirir o Kit Google Meu Negócio Nota 5.0 (R$ 47)." },
+      { id: "clinica-confirma", name: "Confirmação Automática de Consultas", category: "Saúde & Consultórios", price: "R$ 79/mês", badge: "Economia Real", desc: "Lembrete 24h antes da consulta com confirmação em 1 toque, reduzindo faltas em 50%.", wa_text: "Olá José! Tenho interesse na Confirmação Automática de Consultas (R$ 79/mês)." },
+      { id: "salao-agenda", name: "Recepção para Barbearia & Salão", category: "Saúde & Estética", price: "R$ 79/mês", badge: "Prático", desc: "Envia tabela de serviços e link de horários livres sem precisar largar a tesoura.", wa_text: "Olá José! Quero colocar a Recepção Automática (R$ 79/mês) no meu salão/barbearia." },
+      { id: "personal-triagem", name: "Triagem para Personal & Nutri", category: "Saúde & Estética", price: "R$ 67/mês", badge: "Agilidade", desc: "Coleta histórico de saúde, objetivo físico e horários antes da primeira avaliação.", wa_text: "Olá José! Quero a Triagem Automática para Personal/Nutri (R$ 67/mês)." },
+      { id: "comercio-catalogo", name: "Atendente de Catálogo & Frete Local", category: "Comércio & Varejo", price: "R$ 79/mês", badge: "Zero Perda", desc: "Responde horários, taxa de entrega por bairro e chave Pix no primeiro segundo.", wa_text: "Olá José! Quero o Atendente de Catálogo & Frete Local (R$ 79/mês)." },
+      { id: "imob-qualifica", name: "Filtro de Compradores Imobiliários", category: "Imobiliárias", price: "R$ 99/mês", badge: "Fechamento", desc: "Descobre faixa de valor pretendida e tipo de imóvel antes de passar ao corretor.", wa_text: "Olá José! Quero o Filtro de Compradores para Imobiliária (R$ 99/mês)." },
+      { id: "oficina-guincho", name: "Plantão Automotivo & Guincho 24h", category: "Serviços Locais", price: "R$ 79/mês", badge: "Emergência 24h", desc: "Pede localização GPS e modelo do carro na BR-367 disparando alerta sonoro para o socorro.", wa_text: "Olá José! Preciso do Plantão Automotivo & Guincho 24h (R$ 79/mês)." },
+      { id: "passeios-turismo", name: "Assistente de Passeios & Ecoturismo", category: "Turismo & Lazer", price: "R$ 79/mês", badge: "Turismo Forte", desc: "Roteiros de escuna, lancha e buggy com envio de Pix para reserva imediata.", wa_text: "Olá José! Quero contratar o Assistente de Passeios (R$ 79/mês)." },
+      { id: "cobranca-amigavel", name: "Lembrete Educado de Cobrança", category: "Serviços Locais", price: "R$ 79/mês", badge: "Anti-Inadimplência", desc: "Lembretes cordiais de mensalidade 3 dias antes do vencimento com Pix.", wa_text: "Olá José! Quero ativar o Lembrete Educado de Cobrança (R$ 79/mês)." },
+      { id: "pack-prompts-hotel", name: "Pack 100 Prompts para Hotelaria", category: "Infoprodutos", price: "R$ 47", badge: "Acesso Imediato", desc: "100 respostas humanizadas prontas para situações delicadas da recepção.", wa_text: "Olá José! Quero comprar o Pack de 100 Prompts para Hotelaria (R$ 47)." },
+      { id: "auditoria-express", name: "Mini-Auditoria de Atendimento Digital", category: "Consultoria", price: "R$ 97", badge: "Diagnóstico 24h", desc: "Relatório apontando exatamente onde o negócio está perdendo clientes no WhatsApp.", wa_text: "Olá José! Quero a Mini-Auditoria de Atendimento Digital (R$ 97)." },
+      { id: "bio-alta-conversao", name: "Página Link Bio Estilo IArretada", category: "Design & Conversão", price: "R$ 89", badge: "Sem Mensalidade", desc: "Página no estilo obsidian idêntica à do IArretada, com carregamento relâmpago.", wa_text: "Olá José! Quero encomendar uma Página Link Bio de Alta Conversão (R$ 89)." }
+    ];
+
+    const CONTEUDO_DATA = [
+      {
+        day: 1,
+        theme: "A Pousada que perdeu 3 reservas na madrugada",
+        visual: "Tela do celular gravando uma notificação do WhatsApp às 02h14 da manhã perguntando 'Tem quarto para o fim de semana?'. O relógio avança e ninguém responde.",
+        audio: "Você sabia que 42% das pessoas que planejam viagem para Porto Seguro ou Arraial pesquisam pousada depois das dez da noite? Se o seu WhatsApp só responde às nove da manhã, o turista já fechou na pousada vizinha que respondeu na hora. Um assistente automático não custa milhares de reais: por menos de três reais ao dia, seu WhatsApp manda fotos, valores e fecha a reserva enquanto você dorme tranquilo.",
+        caption: "Quantas reservas sua pousada perdeu na madrugada esta semana? Com o Assistente Pousada Express, seu hóspede recebe fotos e valores em 3 segundos. Link na bio para testar 48h grátis! #portoseguro #arraialdajuda #trancoso #hotelariabahia #pousadas"
+      },
+      {
+        day: 2,
+        theme: "O Cardápio em PDF que ninguém consegue ler",
+        visual: "Pessoa tentando dar zoom em um PDF de cardápio gigante no celular, a imagem embaça e a tela trava.",
+        audio: "Sexta-feira, oito da noite, cliente com fome. Ele pede o cardápio no seu WhatsApp e você manda um PDF de 25 megas que demora dois minutos para carregar. Sabe o que ele faz? Vai no aplicativo concorrente. Um cardápio direto no WhatsApp manda as opções em texto leve e fotos rápidas em três toques. Menos estresse para a cozinha, mais pedidos saindo.",
+        caption: "Facilite a vida do seu cliente faminto! Cardápio inteligente no WhatsApp por apenas R$ 79/mês. Link na bio para ver a demonstração! #restaurantes #portoseguro #delivery #gastronomiabaiana"
+      },
+      {
+        day: 3,
+        theme: "O terror das faltas em consultórios e clínicas",
+        visual: "Agenda de papel ou calendário com vários nomes riscados em vermelho escrito 'FALTOU'.",
+        audio: "Cada paciente que falta sem avisar em Eunápolis ou Porto Seguro custa de cento e cinquenta a trezentos reais para a clínica. E mandar mensagem manual um por um consome a manhã inteira da sua recepcionista. Um lembrete automático 24 horas antes pede confirmação com um toque no WhatsApp. Reduz as faltas pela metade e mantém sua agenda cheia.",
+        caption: "Reduza faltas de pacientes em até 50% sem sobrecarregar sua secretária. Conheça a Confirmação Automática por R$ 79/mês. Link na bio! #eunapolis #portoseguro #odontologia #saudeba"
+      },
+      {
+        day: 4,
+        theme: "Corretor de imóveis: como parar de atender curioso",
+        visual: "Notificações pipocando: 'Qual o valor?', 'Aceita troca em moto?'. O corretor afogado em mensagens.",
+        audio: "Se você trabalha com temporada ou venda de imóveis em Trancoso e Arraial d'Ajuda, já sabe: de cada dez mensagens no WhatsApp, oito são curiosos que somem depois que você envia o catálogo. Com uma triagem inteligente de IA, o próprio sistema pergunta as datas, quantidade de pessoas e faixa de orçamento antes de transferir para você. Você só conversa com quem realmente tem dinheiro na mão.",
+        caption: "Poupe seu tempo para fechar negócios reais. Triagem de temporada e imóveis por R$ 99/mês. Fale no WhatsApp da bio! #trancoso #temporadatrancoso #imoveisdeluxo #corretores"
+      },
+      {
+        day: 5,
+        theme: "Tesoura na mão, cliente no vácuo",
+        visual: "Barbeiro cortando cabelo concentrado enquanto o celular na bancada toca e vibra sem parar.",
+        audio: "Você está com a tesoura na mão, o cliente na cadeira e o WhatsApp tocando. Se você para para responder, o cliente da cadeira fica chateado. Se não responde, o cliente do WhatsApp vai para outra barbearia. Uma recepção automática envia sua tabela de cortes e o link da sua agenda livre na hora. Você trabalha em paz e a agenda fica cheia.",
+        caption: "Recepção automática para barbearias e salões por R$ 79/mês. Link na bio para ativar a sua! #barbearias #salaodebeleza #portoseguro #estetica"
+      },
+      {
+        day: 6,
+        theme: "A pergunta que todo turista faz em Caraíva",
+        visual: "Foto do rio de Caraíva e canoas ao entardecer com texto sobreposto.",
+        audio: "Quem já foi para Caraíva sabe: todo hóspede novo pergunta a mesma coisa. Onde fica o estacionamento em Nova Caraíva? Quanto custa a balsa? Como levar as malas pela areia? Se sua pousada tiver um guia digital automático no WhatsApp, o hóspede chega encantado e sua recepção economiza horas de explicação repetitiva. Simples, arretado e custa menos que uma porção de pastel.",
+        caption: "Automatize o check-in e encante seus hóspedes desde o primeiro contato. Pousada Express por R$ 79/mês. Link na bio! #caraiva #caraivameuamor #pousadascaraiva"
+      },
+      {
+        day: 7,
+        theme: "A verdade sobre automação com Inteligência Artificial",
+        visual: "Gráfico comparando R$ 2.500 de custo tradicional vs R$ 79 de um assistente digital no WhatsApp.",
+        audio: "Muita gente acha que Inteligência Artificial é coisa de ficção científica ou custa uma fortuna. A verdade é que hoje, com setenta e nove reais por mês, qualquer comércio de bairro em Porto Seguro ou Eunápolis pode ter um atendimento mais rápido que o das grandes redes de varejo. Tecnologia boa é aquela que cabe no bolso e resolve o dia a dia.",
+        caption: "Inteligência Artificial acessível e feita para a realidade dos negócios baianos. Conheça as soluções da IArretada no link da bio! #iarretada #ia #empreendedorismo #suldabahia"
+      }
+    ];
+
+    // Gerenciamento de Status no LocalStorage
+    function getLeadStatus(id) {
+      return localStorage.getItem('lead_status_' + id) || 'pendente';
+    }
+    function setLeadStatus(id, status) {
+      localStorage.setItem('lead_status_' + id, status);
+      showToast('Status do lead atualizado!');
+    }
+
+    // Navegação de Abas
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.dash-tab-btn').forEach(el => el.classList.remove('active'));
+      const targetContent = document.getElementById('tab-' + tabId);
+      if (targetContent) targetContent.classList.add('active');
+      event.currentTarget.classList.add('active');
+    }
+
+    // Renderização de Leads
+    function renderLeads(leads) {
+      const container = document.getElementById('leadsContainer');
+      container.innerHTML = '';
+      document.getElementById('totalLeadsCount').innerText = `${leads.length} Ativos`;
+
+      leads.forEach(lead => {
+        const currentStatus = getLeadStatus(lead.id);
+        const waUrl = `https://wa.me/${lead.phone}?text=${encodeURIComponent(lead.icebreaker)}`;
+
+        const card = document.createElement('div');
+        card.className = 'lead-card';
+        card.innerHTML = `
+          <div>
+            <div class="lead-header">
+              <h3 class="lead-title">${lead.name}</h3>
+              <span class="lead-city-tag">${lead.city}</span>
+            </div>
+            <div class="lead-sector">${lead.sector}</div>
+            <div class="lead-ratings">
+              ${lead.rating_tripadvisor ? `<span class="rating-badge">TripAdvisor ⭐ ${lead.rating_tripadvisor}</span>` : ''}
+              <span class="rating-badge">Google ⭐ ${lead.rating_google}</span>
+            </div>
+            <div class="lead-pain-box">
+              <strong>⚠️ Ponto Fraco Detectado:</strong><br>
+              "${lead.complaint_snippet}"
+            </div>
+            <div class="lead-solution-box">
+              <span>💡 ${lead.solution_name}</span>
+              <strong>${lead.solution_price}</strong>
+            </div>
+          </div>
+          <div class="lead-actions">
+            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
+              <span>📲 Abrir WhatsApp Pronto</span>
+            </a>
+            <button class="btn-copy-script" onclick="copyToClipboard('${escapeJs(lead.icebreaker)}')">
+              <span>📋 Copiar Abordagem</span>
+            </button>
+            <select class="lead-status-select" onchange="setLeadStatus('${lead.id}', this.value)">
+              <option value="pendente" ${currentStatus === 'pendente' ? 'selected' : ''}>⏳ Status: A Contatar</option>
+              <option value="em-conversa" ${currentStatus === 'em-conversa' ? 'selected' : ''}>💬 Status: Em Conversa</option>
+              <option value="fechado" ${currentStatus === 'fechado' ? 'selected' : ''}>🎉 Status: Fechado (R$ 79/mês)</option>
+              <option value="recusado" ${currentStatus === 'recusado' ? 'selected' : ''}>❌ Status: Recusado</option>
+            </select>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Filtros de Leads
+    function filterLeads() {
+      const search = document.getElementById('leadSearch').value.toLowerCase();
+      const city = document.getElementById('cityFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      const filtered = LEADS_DATA.filter(l => {
+        const matchesSearch = l.name.toLowerCase().includes(search) || l.sector.toLowerCase().includes(search);
+        const matchesCity = city === 'todas' || l.city === city;
+        const currentStatus = getLeadStatus(l.id);
+        const matchesStatus = status === 'todos' || currentStatus === status;
+        return matchesSearch && matchesCity && matchesStatus;
+      });
+      renderLeads(filtered);
+    }
+
+    // Renderização de Produtos
+    function renderProducts() {
+      const container = document.getElementById('productsContainer');
+      container.innerHTML = '';
+      PRODUTOS_DATA.forEach(p => {
+        const waLink = `https://wa.me/5573999313401?text=${encodeURIComponent(p.wa_text)}`;
+        const shareLink = `https://www.iarretada.com.br/links/#${p.id}`;
+
+        const card = document.createElement('div');
+        card.className = 'product-card';
+        card.innerHTML = `
+          <div>
+            <span class="product-badge">${p.badge}</span>
+            <h3 style="font-size:1.1rem;margin:0 0 4px;font-weight:700;">${p.name}</h3>
+            <span style="font-size:0.75rem;color:var(--text-muted);">${p.category}</span>
+            <div class="product-price">${p.price}</div>
+            <p class="product-desc">${p.desc}</p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
+              <span>📲 Testar Link WhatsApp</span>
+            </a>
+            <button class="btn-copy-script" onclick="copyToClipboard('${shareLink}')">
+              <span>🔗 Copiar Link de Divulgação</span>
+            </button>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Renderização de Conteúdo Faceless
+    function renderContent() {
+      const container = document.getElementById('contentContainer');
+      container.innerHTML = '';
+      CONTEUDO_DATA.forEach(c => {
+        const card = document.createElement('div');
+        card.className = 'content-card';
+        card.innerHTML = `
+          <span class="content-day-badge">Dia ${c.day} · Vídeo de 45s</span>
+          <h3 class="content-theme">${c.theme}</h3>
+          <div class="content-block">
+            <div class="content-block-label">📹 O que mostrar no vídeo (Sem Rosto)</div>
+            ${c.visual}
+          </div>
+          <div class="content-block">
+            <div class="content-block-label">🎙️ Texto da Locução / Voz (CapCut ou gravado)</div>
+            "${c.audio}"
+          </div>
+          <div class="content-block">
+            <div class="content-block-label">📝 Legenda Pronta com Hashtags</div>
+            ${c.caption}
+          </div>
+          <button class="btn-copy-script" onclick="copyToClipboard('${escapeJs(c.audio + '\\n\\n' + c.caption)}')">
+            <span>📋 Copiar Áudio + Legenda do Dia ${c.day}</span>
+          </button>
+        `;
+        container.appendChild(card);
+      });
+    }
+
+    // Utilitários
+    function escapeJs(str) {
+      return str.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n');
+    }
+
+    function copyToClipboard(text) {
+      navigator.clipboard.writeText(text).then(() => {
+        showToast('Texto copiado com sucesso!');
+      }).catch(() => {
+        showToast('Texto selecionado!');
+      });
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      toast.innerText = msg;
+      toast.classList.add('show');
+      setTimeout(() => toast.classList.remove('show'), 2600);
+    }
+
+    // Iniciar tudo ao carregar
+    document.addEventListener("DOMContentLoaded", () => {
+      const stage = document.getElementById("dashEmblem");
+      if (stage && typeof createIArretado3D === "function") {
+        createIArretado3D(stage, 60);
+      }
+      renderLeads(LEADS_DATA);
+      renderProducts();
+      renderContent();
+    });
+  </script>
+</body>
+</html>
