@@ -887,7 +887,7 @@
         <span class="tab-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
         </span>
-        <span>Fábrica de Vídeos Sem Rosto</span>
+        <span>Instagram & Vídeos 8s</span>
       </button>
 
       <button class="tab-btn" onclick="switchTab('fluxo')">
@@ -1041,10 +1041,34 @@
       <div class="catalog-grid" id="productsContainer"></div>
     </section>
 
-    <!-- ABA 5: FÁBRICA DE VÍDEOS SEM ROSTO -->
+    <!-- ABA 5: INSTAGRAM & VÍDEOS 8 SEGUNDOS -->
     <section id="tab-conteudo" class="tab-content">
+      <div class="product-glass-card" style="margin-bottom:20px;">
+        <div>
+          <span class="pill-badge">Configuração Imediata do Perfil</span>
+          <h2 style="font-size:1.15rem;margin:0 0 8px;font-weight:700;">Texto Oficial da Bio do Instagram (Sem Emojis)</h2>
+          <div style="background:rgba(0,0,0,0.3);border:1px solid var(--glass-border);padding:14px;border-radius:12px;font-size:0.86rem;line-height:1.6;color:#f1f5f9;margin-bottom:12px;">
+            <strong>Nome:</strong> IArretada · IA, Automação & Sites Rápidos<br><br>
+            <strong>Biografia (4 linhas):</strong><br>
+            ✦ Atendimento Inteligente 24/7 no WhatsApp<br>
+            ✦ Sites Rápidos em 48h para Pousadas & Negócios<br>
+            ✦ De Porto Seguro para toda a Costa do Descobrimento<br>
+            ↓ Escolha sua solução ou simule sua economia:
+          </div>
+          <div style="font-size:0.8rem;color:var(--genz-lime);margin-bottom:12px;">
+            <strong>Link para colocar no campo Site:</strong> https://www.iarretada.com.br/links/
+          </div>
+        </div>
+        <button class="btn-action-copy" onclick="copyText('✦ Atendimento Inteligente 24/7 no WhatsApp\n✦ Sites Rápidos em 48h para Pousadas & Negócios\n✦ De Porto Seguro para toda a Costa do Descobrimento\n↓ Escolha sua solução ou simule sua economia:')">
+          <span>Copiar Texto da Bio</span>
+        </button>
+      </div>
+
       <div style="margin-bottom:18px;">
-        <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Roteiros Sem Rosto para CapCut & Reels</h2>
+        <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Prompts de Vídeos de 8 Segundos & Imagens para Propaganda</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
+          Vídeos de 8 segundos repetem em loop enquanto a pessoa lê a legenda, disparando o alcance no Instagram.
+        </p>
       </div>
       <div id="contentContainer"></div>
     </section>
@@ -1314,17 +1338,45 @@
     const CONTEUDO_DATA = [
       {
         day: 1,
-        theme: "A Pousada que perdeu 3 reservas na madrugada",
-        visual: "Tela do celular gravando uma notificação do WhatsApp às 02h14 da manhã perguntando 'Tem quarto para o fim de semana?'. O relógio avança e ninguém responde.",
-        audio: "Você sabia que 42% das pessoas que planejam viagem para Porto Seguro pesquisam pousada depois das dez da noite? Se o seu WhatsApp só responde às nove da manhã, o turista já fechou na pousada vizinha que respondeu na hora. Um assistente automático não custa milhares de reais: por R$ 79 ao mês seu WhatsApp manda fotos, valores e fecha a reserva enquanto você dorme tranquilo.",
-        caption: "Quantas reservas sua pousada perdeu na madrugada esta semana? Com o Assistente Pousada Express, seu hóspede recebe fotos e valores em 3 segundos. Link na bio! #portoseguro #arraialdajuda #trancoso #pousadas"
+        theme: "Vídeo 8s #1 — A Reserva das 02h14 da Madrugada (Pousadas)",
+        prompt_video: "Cinematic 9:16 vertical video, 8 seconds, luxury boutique eco-resort bungalow in Trancoso Bahia at night, warm golden pool lights reflecting on water, palm trees gently swaying in the breeze, a sleek smartphone resting on a wooden table lights up with a glowing neon mint-green message bubble notification, ultra-realistic, 4k, shallow depth of field.",
+        screen_text: "02:14 da manhã.\nUm turista quer reservar sua pousada.\nSeu WhatsApp respondeu em 3 segundos ou perdeu R$ 1.200?",
+        caption: "42% das reservas de viagem acontecem fora do horário comercial. Com o Assistente Pousada Express (R$ 79/mês), seu WhatsApp envia fotos das suítes, tarifas e localização em 3 segundos enquanto você dorme. Clique no link da bio e teste por 48h! #portoseguro #arraialdajuda #trancoso #caraiva #hotelariabahia"
       },
       {
         day: 2,
-        theme: "O Cardápio em PDF que ninguém consegue ler",
-        visual: "Pessoa tentando dar zoom em um PDF de cardápio gigante no celular, a imagem embaça e a tela trava.",
-        audio: "Sexta-feira, oito da noite, cliente com fome. Ele pede o cardápio no seu WhatsApp e você manda um PDF de 25 megas que demora dois minutos para carregar. Sabe o que ele faz? Vai no aplicativo concorrente. Um cardápio direto no WhatsApp manda as opções em texto leve e fecha o pedido em três toques. Menos estresse para a cozinha, mais pedidos saindo.",
-        caption: "Facilite a vida do seu cliente faminto! Cardápio inteligente no WhatsApp por apenas R$ 79/mês. Link na bio! #restaurantes #portoseguro #delivery"
+        theme: "Vídeo 8s #2 — O Fim do Cardápio em PDF Travado (Restaurantes)",
+        prompt_video: "Cinematic 9:16 vertical video, 8 seconds, vibrant coastal restaurant table in Arraial d'Ajuda at sunset, gourmet seafood dish steaming with fresh herbs, warm bokeh fairy lights in the background, a modern smartphone screen smoothly scrolling through a sleek dark-mode digital menu with instant photo cards, 4k, commercial food photography style.",
+        screen_text: "Cliente com fome não espera PDF de 30MB abrir.\nCardápio Inteligente direto no WhatsApp:\nEscolha e pedido fechado em 3 toques.",
+        caption: "Chega de perder pedidos na sexta à noite por causa de PDF pesado ou demora no atendimento. Transforme seu WhatsApp em um cardápio ágil por R$ 79/mês. Link na bio! #restaurantesbahia #portoseguro #gastronomiabaiana #delivery"
+      },
+      {
+        day: 3,
+        theme: "Vídeo 8s #3 — Sites Rápidos em 48h (Comércio & Empresas)",
+        prompt_video: "Cinematic 9:16 vertical video, 8 seconds, sleek dark obsidian glass smartphone floating in mid-air with soft neon lime and ice-blue light reflections, displaying a high-speed luxury website interface loading instantaneously with smooth 3D glassmorphic cards, minimalist Apple commercial aesthetic, 4k, 60fps.",
+        screen_text: "Sua empresa ainda não tem site ou ele demora para abrir?\nSites Express de Alta Conversão.\nEntregues em 48 horas.",
+        caption: "Quem procura seu negócio no Google precisa encontrar uma vitrine rápida, elegante e conectada direto ao seu WhatsApp. Criamos seu Site Express em 48h a partir de R$ 497. Peça uma prévia no link da bio! #criacaodesites #portoseguro #eunapolis #negocioslocais"
+      },
+      {
+        day: 4,
+        theme: "Vídeo 8s #4 — Agenda Cheia Sem Faltas (Clínicas & Consultórios)",
+        prompt_video: "Cinematic 9:16 vertical video, 8 seconds, modern bright minimalist dental and medical clinic reception desk, soft morning sunlight through glass blinds, a tablet and smartphone showing an automated green calendar checkmark confirmation animation, clean architectural aesthetic, 4k.",
+        screen_text: "Cada paciente que falta sem avisar custa caro.\nConfirmação automática no WhatsApp 24h antes:\nReduza faltas em até 50%.",
+        caption: "Poupe horas da sua recepcionista e elimine horários vagos na agenda da sua clínica em Eunápolis ou Porto Seguro. Confirmação automática por R$ 79/mês. Link na bio! #eunapolis #portoseguro #odontologiabahia #clinicas"
+      },
+      {
+        day: 5,
+        theme: "Vídeo 8s #5 — Filtro de Curiosos para Temporada (Imobiliárias)",
+        prompt_video: "Cinematic 9:16 vertical video, 8 seconds, aerial drone shot slowly moving forward over luxury beachfront villas surrounded by coconut trees and turquoise ocean cliffs in Trancoso Bahia, golden hour sunlight, ultra-sharp 8k cinematography.",
+        screen_text: "Aluguel de Temporada & Imóveis:\nPare de perder horas respondendo curiosos.\nNossa IA filtra datas e orçamento antes de passar para você.",
+        caption: "Converse apenas com clientes prontos para fechar. Triagem inteligente de temporada e venda de imóveis em Trancoso, Arraial e Porto Seguro por R$ 99/mês. Link na bio! #trancoso #imoveistrancoso #alugueldetemporada #corretores"
+      },
+      {
+        day: 6,
+        theme: "Vídeo 8s #6 — Institucional IArretada (Tecnologia com Calor Humano)",
+        prompt_video: "Cinematic 9:16 vertical video, 8 seconds, abstract 3D glassmorphic intertwined ribbons in electric cobalt blue and neon lime green rotating smoothly in a dark obsidian studio space with subtle lens flare sparkles, luxury tech brand identity, 4k.",
+        screen_text: "IArretada.\nInteligência Artificial que facilita sua rotina\ne cabe no seu bolso.",
+        caption: "Tecnologia de ponta pensada para a realidade dos negócios da Costa do Descobrimento. Automações de WhatsApp a partir de R$ 79/mês e Sites Express em 48h. Toque no link da bio! #iarretada #inteligenciaartificial #suldabahia #portoseguro"
       }
     ];
 
@@ -1585,23 +1637,35 @@
       CONTEUDO_DATA.forEach(c => {
         const card = document.createElement('div');
         card.className = 'product-glass-card';
-        card.style.marginBottom = '14px';
+        card.style.marginBottom = '16px';
         card.innerHTML = `
           <div>
-            <span class="pill-badge">Roteiro Dia ${c.day} · 45 Segundos</span>
+            <span class="pill-badge">Reels Loop · 8 Segundos</span>
             <h3 style="font-size:1.1rem;font-weight:700;margin:4px 0 10px;color:#ffffff;">${c.theme}</h3>
             <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;font-size:0.82rem;margin-bottom:8px;line-height:1.45;">
-              <strong style="color:var(--genz-lime);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Cena Visual (Sem Rosto):</strong>
-              ${c.visual}
+              <strong style="color:var(--genz-lime);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Prompt para Gerar o Vídeo (8s) ou Imagem:</strong>
+              ${c.prompt_video}
+            </div>
+            <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;font-size:0.82rem;margin-bottom:8px;line-height:1.45;white-space:pre-line;">
+              <strong style="color:var(--genz-cyan);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Texto para Escrever por Cima do Vídeo:</strong>
+              ${c.screen_text}
             </div>
             <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;font-size:0.82rem;margin-bottom:12px;line-height:1.45;">
-              <strong style="color:var(--genz-cyan);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Áudio da Locução:</strong>
-              "${c.audio}"
+              <strong style="color:var(--genz-lavender);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Legenda do Instagram com Hashtags:</strong>
+              ${c.caption}
             </div>
           </div>
-          <button class="btn-action-copy" onclick="copyText('${escapeJs(c.audio + '\\n\\n' + c.caption)}')">
-            <span>Copiar Áudio + Legenda</span>
-          </button>
+          <div style="display:flex;gap:8px;flex-wrap:wrap;">
+            <button class="btn-action-copy" style="flex:1;" onclick="copyText('${escapeJs(c.prompt_video)}')">
+              <span>Copiar Prompt de Vídeo/Imagem</span>
+            </button>
+            <button class="btn-action-copy" style="flex:1;" onclick="copyText('${escapeJs(c.screen_text)}')">
+              <span>Copiar Texto da Tela</span>
+            </button>
+            <button class="btn-action-copy" style="flex:1;" onclick="copyText('${escapeJs(c.caption)}')">
+              <span>Copiar Legenda</span>
+            </button>
+          </div>
         `;
         container.appendChild(card);
       });
