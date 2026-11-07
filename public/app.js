@@ -241,10 +241,10 @@
   }
 
   // =========================================================================
-  // IARRETADO 3D EMBLEM ENGINE (Símbolo Oficial 3D Interligado com Movimento Relativo)
-  // "o simbolo do iarretado seja esse se movendo entre si 3d"
+  // IARRETADO 3D EMBLEM ENGINE (Símbolo Oficial 3D: Rodando, Piscando e Se Movendo Entre Si)
+  // "o simbolo do iarretado seja esse se movendo entre si 3d, rodando e piscando"
   // =========================================================================
-  function createIArretado3D(container, size = 70) {
+  function createIArretado3D(container, size = 80) {
     const canvas = document.createElement("canvas");
     const dpr = Math.min(window.devicePixelRatio || 2, 3);
     canvas.width = size * dpr;
@@ -278,41 +278,27 @@
     layers.lime.src = "/assets/brand/iarretada-mark-lime.png";
     layers.dot.src = "/assets/brand/iarretada-mark-dot.png";
 
-    let loadedCount = 0;
-    let allLoaded = false;
-    function checkLoaded() {
-      loadedCount++;
-      if (loadedCount >= 4) allLoaded = true;
-    }
-    Object.values(layers).forEach(img => {
-      if (img.complete && img.naturalWidth > 0) checkLoaded();
-      else {
-        img.addEventListener("load", checkLoaded, { once: true });
-        img.addEventListener("error", () => {
-          allLoaded = true;
-        }, { once: true });
-      }
-    });
-
     let time = Math.random() * 20;
     let targetAngleX = 0;
     let targetAngleY = 0;
     let curAngleX = 0;
     let curAngleY = 0;
+    let continuousSpin = 0;
 
-    // Interatividade com o cursor/toque (Parallax 3D)
+    // Interatividade com o cursor/toque
     window.addEventListener("mousemove", e => {
       const rect = canvas.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
       const dx = (e.clientX - cx) / (window.innerWidth * 0.5);
       const dy = (cy - e.clientY) / (window.innerHeight * 0.5);
-      targetAngleY = Math.max(-0.45, Math.min(0.45, dx * 0.45));
-      targetAngleX = Math.max(-0.4, Math.min(0.4, dy * 0.4));
+      targetAngleY = Math.max(-0.6, Math.min(0.6, dx * 0.6));
+      targetAngleX = Math.max(-0.5, Math.min(0.5, dy * 0.5));
     }, { passive: true });
 
     function render() {
-      time += 0.028;
+      time += 0.038;
+      continuousSpin += 0.024; // Rotação contínua ("rodando")
       curAngleX += (targetAngleX - curAngleX) * 0.08;
       curAngleY += (targetAngleY - curAngleY) * 0.08;
 
@@ -320,56 +306,56 @@
       const h = canvas.height;
       const cx = w / 2;
       const cy = h / 2;
-      const baseDim = w * 0.84;
+      const baseDim = w * 0.88;
 
       ctx.clearRect(0, 0, w, h);
 
-      // 1. Aura e Brilho Líquido Atmosférico (Glow de Fundo)
-      const pulse = 0.38 + Math.sin(time * 2.2) * 0.14;
-      const glowRad = baseDim * 0.72;
+      // 1. Aura e Brilho Fluido (Liquid Glow de Fundo)
+      const pulse = 0.42 + Math.sin(time * 2.5) * 0.2;
+      const glowRad = baseDim * 0.75;
       const glowGrad = ctx.createRadialGradient(cx, cy, glowRad * 0.15, cx, cy, glowRad);
-      glowGrad.addColorStop(0, `rgba(0, 229, 255, ${pulse * 0.55})`);
-      glowGrad.addColorStop(0.38, `rgba(33, 59, 214, ${pulse * 0.38})`);
-      glowGrad.addColorStop(0.72, `rgba(163, 230, 53, ${pulse * 0.22})`);
+      glowGrad.addColorStop(0, `rgba(0, 229, 255, ${pulse * 0.6})`);
+      glowGrad.addColorStop(0.4, `rgba(33, 59, 214, ${pulse * 0.4})`);
+      glowGrad.addColorStop(0.75, `rgba(163, 230, 53, ${pulse * 0.25})`);
       glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = glowGrad;
       ctx.beginPath();
       ctx.arc(cx, cy, glowRad, 0, Math.PI * 2);
       ctx.fill();
 
-      // Placeholder caso assets ainda estejam carregando
-      if (!allLoaded) {
-        if (!reduced()) requestAnimationFrame(render);
-        return;
-      }
+      // Se camadas isoladas ainda não carregaram, usa o símbolo mestre como fallback imediato
+      const activeBlue = (layers.blue.complete && layers.blue.naturalWidth > 0) ? layers.blue : layers.full;
+      const activeLime = (layers.lime.complete && layers.lime.naturalWidth > 0) ? layers.lime : layers.full;
+      const activeDot = (layers.dot.complete && layers.dot.naturalWidth > 0) ? layers.dot : layers.full;
 
-      // Cinemática 3D Global (Precessão + inclinação orbital + mouse)
-      const globalYaw = Math.sin(time * 0.9) * 0.25 + curAngleY;
-      const globalPitch = Math.cos(time * 0.75) * 0.18 + curAngleX;
-      const globalRoll = Math.sin(time * 0.55) * 0.06;
+      // 2. Cinemática 3D Global: Rotação Ampla ("rodando")
+      const globalYaw = Math.sin(continuousSpin) * 0.75 + curAngleY;
+      const globalPitch = Math.cos(time * 0.9) * 0.35 + curAngleX;
+      const globalRoll = Math.sin(time * 0.7) * 0.12;
 
-      // Cinemática Relativa Interna: "SE MOVENDO ENTRE SI 3D"
-      // Fita Azul: torção e oscilação
-      const blueYawOffset = Math.sin(time * 1.35) * 0.11;
-      const bluePitchOffset = Math.cos(time * 1.15) * 0.09;
-      const blueZ = Math.sin(time * 1.35) * 18;
-      const blueScale = 1.0 + Math.sin(time * 1.5) * 0.024;
+      // 3. MOVIMENTO RELATIVO ENTRE SI (SE MOVENDO ENTRE SI 3D)
+      // Fita Azul: torção e respiração
+      const blueYawOffset = Math.sin(time * 1.6) * 0.22;
+      const bluePitchOffset = Math.cos(time * 1.4) * 0.18;
+      const blueZ = Math.sin(time * 1.6) * 28;
+      const blueScale = 1.0 + Math.sin(time * 1.8) * 0.045;
 
-      // Fita Verde Limão: ondulação contraposta interligada
-      const limeYawOffset = -Math.sin(time * 1.35 + 0.65) * 0.13;
-      const limePitchOffset = -Math.cos(time * 1.15 + 0.65) * 0.11;
-      const limeZ = -Math.sin(time * 1.35) * 18;
-      const limeScale = 1.0 + Math.cos(time * 1.5) * 0.032;
+      // Fita Verde Limão: ondulação fluida contraposta que transpassa a fita azul
+      const limeYawOffset = -Math.sin(time * 1.6 + 0.8) * 0.25;
+      const limePitchOffset = -Math.cos(time * 1.4 + 0.8) * 0.20;
+      const limeZ = -Math.sin(time * 1.6) * 28;
+      const limeScale = 1.0 + Math.cos(time * 1.8) * 0.055;
 
-      // Cubo / Ponto Flutuante Verde Limão (topo direito): levitação livre 3D
-      const dotFloatX = Math.cos(time * 2.2) * (baseDim * 0.04);
-      const dotFloatY = Math.sin(time * 2.6) * (baseDim * 0.05);
-      const dotZ = 24 + Math.sin(time * 2.0) * 12;
-      const dotRoll = Math.sin(time * 2.0) * 0.16;
+      // Ponto Flutuante (cubo verde topo direito): levitação livre 3D
+      const dotFloatX = Math.cos(time * 2.4) * (baseDim * 0.07);
+      const dotFloatY = Math.sin(time * 2.8) * (baseDim * 0.08);
+      const dotZ = 34 + Math.sin(time * 2.2) * 16;
+      const dotRoll = Math.sin(time * 2.2) * 0.25;
 
-      const camDist = baseDim * 3.3;
+      const camDist = baseDim * 3.2;
 
       function draw3DLayer(img, localYaw, localPitch, localRoll, localZ, scaleMult, offsetX = 0, offsetY = 0, sheenPhase = 0) {
+        if (!img.complete || img.naturalWidth === 0) return;
         ctx.save();
         const pScale = camDist / (camDist + localZ);
         const finalScale = pScale * scaleMult;
@@ -389,17 +375,17 @@
 
         ctx.drawImage(img, -baseDim / 2, -baseDim / 2, baseDim, baseDim);
 
-        // Brilho Líquido Especular (Liquid Sheen Sweep)
+        // Brilho Líquido Especular
         if (sheenPhase > 0) {
           ctx.save();
           ctx.globalCompositeOperation = "screen";
-          const sheenAngle = time * 1.9 + sheenPhase;
-          const sheenX = Math.sin(sheenAngle) * (baseDim * 0.55);
-          const sheenY = Math.cos(sheenAngle) * (baseDim * 0.55);
-          const sheenGrad = ctx.createRadialGradient(sheenX, sheenY, 0, sheenX, sheenY, baseDim * 0.42);
-          sheenGrad.addColorStop(0, "rgba(255, 255, 255, 0.72)");
-          sheenGrad.addColorStop(0.32, "rgba(0, 229, 255, 0.32)");
-          sheenGrad.addColorStop(0.7, "rgba(163, 230, 53, 0.12)");
+          const sheenAngle = time * 2.2 + sheenPhase;
+          const sheenX = Math.sin(sheenAngle) * (baseDim * 0.5);
+          const sheenY = Math.cos(sheenAngle) * (baseDim * 0.5);
+          const sheenGrad = ctx.createRadialGradient(sheenX, sheenY, 0, sheenX, sheenY, baseDim * 0.45);
+          sheenGrad.addColorStop(0, "rgba(255, 255, 255, 0.85)");
+          sheenGrad.addColorStop(0.3, "rgba(0, 229, 255, 0.4)");
+          sheenGrad.addColorStop(0.65, "rgba(163, 230, 53, 0.15)");
           sheenGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
           ctx.fillStyle = sheenGrad;
           ctx.beginPath();
@@ -411,17 +397,17 @@
         ctx.restore();
       }
 
-      // Ordenação dinâmica de profundidade (entre si 3D)
+      // Ordenação dinâmica de profundidade (Z-Sorting Real)
       const renderList = [
         {
           name: "blue",
           z: blueZ,
-          draw: () => draw3DLayer(layers.blue, blueYawOffset, bluePitchOffset, 0, blueZ, blueScale, 0, 0, 0.4)
+          draw: () => draw3DLayer(activeBlue, blueYawOffset, bluePitchOffset, 0, blueZ, blueScale, 0, 0, 0.5)
         },
         {
           name: "lime",
           z: limeZ,
-          draw: () => draw3DLayer(layers.lime, limeYawOffset, limePitchOffset, 0, limeZ, limeScale, 0, 0, 1.2)
+          draw: () => draw3DLayer(activeLime, limeYawOffset, limePitchOffset, 0, limeZ, limeScale, 0, 0, 1.4)
         },
         {
           name: "dot",
@@ -431,12 +417,12 @@
             ctx.beginPath();
             const shadowX = cx + (baseDim * 0.28) + dotFloatX * 0.6;
             const shadowY = cy - (baseDim * 0.22) + dotFloatY * 0.4 + 10;
-            ctx.ellipse(shadowX, shadowY, baseDim * 0.11, baseDim * 0.055, 0, 0, Math.PI * 2);
-            ctx.fillStyle = "rgba(10, 20, 60, 0.32)";
+            ctx.ellipse(shadowX, shadowY, baseDim * 0.12, baseDim * 0.06, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(10, 20, 60, 0.35)";
             ctx.fill();
             ctx.restore();
 
-            draw3DLayer(layers.dot, 0, 0, dotRoll, dotZ, 1.0, dotFloatX, dotFloatY, 2.2);
+            draw3DLayer(activeDot, 0, 0, dotRoll, dotZ, 1.0, dotFloatX, dotFloatY, 2.5);
           }
         }
       ];
@@ -444,23 +430,37 @@
       renderList.sort((a, b) => a.z - b.z);
       renderList.forEach(layer => layer.draw());
 
-      // Ponto de luz cintilante (Star Glint)
-      ctx.save();
-      const glintPulse = (Math.sin(time * 2.8) + 1) / 2;
-      if (glintPulse > 0.72) {
-        const glintIntensity = (glintPulse - 0.72) / 0.28;
-        const glintX = cx + Math.sin(time * 0.6) * (baseDim * 0.12) - baseDim * 0.1;
-        const glintY = cy + Math.cos(time * 0.6) * (baseDim * 0.12) - baseDim * 0.16;
-        const starGrad = ctx.createRadialGradient(glintX, glintY, 0, glintX, glintY, baseDim * 0.16 * glintIntensity);
-        starGrad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
-        starGrad.addColorStop(0.35, "rgba(180, 255, 255, 0.65)");
-        starGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+      // 5. PISCAR CONFORME O VÍDEO DA LANDING (Pulso Óptico Cintilante / Blinking Pulse)
+      const blinkCycle = Math.sin(time * 1.8);
+      if (blinkCycle > 0.7) {
+        const blinkPower = (blinkCycle - 0.7) / 0.3;
+        ctx.save();
+        ctx.globalCompositeOperation = "screen";
+        
+        const blinkX = cx + Math.sin(time * 0.6) * (baseDim * 0.12);
+        const blinkY = cy + Math.cos(time * 0.6) * (baseDim * 0.12) - baseDim * 0.08;
+        const starGrad = ctx.createRadialGradient(blinkX, blinkY, 0, blinkX, blinkY, baseDim * 0.35 * blinkPower);
+        starGrad.addColorStop(0, "rgba(255, 255, 255, 1.0)");
+        starGrad.addColorStop(0.2, "rgba(0, 229, 255, 0.85)");
+        starGrad.addColorStop(0.55, "rgba(163, 230, 53, 0.45)");
+        starGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
         ctx.fillStyle = starGrad;
         ctx.beginPath();
-        ctx.arc(glintX, glintY, baseDim * 0.16 * glintIntensity, 0, Math.PI * 2);
+        ctx.arc(blinkX, blinkY, baseDim * 0.35 * blinkPower, 0, Math.PI * 2);
         ctx.fill();
+
+        ctx.strokeStyle = `rgba(255, 255, 255, ${blinkPower * 0.9})`;
+        ctx.lineWidth = 1.8 * window.devicePixelRatio;
+        const rayLen = baseDim * 0.28 * blinkPower;
+        ctx.beginPath();
+        ctx.moveTo(blinkX - rayLen, blinkY);
+        ctx.lineTo(blinkX + rayLen, blinkY);
+        ctx.moveTo(blinkX, blinkY - rayLen);
+        ctx.lineTo(blinkX, blinkY + rayLen);
+        ctx.stroke();
+
+        ctx.restore();
       }
-      ctx.restore();
 
       if (!reduced()) {
         requestAnimationFrame(render);
@@ -612,7 +612,7 @@
   const avatarMini = chat.querySelector("#iarAvatarMini");
   const character3D = chat.querySelector("#iarCharacter3D");
   if (avatarMini) createIArretado3D(avatarMini, 52);
-  if (character3D) createIArretado3D(character3D, 76);
+  if (character3D) createIArretado3D(character3D, 86);
 
   const chatToggle = chat.querySelector(".iar-chat-toggle");
   const panel = chat.querySelector(".iar-chat-panel");
