@@ -3,9 +3,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080d1e">
+  <meta name="theme-color" content="#060913">
   <title>IArretada — Catálogo de Soluções & Links Oficiais</title>
-  <meta name="description" content="Catálogo oficial de soluções inteligentes, automações de WhatsApp e ferramentas digitais da IArretada. Porto Seguro e Extremo Sul da Bahia.">
+  <meta name="description" content="Catálogo oficial de soluções inteligentes, automações de WhatsApp e criação de sites rápidos da IArretada. Porto Seguro e Extremo Sul da Bahia.">
   <link rel="canonical" href="https://www.iarretada.com.br/links/">
   <meta property="og:title" content="IArretada — Catálogo de Soluções & Links Oficiais">
   <meta property="og:description" content="Inteligência Artificial que facilita a rotina e cabe no bolso. Escolha sua solução e fale direto no WhatsApp.">
@@ -16,15 +16,20 @@
   <script src="/app.js?v=iarretado3d-v5" defer></script>
   <style>
     :root {
-      --bg-dark: #070b16;
-      --card-bg: rgba(18, 25, 48, 0.72);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --accent-lime: #CBEA57;
-      --accent-blue: #213BD6;
-      --accent-green: #25D366;
-      --accent-orange: #F05A28;
+      --bg-dark: #050811;
+      --glass-panel: rgba(14, 20, 38, 0.45);
+      --glass-card: rgba(18, 26, 48, 0.52);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --genz-lime: #d4ff70;
+      --genz-cyan: #38bdf8;
+      --genz-lavender: #818cf8;
+      --genz-green: #25D366;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --text-light: #f8fafc;
+      --text-dim: #64748b;
+    }
+    * {
+      box-sizing: border-box;
     }
     body {
       background: radial-gradient(circle at 50% 0%, #15236e 0%, #080d1e 50%, #03060d 100%);
@@ -60,7 +65,7 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       margin: 0 0 6px;
-      background: linear-gradient(135deg, #ffffff 40%, var(--accent-lime) 100%);
+      background: linear-gradient(135deg, #ffffff 40%, var(--genz-lime) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
@@ -85,8 +90,8 @@
       display: none;
     }
     .pill-btn {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--card-border);
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
       color: #cbd5e1;
       padding: 8px 14px;
       border-radius: 999px;
@@ -101,11 +106,11 @@
       color: #ffffff;
     }
     .pill-btn.active {
-      background: var(--accent-lime);
+      background: var(--genz-lime);
       color: #070b16;
-      border-color: var(--accent-lime);
+      border-color: var(--genz-lime);
       font-weight: 700;
-      box-shadow: 0 4px 14px rgba(203, 234, 87, 0.35);
+      box-shadow: 0 4px 14px rgba(212, 255, 112, 0.35);
     }
     /* Lista de Produtos */
     .bio-items {
@@ -115,12 +120,12 @@
       gap: 14px;
     }
     .bio-item-card {
-      background: rgba(255, 255, 255, 0.05);
-      backdrop-filter: blur(20px);
-      -webkit-backdrop-filter: blur(20px);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 18px;
+      background: rgba(18, 26, 48, 0.55);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
       text-align: left;
       box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
       transition: transform 0.2s ease, border-color 0.2s ease;
@@ -128,11 +133,11 @@
     }
     .bio-item-card:hover {
       transform: translateY(-2px);
-      border-color: rgba(203, 234, 87, 0.4);
+      border-color: rgba(212, 255, 112, 0.4);
     }
     .bio-item-card:target {
-      border-color: var(--accent-lime);
-      box-shadow: 0 0 24px rgba(203, 234, 87, 0.3);
+      border-color: var(--genz-lime);
+      box-shadow: 0 0 24px rgba(212, 255, 112, 0.3);
     }
     .item-top {
       display: flex;
@@ -146,17 +151,22 @@
       text-transform: uppercase;
       padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(163, 230, 53, 0.15);
-      border: 1px solid rgba(163, 230, 53, 0.3);
-      color: var(--accent-lime);
+      background: rgba(212, 255, 112, 0.12);
+      border: 1px solid rgba(212, 255, 112, 0.3);
+      color: var(--genz-lime);
+    }
+    .item-badge.sites {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: var(--genz-cyan);
     }
     .item-price {
-      font-size: 1.15rem;
+      font-size: 1.25rem;
       font-weight: 800;
       color: #ffffff;
     }
     .item-title {
-      font-size: 1.1rem;
+      font-size: 1.12rem;
       font-weight: 700;
       margin: 0 0 4px;
       color: #ffffff;
@@ -179,9 +189,9 @@
       gap: 8px;
       width: 100%;
       padding: 12px 16px;
-      background: linear-gradient(135deg, var(--accent-green) 0%, #15803d 100%);
+      background: linear-gradient(135deg, var(--genz-green) 0%, #15803d 100%);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      border-radius: 12px;
+      border-radius: 14px;
       color: #ffffff;
       text-decoration: none;
       font-weight: 700;
@@ -194,19 +204,18 @@
       filter: brightness(1.1);
       transform: translateY(-1px);
     }
-    /* Links Principais de Navegação */
     .featured-main-btn {
       width: 100%;
       padding: 15px 18px;
-      background: linear-gradient(135deg, var(--accent-green) 0%, #166534 100%);
+      background: linear-gradient(135deg, var(--genz-green) 0%, #166534 100%);
       border: 1px solid rgba(255, 255, 255, 0.3);
       border-radius: 16px;
       color: #ffffff;
       text-decoration: none;
       font-weight: 700;
-      font-size: 1rem;
+      font-size: 0.95rem;
       box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -220,12 +229,12 @@
       width: 100%;
       padding: 12px 16px;
       background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
+      border: 1px solid var(--glass-border);
       border-radius: 14px;
       color: #ffffff;
       text-decoration: none;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -256,7 +265,7 @@
     <div class="bio-emblem-wrap" id="bioEmblem"></div>
     <h1 class="bio-title">IArretada</h1>
     <p class="bio-tagline">
-      Soluções com Inteligência Artificial para facilitar sua rotina e seu negócio.<br>
+      Soluções com Inteligência Artificial & Criação de Sites Rápidos.<br>
       <strong>Porto Seguro · Arraial · Trancoso · Caraíva · Eunápolis</strong>
     </p>
 
@@ -268,23 +277,66 @@
 
     <!-- Simulador de Economia -->
     <a class="secondary-link-btn" href="/#calculadora">
-      <span>⏱️ Calcular Tempo & Economia da sua Empresa</span>
-      <span style="color:var(--accent-lime);">Simulador →</span>
+      <span>Simulador de Tempo & Economia da sua Empresa</span>
+      <span style="color:var(--genz-lime);">Abrir →</span>
     </a>
 
     <!-- Filtros de Categoria -->
     <div class="filter-pills" role="tablist">
-      <button class="pill-btn active" onclick="filterItems('todos')">Todos (18)</button>
+      <button class="pill-btn active" onclick="filterItems('todos')">Todos</button>
+      <button class="pill-btn" onclick="filterItems('sites')">Criação de Sites</button>
       <button class="pill-btn" onclick="filterItems('hotelaria')">Pousadas & Hotéis</button>
       <button class="pill-btn" onclick="filterItems('gastronomia')">Restaurantes</button>
       <button class="pill-btn" onclick="filterItems('saude')">Clínicas & Salões</button>
-      <button class="pill-btn" onclick="filterItems('comercio')">Comércio & Varejo</button>
-      <button class="pill-btn" onclick="filterItems('downloads')">Downloads R$ 37-47</button>
+      <button class="pill-btn" onclick="filterItems('downloads')">Downloads</button>
     </div>
 
-    <!-- Lista dos 18 Micro-Produtos -->
+    <!-- Lista de Soluções -->
     <div class="bio-items" id="itemsContainer">
-      <!-- 1: Pousada Express -->
+
+      <!-- NOVO: Site Express Comercial -->
+      <article class="bio-item-card" id="site-express-comercial" data-category="sites">
+        <div class="item-top">
+          <span class="item-badge sites">Entrega em 48h</span>
+          <span class="item-price">R$ 497</span>
+        </div>
+        <h2 class="item-title">Site Express Comercial</h2>
+        <div class="item-category">Lojas, Clínicas, Oficinas & Negócios Locais</div>
+        <p class="item-desc">Página moderna, ultra-rápida no celular, com botão flutuante de WhatsApp, mapa do Google, fotos de produtos/serviços e horários. Sem mensalidade obrigatória.</p>
+        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Site%20Express%20Comercial%20(R$%20497)%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer">
+          <span>Contratar no WhatsApp</span>
+        </a>
+      </article>
+
+      <!-- NOVO: Site Vitrine Pousada -->
+      <article class="bio-item-card" id="site-pousada-gastronomia" data-category="sites">
+        <div class="item-top">
+          <span class="item-badge sites">Mais Desejado</span>
+          <span class="item-price">R$ 790</span>
+        </div>
+        <h2 class="item-title">Site Vitrine Pousada & Gastronomia</h2>
+        <div class="item-category">Pousadas, Hotéis & Restaurantes</div>
+        <p class="item-desc">Apresentação fotográfica de alto padrão das acomodações ou cardápio, tabela de tarifas e botão de reserva direta no WhatsApp economizando comissões de OTAs.</p>
+        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20um%20Site%20Vitrine%20para%20minha%20Pousada/Restaurante%20(R$%20790)." target="_blank" rel="noopener noreferrer">
+          <span>Contratar no WhatsApp</span>
+        </a>
+      </article>
+
+      <!-- NOVO: Portal Temporada VIP -->
+      <article class="bio-item-card" id="portal-temporada-vip" data-category="sites">
+        <div class="item-top">
+          <span class="item-badge sites">Alto Padrão</span>
+          <span class="item-price">R$ 1.250</span>
+        </div>
+        <h2 class="item-title">Portal de Imóveis & Casas Trancoso</h2>
+        <div class="item-category">Corretores, Imobiliárias & Aluguel Temporada</div>
+        <p class="item-desc">Plataforma elegante para expor casas de luxo em Trancoso e Arraial d'Ajuda com filtro por datas, hóspedes e triagem automática de interessados.</p>
+        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Portal%20de%20Im%C3%B3veis/Temporada%20(R$%201.250)." target="_blank" rel="noopener noreferrer">
+          <span>Contratar no WhatsApp</span>
+        </a>
+      </article>
+
+      <!-- Pousada Express -->
       <article class="bio-item-card" id="pousada-express" data-category="hotelaria">
         <div class="item-top">
           <span class="item-badge">Mais Procurado</span>
@@ -294,11 +346,11 @@
         <div class="item-category">Hotelaria & Pousadas</div>
         <p class="item-desc">Responde no WhatsApp 24/7 com fotos das suítes, mapa com rota, horário de check-in e diárias em 3 segundos. Evite perder hóspedes de madrugada.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20ativar%20o%20Assistente%20Pousada%20Express%20(R$%2079/m%C3%AAs)%20na%20minha%20pousada." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
+          <span>Falar no WhatsApp e Ativar</span>
         </a>
       </article>
 
-      <!-- 2: Temporada VIP -->
+      <!-- Temporada VIP -->
       <article class="bio-item-card" id="temporada-vip" data-category="hotelaria">
         <div class="item-top">
           <span class="item-badge">Alto Padrão</span>
@@ -308,11 +360,11 @@
         <div class="item-category">Trancoso & Arraial d'Ajuda</div>
         <p class="item-desc">Filtra no WhatsApp datas, quantidade de adultos e orçamento antes de transferir ao corretor, eliminando 90% dos curiosos sem dinheiro.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20ativar%20a%20Triagem%20de%20Temporada%20VIP%20(R$%2099/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
+          <span>Falar no WhatsApp e Ativar</span>
         </a>
       </article>
 
-      <!-- 3: Cardápio WhatsApp -->
+      <!-- Cardápio WhatsApp -->
       <article class="bio-item-card" id="cardapio-zap" data-category="gastronomia">
         <div class="item-top">
           <span class="item-badge">Campeão de Vendas</span>
@@ -322,11 +374,11 @@
         <div class="item-category">Restaurantes, Pizzarias & Bares</div>
         <p class="item-desc">Substitua PDFs pesados que ninguém consegue ler. O cliente escolhe pratos em texto leve com fotos rápidas e fecha o pedido sem travar sua equipe.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20instalar%20o%20Card%C3%A1pio%20Inteligente%20no%20WhatsApp%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
+          <span>Falar no WhatsApp e Ativar</span>
         </a>
       </article>
 
-      <!-- 4: Planilha Reservas -->
+      <!-- Planilha Reservas -->
       <article class="bio-item-card" id="planilha-reservas" data-category="downloads">
         <div class="item-top">
           <span class="item-badge">Download Imediato</span>
@@ -336,11 +388,11 @@
         <div class="item-category">Google Sheets Pronto</div>
         <p class="item-desc">Planilha prática para controlar ocupação, receitas por temporada e reservas diretas sem pagar comissões abusivas de Booking/Airbnb.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20receber%20a%20Planilha%20Inteligente%20de%20Ocupa%C3%A7%C3%A3o%20para%20Pousadas%20(R$%2037)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Receber no WhatsApp (R$ 37)</span>
+          <span>Receber no WhatsApp (R$ 37)</span>
         </a>
       </article>
 
-      <!-- 5: Confirmação Clínicas -->
+      <!-- Confirmação Clínicas -->
       <article class="bio-item-card" id="clinica-confirma" data-category="saude">
         <div class="item-top">
           <span class="item-badge">Economia Real</span>
@@ -350,11 +402,11 @@
         <div class="item-category">Consultórios, Odonto & Clínicas</div>
         <p class="item-desc">Envia lembrete 24h antes com confirmação em 1 toque no WhatsApp. Reduz as faltas de pacientes em até 50% sem sobrecarregar sua recepcionista.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Tenho%20interesse%20na%20Confirma%C3%A7%C3%A3o%20Autom%C3%A1tica%20de%20Consultas%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
+          <span>Falar no WhatsApp e Ativar</span>
         </a>
       </article>
 
-      <!-- 6: Recepção Barbearia & Salão -->
+      <!-- Recepção Barbearia & Salão -->
       <article class="bio-item-card" id="salao-agenda" data-category="saude">
         <div class="item-top">
           <span class="item-badge">Prático</span>
@@ -364,11 +416,11 @@
         <div class="item-category">Estética & Beleza</div>
         <p class="item-desc">Envia tabela de serviços (corte, barba, mechas) e link de horários disponíveis. Não perca clientes enquanto você está com a tesoura na mão.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20ativar%20a%20Recep%C3%A7%C3%A3o%20Autom%C3%A1tica%20para%20Sal%C3%A3o%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
+          <span>Falar no WhatsApp e Ativar</span>
         </a>
       </article>
 
-      <!-- 7: Guia do Hóspede QR Code -->
+      <!-- Guia do Hóspede QR Code -->
       <article class="bio-item-card" id="guia-hospede-digital" data-category="hotelaria">
         <div class="item-top">
           <span class="item-badge">Entrega Rápida</span>
@@ -378,11 +430,11 @@
         <div class="item-category">Hospedagem & Airbnb</div>
         <p class="item-desc">Página mobile com senha de Wi-Fi em 1 toque, melhores passeios de Porto Seguro, telefones de delivery de água/pizza e regras da casa.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20encomendar%20o%20Guia%20Digital%20do%20H%C3%B3spede%20com%20QR%20Code%20(R$%2067)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Encomendar no WhatsApp (R$ 67)</span>
+          <span>Encomendar no WhatsApp (R$ 67)</span>
         </a>
       </article>
 
-      <!-- 8: Kit Google Meu Negócio -->
+      <!-- Kit Google Meu Negócio -->
       <article class="bio-item-card" id="kit-google-nota5" data-category="downloads">
         <div class="item-top">
           <span class="item-badge">Vitalício</span>
@@ -392,147 +444,7 @@
         <div class="item-category">Restaurantes & Comércio Local</div>
         <p class="item-desc">Placas prontas para impressão com QR Code para balcão/mesa + roteiro de respostas elegantes para reviews negativos no Google Maps.</p>
         <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20o%20Kit%20Google%20Meu%20Neg%C3%B3cio%20Nota%205.0%20(R$%2047)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Receber no WhatsApp (R$ 47)</span>
-        </a>
-      </article>
-
-      <!-- 9: Comércio & Varejo -->
-      <article class="bio-item-card" id="comercio-catalogo" data-category="comercio">
-        <div class="item-top">
-          <span class="item-badge">Zero Perda</span>
-          <span class="item-price">R$ 79/mês</span>
-        </div>
-        <h2 class="item-title">Atendente de Catálogo & Frete Local</h2>
-        <div class="item-category">Lojas & Mercados em Porto Seguro e Eunápolis</div>
-        <p class="item-desc">Responde horários, bairros atendidos com taxa de entrega, formas de pagamento e chave Pix no primeiro segundo.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20o%20Atendente%20de%20Cat%C3%A1logo%20e%20Frete%20Local%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 10: Gestor de Reservas & Mesas -->
-      <article class="bio-item-card" id="reserva-mesas" data-category="gastronomia">
-        <div class="item-top">
-          <span class="item-badge">Alta Temporada</span>
-          <span class="item-price">R$ 89/mês</span>
-        </div>
-        <h2 class="item-title">Gestor de Reservas & Fila de Espera</h2>
-        <div class="item-category">Restaurantes Concorridos</div>
-        <p class="item-desc">Organiza reservas antecipadas e avisa o cliente no WhatsApp no momento em que a mesa estiver liberada.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20saber%20sobre%20o%20Gestor%20de%20Reservas%20(R$%2089/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 11: Imobiliária Filtro -->
-      <article class="bio-item-card" id="imob-qualifica" data-category="comercio">
-        <div class="item-top">
-          <span class="item-badge">Fechamento</span>
-          <span class="item-price">R$ 99/mês</span>
-        </div>
-        <h2 class="item-title">Filtro de Compradores Imobiliários</h2>
-        <div class="item-category">Corretores & Imobiliárias</div>
-        <p class="item-desc">Qualifica se o cliente busca terreno, casa de praia ou imóvel comercial, além de faixa de preço pretendida, antes de passar ao corretor.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20o%20Filtro%20de%20Compradores%20para%20Imobili%C3%A1ria%20(R$%2099/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 12: Plantão Guincho BR-367 -->
-      <article class="bio-item-card" id="oficina-guincho" data-category="comercio">
-        <div class="item-top">
-          <span class="item-badge">Emergência 24h</span>
-          <span class="item-price">R$ 79/mês</span>
-        </div>
-        <h2 class="item-title">Plantão Automotivo & Guincho 24h</h2>
-        <div class="item-category">Oficinas, Guincho & Socorro na Estrada</div>
-        <p class="item-desc">Pede localização GPS em tempo real e modelo do veículo, emitindo alerta prioritário para a equipe de socorro.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Preciso%20do%20Plant%C3%A3o%20Automotivo%20e%20Guincho%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 13: Turismo Passeios -->
-      <article class="bio-item-card" id="passeios-turismo" data-category="hotelaria">
-        <div class="item-top">
-          <span class="item-badge">Turismo Forte</span>
-          <span class="item-price">R$ 79/mês</span>
-        </div>
-        <h2 class="item-title">Assistente de Passeios & Ecoturismo</h2>
-        <div class="item-category">Escunas, Lanchas & Buggy</div>
-        <p class="item-desc">Informa roteiros (Recife de Fora, Espelho, Caraíva), duração, marés e chave Pix para garantia de vaga.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20o%20Assistente%20de%20Passeios%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 14: Lembrete Cobrança -->
-      <article class="bio-item-card" id="cobranca-amigavel" data-category="comercio">
-        <div class="item-top">
-          <span class="item-badge">Anti-Inadimplência</span>
-          <span class="item-price">R$ 79/mês</span>
-        </div>
-        <h2 class="item-title">Lembrete Educado de Cobrança</h2>
-        <div class="item-category">Academias, Cursos & Mensalidades</div>
-        <p class="item-desc">Lembretes cordiais com chave Pix 3 dias antes do vencimento. Reduz a inadimplência com respeito e educação.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20ativar%20o%20Lembrete%20Educado%20de%20Cobran%C3%A7a%20(R$%2079/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 15: Personal Triagem -->
-      <article class="bio-item-card" id="personal-triagem" data-category="saude">
-        <div class="item-top">
-          <span class="item-badge">Agilidade</span>
-          <span class="item-price">R$ 67/mês</span>
-        </div>
-        <h2 class="item-title">Triagem para Personal & Nutricionistas</h2>
-        <div class="item-category">Profissionais Autônomos</div>
-        <p class="item-desc">Coleta rotina, objetivo físico e horários no WhatsApp antes da primeira consulta presencial ou online.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20a%20Triagem%20para%20Personal/Nutri%20(R$%2067/m%C3%AAs)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Falar no WhatsApp e Ativar</span>
-        </a>
-      </article>
-
-      <!-- 16: Pack Prompts Hotelaria -->
-      <article class="bio-item-card" id="pack-prompts-hotel" data-category="downloads">
-        <div class="item-top">
-          <span class="item-badge">Acesso Imediato</span>
-          <span class="item-price">R$ 47</span>
-        </div>
-        <h2 class="item-title">Pack 100 Prompts para Hotelaria</h2>
-        <div class="item-category">PDF + Notion Pronto</div>
-        <p class="item-desc">100 respostas humanizadas prontas para situações delicadas da recepção: barulho, late checkout e cancelamentos.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20o%20Pack%20de%20100%20Prompts%20para%20Hotelaria%20(R$%2047)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Receber no WhatsApp (R$ 47)</span>
-        </a>
-      </article>
-
-      <!-- 17: Mini Auditoria Express -->
-      <article class="bio-item-card" id="auditoria-express" data-category="comercio">
-        <div class="item-top">
-          <span class="item-badge">Diagnóstico 24h</span>
-          <span class="item-price">R$ 97</span>
-        </div>
-        <h2 class="item-title">Mini-Auditoria de Atendimento Digital</h2>
-        <div class="item-category">Consultoria Rápida</div>
-        <p class="item-desc">Relatório em 24h apontando exatamente onde o seu negócio perde vendas no WhatsApp e no Google Maps.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20solicitar%20a%20Mini-Auditoria%20de%20Atendimento%20(R$%2097)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Solicitar no WhatsApp (R$ 97)</span>
-        </a>
-      </article>
-
-      <!-- 18: Bio Alta Conversão -->
-      <article class="bio-item-card" id="bio-alta-conversao" data-category="comercio">
-        <div class="item-top">
-          <span class="item-badge">Sem Mensalidade</span>
-          <span class="item-price">R$ 89</span>
-        </div>
-        <h2 class="item-title">Página Link Bio Estilo IArretada</h2>
-        <div class="item-category">Design & Conversão</div>
-        <p class="item-desc">Página mobile ultra-rápida no estilo obsidian para o Instagram do seu negócio, com botões diretos de WhatsApp e mapa.</p>
-        <a class="item-btn-wa" href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20uma%20P%C3%A1gina%20Link%20Bio%20Estilo%20IArretada%20(R$%2089)." target="_blank" rel="noopener noreferrer">
-          <span>📲 Encomendar no WhatsApp (R$ 89)</span>
+          <span>Receber no WhatsApp (R$ 47)</span>
         </a>
       </article>
     </div>
@@ -560,7 +472,6 @@
       });
     }
 
-    // Inicializar o símbolo 3D no topo da página
     document.addEventListener("DOMContentLoaded", () => {
       const stage = document.getElementById("bioEmblem");
       if (stage && typeof createIArretado3D === "function") {

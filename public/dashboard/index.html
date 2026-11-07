@@ -3,566 +3,1079 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <meta name="theme-color" content="#080d1e">
-  <title>IArretada — Painel do Comandante & Radar Sentinela</title>
+  <meta name="theme-color" content="#060913">
+  <title>IArretada — Painel do Comandante · Acesso Restrito</title>
   <meta name="robots" content="noindex,nofollow">
   <link rel="icon" href="/assets/brand/iarretada-mark.png" type="image/png">
   <link rel="stylesheet" href="/styles.css?v=iarretado3d-v5">
   <script src="/app.js?v=iarretado3d-v5" defer></script>
   <style>
     :root {
-      --bg-dark: #070b16;
-      --card-bg: rgba(18, 25, 48, 0.72);
-      --card-border: rgba(255, 255, 255, 0.1);
-      --accent-lime: #CBEA57;
-      --accent-blue: #213BD6;
-      --accent-green: #25D366;
-      --accent-orange: #F05A28;
+      --bg-dark: #050811;
+      --glass-panel: rgba(14, 20, 38, 0.45);
+      --glass-card: rgba(18, 26, 48, 0.52);
+      --glass-card-hover: rgba(26, 36, 68, 0.65);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --glass-border-focus: rgba(212, 255, 112, 0.4);
+      --genz-lime: #d4ff70;
+      --genz-cyan: #38bdf8;
+      --genz-lavender: #818cf8;
+      --genz-coral: #fb7185;
+      --genz-green: #25D366;
+      --text-main: #f8fafc;
       --text-muted: #94a3b8;
-      --text-light: #f8fafc;
+      --text-dim: #64748b;
+    }
+    * {
+      box-sizing: border-box;
     }
     body {
-      background: radial-gradient(circle at 50% 0%, #131e4e 0%, #070b16 60%, #03050a 100%);
-      color: var(--text-light);
+      background: radial-gradient(circle at 50% 0%, #111a3d 0%, #060913 55%, #020408 100%);
+      color: var(--text-main);
       font-family: var(--sans, system-ui, -apple-system, sans-serif);
       margin: 0;
       padding: 0;
       min-height: 100vh;
       -webkit-font-smoothing: antialiased;
     }
-    .dash-container {
+
+    /* Tela de Bloqueio por PIN (Segurança Pessoal de José) */
+    .lock-screen {
+      position: fixed;
+      inset: 0;
+      background: radial-gradient(circle at 50% 20%, #14214f 0%, #060913 70%, #020408 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+      z-index: 99999;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+    .lock-screen.unlocked {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+    .lock-card {
+      background: rgba(18, 26, 52, 0.65);
+      backdrop-filter: blur(32px);
+      -webkit-backdrop-filter: blur(32px);
+      border: 1px solid var(--glass-border);
+      border-radius: 28px;
+      padding: 36px 28px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+    }
+    .lock-emblem {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .lock-title {
+      font-size: 1.3rem;
+      font-weight: 800;
+      margin: 0 0 6px;
+      color: #ffffff;
+    }
+    .lock-sub {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      margin: 0 0 24px;
+      line-height: 1.45;
+    }
+    .pin-input {
+      width: 100%;
+      background: rgba(0, 0, 0, 0.35);
+      border: 1px solid var(--glass-border);
+      color: #ffffff;
+      font-size: 1.4rem;
+      font-weight: 700;
+      letter-spacing: 0.3em;
+      text-align: center;
+      padding: 14px;
+      border-radius: 16px;
+      outline: none;
+      margin-bottom: 16px;
+      transition: border-color 0.2s ease;
+    }
+    .pin-input:focus {
+      border-color: var(--genz-lime);
+      box-shadow: 0 0 20px rgba(212, 255, 112, 0.25);
+    }
+    .btn-unlock {
+      width: 100%;
+      background: linear-gradient(135deg, var(--genz-lime) 0%, #84cc16 100%);
+      color: #060913;
+      border: none;
+      padding: 14px;
+      border-radius: 16px;
+      font-weight: 800;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .btn-unlock:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+    }
+
+    /* Conteúdo Principal do Painel */
+    .dash-wrapper {
       max-width: 1200px;
       margin: 0 auto;
-      padding: 24px 16px 64px;
+      padding: 24px 16px 80px;
     }
-    /* Header */
     .dash-header {
       display: flex;
       flex-wrap: wrap;
       align-items: center;
       justify-content: space-between;
       gap: 16px;
-      padding-bottom: 24px;
-      border-bottom: 1px solid var(--card-border);
+      padding: 18px 24px;
+      background: var(--glass-panel);
+      backdrop-filter: blur(28px);
+      -webkit-backdrop-filter: blur(28px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
       margin-bottom: 24px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
     }
-    .dash-brand {
+    .dash-brand-wrap {
       display: flex;
       align-items: center;
-      gap: 14px;
+      gap: 16px;
     }
     .dash-emblem-wrap {
-      width: 64px;
-      height: 64px;
+      width: 58px;
+      height: 58px;
       display: flex;
       align-items: center;
       justify-content: center;
     }
-    .dash-brand-info h1 {
-      font-size: 1.45rem;
-      margin: 0 0 4px;
+    .dash-title {
+      font-size: 1.35rem;
       font-weight: 800;
-      background: linear-gradient(135deg, #ffffff 40%, var(--accent-lime) 100%);
+      letter-spacing: -0.02em;
+      margin: 0 0 4px;
+      background: linear-gradient(135deg, #ffffff 40%, var(--genz-lime) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .dash-brand-info p {
-      font-size: 0.85rem;
+    .dash-sub {
+      font-size: 0.82rem;
       color: var(--text-muted);
       margin: 0;
+      display: flex;
+      align-items: center;
+      gap: 6px;
     }
-    .dash-metrics-bar {
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--genz-lime);
+      box-shadow: 0 0 10px var(--genz-lime);
+      display: inline-block;
+      animation: pulseAnim 2s infinite ease-in-out;
+    }
+    @keyframes pulseAnim {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(0.85); }
+    }
+    .header-btns {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+    .btn-glass-subtle {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: #e2e8f0;
+      padding: 9px 16px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 600;
+      text-decoration: none;
+      cursor: pointer;
+      backdrop-filter: blur(16px);
+      transition: all 0.2s ease;
+    }
+    .btn-glass-subtle:hover {
+      background: rgba(255, 255, 255, 0.12);
+      border-color: rgba(255, 255, 255, 0.2);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+    .btn-genz-wa {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: linear-gradient(135deg, rgba(37, 211, 102, 0.9) 0%, rgba(21, 128, 61, 0.95) 100%);
+      border: 1px solid rgba(255, 255, 255, 0.25);
+      color: #ffffff;
+      padding: 9px 18px;
+      border-radius: 999px;
+      font-size: 0.82rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 16px rgba(37, 211, 102, 0.35);
+      transition: all 0.2s ease;
+    }
+    .btn-genz-wa:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.08);
+      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
+    }
+    /* Metas & Métricas Visuais (Foco R$ 250/dia = R$ 7.500/mês) */
+    .metrics-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 14px;
       margin-bottom: 24px;
     }
-    .metric-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 16px;
-      padding: 16px 18px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+    .metric-pill-box {
+      background: var(--glass-panel);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 18px 20px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+      transition: border-color 0.2s ease;
     }
-    .metric-card-label {
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      color: var(--text-muted);
-      margin-bottom: 6px;
+    .metric-pill-box:hover {
+      border-color: rgba(255, 255, 255, 0.18);
+    }
+    .metric-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
+      margin-bottom: 8px;
     }
-    .metric-card-val {
-      font-size: 1.5rem;
+    .metric-tag {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--text-dim);
+      font-weight: 700;
+    }
+    .metric-icon-wrap {
+      width: 28px;
+      height: 28px;
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--genz-lime);
+    }
+    .metric-number {
+      font-size: 1.55rem;
       font-weight: 800;
+      letter-spacing: -0.02em;
       color: #ffffff;
+      margin: 0 0 4px;
     }
-    .metric-card-sub {
-      font-size: 0.8rem;
-      color: var(--accent-lime);
-      margin-top: 4px;
+    .metric-detail {
+      font-size: 0.78rem;
+      color: var(--genz-lime);
     }
-    /* Tabs Navigation */
-    .dash-tabs {
+    /* Navegação por Abas */
+    .tabs-bar {
       display: flex;
       gap: 8px;
       overflow-x: auto;
       padding-bottom: 8px;
-      margin-bottom: 24px;
-      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 20px;
+      border-bottom: 1px solid var(--glass-border);
+      scrollbar-width: none;
     }
-    .dash-tab-btn {
-      background: rgba(255, 255, 255, 0.05);
-      border: 1px solid var(--card-border);
+    .tabs-bar::-webkit-scrollbar {
+      display: none;
+    }
+    .tab-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid var(--glass-border);
       color: var(--text-muted);
       padding: 10px 18px;
       border-radius: 999px;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       font-weight: 600;
       cursor: pointer;
       white-space: nowrap;
       transition: all 0.2s ease;
     }
-    .dash-tab-btn:hover {
-      background: rgba(255, 255, 255, 0.1);
+    .tab-btn:hover {
+      background: rgba(255, 255, 255, 0.09);
       color: #ffffff;
     }
-    .dash-tab-btn.active {
-      background: var(--accent-blue);
-      border-color: var(--accent-blue);
+    .tab-btn.active {
+      background: var(--glass-card-hover);
+      border-color: var(--genz-lime);
       color: #ffffff;
-      box-shadow: 0 4px 14px rgba(33, 59, 214, 0.4);
+      box-shadow: 0 4px 16px rgba(212, 255, 112, 0.18);
     }
-    /* Content Sections */
+    .tab-btn.active .tab-icon {
+      color: var(--genz-lime);
+    }
     .tab-content {
       display: none;
     }
     .tab-content.active {
       display: block;
     }
-    /* Filters */
-    .filter-bar {
+    /* Controle de Leads */
+    .leads-control-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      background: var(--glass-panel);
+      backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      padding: 14px 18px;
+      border-radius: 18px;
+      margin-bottom: 20px;
+    }
+    .control-filters {
       display: flex;
       flex-wrap: wrap;
       gap: 10px;
       align-items: center;
-      margin-bottom: 20px;
     }
-    .filter-input {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--card-border);
+    .input-clean {
+      background: rgba(0, 0, 0, 0.25);
+      border: 1px solid var(--glass-border);
       color: #ffffff;
-      padding: 8px 14px;
+      padding: 9px 14px;
       border-radius: 12px;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       outline: none;
-      min-width: 220px;
+      min-width: 200px;
+      transition: border-color 0.2s ease;
     }
-    .filter-select {
-      background: #0f162c;
-      border: 1px solid var(--card-border);
-      color: #ffffff;
-      padding: 8px 14px;
+    .input-clean:focus {
+      border-color: var(--genz-lime);
+    }
+    .select-clean {
+      background: #0b1124;
+      border: 1px solid var(--glass-border);
+      color: #e2e8f0;
+      padding: 9px 12px;
       border-radius: 12px;
-      font-size: 0.88rem;
+      font-size: 0.84rem;
       outline: none;
     }
-    /* Leads Grid */
+    .toggle-wrap {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      cursor: pointer;
+      user-select: none;
+    }
+    .toggle-checkbox {
+      accent-color: var(--genz-lime);
+      width: 16px;
+      height: 16px;
+      cursor: pointer;
+    }
+    /* Grid de Leads */
     .leads-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
       gap: 16px;
     }
     .lead-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 18px;
-      backdrop-filter: blur(16px);
-      -webkit-backdrop-filter: blur(16px);
-      box-shadow: 0 6px 24px rgba(0,0,0,0.25);
+      background: var(--glass-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
+      padding: 20px;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s ease, border-color 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
     }
     .lead-card:hover {
       transform: translateY(-3px);
-      border-color: rgba(163, 230, 53, 0.4);
+      background: var(--glass-card-hover);
+      border-color: rgba(212, 255, 112, 0.3);
+      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
+    }
+    .lead-card.contacted {
+      border-color: rgba(56, 189, 248, 0.3);
+      background: rgba(14, 24, 46, 0.45);
+    }
+    .lead-card.closed {
+      border-color: rgba(37, 211, 102, 0.45);
+      background: rgba(13, 34, 25, 0.5);
     }
     .lead-header {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 10px;
+      gap: 8px;
+      margin-bottom: 6px;
     }
-    .lead-title {
-      font-size: 1.1rem;
+    .lead-name {
+      font-size: 1.12rem;
       font-weight: 700;
       color: #ffffff;
-      margin: 0 0 4px;
+      margin: 0;
     }
-    .lead-city-tag {
+    .lead-city-pill {
       font-size: 0.72rem;
       font-weight: 600;
-      padding: 3px 8px;
+      padding: 3px 10px;
       border-radius: 999px;
-      background: rgba(33, 59, 214, 0.25);
-      border: 1px solid rgba(33, 59, 214, 0.4);
-      color: #93c5fd;
+      background: rgba(129, 140, 248, 0.15);
+      border: 1px solid rgba(129, 140, 248, 0.3);
+      color: #c7d2fe;
+      white-space: nowrap;
     }
-    .lead-sector {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .lead-meta {
+      font-size: 0.78rem;
+      color: var(--text-dim);
       margin-bottom: 12px;
     }
     .lead-ratings {
       display: flex;
-      gap: 10px;
-      font-size: 0.78rem;
-      margin-bottom: 14px;
+      gap: 8px;
+      margin-bottom: 12px;
     }
-    .rating-badge {
+    .rating-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
       padding: 3px 8px;
-      border-radius: 6px;
-      background: rgba(255, 255, 255, 0.06);
+      border-radius: 8px;
+      background: rgba(255, 255, 255, 0.05);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      color: #fbbf24;
+      font-size: 0.76rem;
+      color: #fde047;
       font-weight: 600;
     }
-    .lead-pain-box {
-      background: rgba(240, 90, 40, 0.08);
-      border-left: 3px solid var(--accent-orange);
+    .lead-complaint-box {
+      background: rgba(251, 113, 133, 0.06);
+      border-left: 3px solid var(--genz-coral);
       padding: 10px 12px;
       border-radius: 0 10px 10px 0;
-      font-size: 0.82rem;
-      color: #fed7aa;
-      margin-bottom: 14px;
-      line-height: 1.4;
+      font-size: 0.8rem;
+      color: #fecdd3;
+      margin-bottom: 12px;
+      line-height: 1.45;
     }
     .lead-solution-box {
-      background: rgba(163, 230, 53, 0.08);
-      border: 1px solid rgba(163, 230, 53, 0.2);
+      background: rgba(212, 255, 112, 0.06);
+      border: 1px solid rgba(212, 255, 112, 0.2);
       padding: 8px 12px;
       border-radius: 10px;
-      font-size: 0.82rem;
-      color: #d9f99d;
-      margin-bottom: 16px;
+      font-size: 0.8rem;
+      color: #ecfccb;
+      margin-bottom: 14px;
       display: flex;
       justify-content: space-between;
       align-items: center;
     }
-    .lead-actions {
+    .lead-stamp {
+      font-size: 0.72rem;
+      padding: 4px 8px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.04);
+      color: var(--text-dim);
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .lead-stamp.active {
+      background: rgba(56, 189, 248, 0.12);
+      border: 1px solid rgba(56, 189, 248, 0.25);
+      color: #7dd3fc;
+      font-weight: 600;
+    }
+    .lead-actions-col {
       display: flex;
       flex-direction: column;
       gap: 8px;
     }
-    .btn-wa-direct {
-      background: linear-gradient(135deg, var(--accent-green) 0%, #15803d 100%);
-      color: #ffffff;
-      text-decoration: none;
-      font-weight: 700;
-      font-size: 0.9rem;
-      padding: 11px 16px;
-      border-radius: 12px;
-      text-align: center;
+    .btn-action-wa {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.3);
-      transition: transform 0.15s ease, filter 0.15s ease;
+      background: linear-gradient(135deg, var(--genz-green) 0%, #166534 100%);
+      color: #ffffff;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.86rem;
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 4px 14px rgba(37, 211, 102, 0.28);
+      transition: filter 0.15s ease, transform 0.15s ease;
     }
-    .btn-wa-direct:hover {
-      transform: translateY(-1px);
+    .btn-action-wa:hover {
       filter: brightness(1.1);
+      transform: translateY(-1px);
     }
-    .btn-copy-script {
-      background: rgba(255, 255, 255, 0.06);
-      border: 1px solid var(--card-border);
-      color: var(--text-light);
-      font-size: 0.8rem;
-      padding: 8px 12px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: background 0.2s ease;
+    .btn-action-copy {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: #e2e8f0;
+      font-size: 0.78rem;
+      padding: 8px 12px;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: background 0.15s ease;
     }
-    .btn-copy-script:hover {
-      background: rgba(255, 255, 255, 0.12);
+    .btn-action-copy:hover {
+      background: rgba(255, 255, 255, 0.1);
     }
-    .lead-status-select {
-      background: #0f172a;
-      border: 1px solid var(--card-border);
+    .status-select-wrap {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 4px;
+    }
+    .status-select {
+      width: 100%;
+      background: #090e1d;
+      border: 1px solid var(--glass-border);
       color: var(--text-muted);
       font-size: 0.76rem;
       padding: 6px 10px;
       border-radius: 8px;
-      margin-top: 4px;
-      width: 100%;
       outline: none;
     }
-    /* Toast Notification */
-    .toast {
-      position: fixed;
-      bottom: 24px;
-      right: 24px;
-      background: #1e293b;
-      border: 1px solid var(--accent-lime);
-      color: #ffffff;
-      padding: 12px 20px;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-      font-size: 0.88rem;
-      font-weight: 600;
-      z-index: 9999;
-      transform: translateY(100px);
-      opacity: 0;
-      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-    .toast.show {
-      transform: translateY(0);
-      opacity: 1;
-    }
-    /* Products Grid */
-    .products-grid {
+    /* Grid de Produtos & Sites */
+    .catalog-grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
       gap: 16px;
     }
-    .product-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
+    .product-glass-card {
+      background: var(--glass-card);
+      border: 1px solid var(--glass-border);
+      border-radius: 20px;
       padding: 20px;
-      backdrop-filter: blur(16px);
+      backdrop-filter: blur(24px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
-    .product-badge {
+    .product-glass-card:hover {
+      transform: translateY(-2px);
+      border-color: rgba(212, 255, 112, 0.3);
+    }
+    .pill-badge {
       align-self: flex-start;
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: 700;
       text-transform: uppercase;
-      padding: 4px 10px;
+      padding: 3px 8px;
       border-radius: 999px;
-      background: rgba(163, 230, 53, 0.15);
-      border: 1px solid rgba(163, 230, 53, 0.35);
-      color: var(--accent-lime);
-      margin-bottom: 10px;
+      background: rgba(212, 255, 112, 0.12);
+      border: 1px solid rgba(212, 255, 112, 0.3);
+      color: var(--genz-lime);
+      margin-bottom: 8px;
     }
-    .product-price {
-      font-size: 1.4rem;
+    .pill-badge.sites {
+      background: rgba(56, 189, 248, 0.15);
+      border-color: rgba(56, 189, 248, 0.35);
+      color: var(--genz-cyan);
+    }
+    /* Modal Novo Lead */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(12px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 16px;
+    }
+    .modal-overlay.show {
+      display: flex;
+    }
+    .modal-box {
+      background: #0b1122;
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 24px;
+      width: 100%;
+      max-width: 440px;
+      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+    }
+    .modal-title {
+      font-size: 1.2rem;
       font-weight: 800;
+      margin: 0 0 16px;
       color: #ffffff;
-      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
-    .product-desc {
-      font-size: 0.85rem;
-      color: var(--text-muted);
-      line-height: 1.45;
-      margin-bottom: 16px;
-    }
-    /* Content Script Cards */
-    .content-card {
-      background: var(--card-bg);
-      border: 1px solid var(--card-border);
-      border-radius: 18px;
-      padding: 20px;
-      margin-bottom: 16px;
-    }
-    .content-day-badge {
-      display: inline-block;
-      font-size: 0.72rem;
-      font-weight: 700;
-      padding: 4px 10px;
-      border-radius: 999px;
-      background: rgba(33, 59, 214, 0.3);
-      color: #93c5fd;
-      margin-bottom: 10px;
-    }
-    .content-theme {
-      font-size: 1.15rem;
-      font-weight: 700;
-      margin: 0 0 12px;
-      color: #ffffff;
-    }
-    .content-block {
-      background: rgba(0, 0, 0, 0.25);
-      border: 1px solid rgba(255, 255, 255, 0.06);
-      padding: 12px 14px;
-      border-radius: 12px;
+    .modal-form-group {
       margin-bottom: 12px;
-      font-size: 0.88rem;
-      line-height: 1.5;
     }
-    .content-block-label {
-      font-size: 0.7rem;
+    .modal-label {
+      display: block;
+      font-size: 0.75rem;
       text-transform: uppercase;
       font-weight: 700;
-      color: var(--accent-lime);
+      color: var(--text-dim);
       margin-bottom: 4px;
+    }
+    .modal-input {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--glass-border);
+      color: #ffffff;
+      padding: 9px 12px;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      outline: none;
+    }
+    .modal-actions {
+      display: flex;
+      gap: 10px;
+      margin-top: 18px;
+    }
+    /* Toast */
+    .toast-box {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: #0f172a;
+      border: 1px solid var(--genz-lime);
+      color: #ffffff;
+      padding: 12px 20px;
+      border-radius: 14px;
+      box-shadow: 0 8px 30px rgba(0, 0, 0, 0.5);
+      font-size: 0.84rem;
+      font-weight: 600;
+      z-index: 100000;
+      transform: translateY(80px);
+      opacity: 0;
+      transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .toast-box.show {
+      transform: translateY(0);
+      opacity: 1;
     }
   </style>
 </head>
 <body>
-  <div class="dash-container">
+
+  <!-- TELA DE BLOQUEIO POR PIN (Privacidade Absoluta de José) -->
+  <div class="lock-screen" id="lockScreen">
+    <div class="lock-card">
+      <div class="lock-emblem" id="lockEmblem"></div>
+      <h2 class="lock-title">Painel Restrito do Comandante</h2>
+      <p class="lock-sub">
+        Acesso exclusivo de José. Digite seu PIN de 4 dígitos para desbloquear o radar de leads e métricas.
+      </p>
+      <form onsubmit="handleUnlock(event)">
+        <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••" autocomplete="off" autofocus required>
+        <button type="submit" class="btn-unlock">Desbloquear Painel</button>
+      </form>
+      <div style="font-size:0.72rem;color:var(--text-dim);margin-top:14px;">
+        PIN padrão inicial: <strong>7340</strong> (Seu DDD 73 + final 40)
+      </div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO PRINCIPAL DO PAINEL -->
+  <div class="dash-wrapper">
     <!-- Header -->
     <header class="dash-header">
-      <div class="dash-brand">
+      <div class="dash-brand-wrap">
         <div class="dash-emblem-wrap" id="dashEmblem"></div>
-        <div class="dash-brand-info">
-          <h1>Painel do Comandante · IArretada</h1>
-          <p>Supervisão Pessoal & Central de Operações com WhatsApp</p>
+        <div>
+          <h1 class="dash-title">Painel do Comandante · IArretada</h1>
+          <p class="dash-sub">
+            <span class="pulse-dot"></span>
+            Supervisão Pessoal de Leads, Sites & Metas
+          </p>
         </div>
       </div>
-      <div style="display:flex;gap:10px;align-items:center;">
-        <a href="/links/" class="dash-tab-btn" style="text-decoration:none;display:flex;align-items:center;gap:6px;">
-          <span>🌐 Ver Links Públicos</span>
+      <div class="header-btns">
+        <button class="btn-glass-subtle" onclick="openNewLeadModal()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Adicionar Lead</span>
+        </button>
+        <a href="/links/" class="btn-glass-subtle">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
+          <span>Ver Links Públicos</span>
         </a>
-        <a href="https://wa.me/5573999313401" target="_blank" rel="noopener noreferrer" class="btn-wa-direct" style="padding:8px 14px;font-size:0.82rem;">
+        <button class="btn-glass-subtle" onclick="lockPanel()" title="Bloquear tela com PIN">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          <span>Bloquear</span>
+        </button>
+        <a href="https://wa.me/5573999313401" target="_blank" rel="noopener noreferrer" class="btn-genz-wa">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
           <span>Meu WhatsApp</span>
         </a>
       </div>
     </header>
 
-    <!-- Metrics Bar -->
-    <div class="dash-metrics-bar">
-      <div class="metric-card">
-        <div class="metric-card-label">
-          <span>Meta Diária</span>
-          <span>🎯</span>
+    <!-- Linha de Métricas Visuais (Foco R$ 250/dia = R$ 7.500/mês) -->
+    <div class="metrics-row">
+      <div class="metric-pill-box">
+        <div class="metric-top">
+          <span class="metric-tag">Meta Diária Ideal</span>
+          <div class="metric-icon-wrap">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/></svg>
+          </div>
         </div>
-        <div class="metric-card-val">R$ 100,00 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:normal;">/ dia</span></div>
-        <div class="metric-card-sub">Equivale a R$ 3.000,00 por mês</div>
+        <div class="metric-number">R$ 250 <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">/ dia</span></div>
+        <div class="metric-detail">R$ 7.500,00 no mês</div>
       </div>
 
-      <div class="metric-card">
-        <div class="metric-card-label">
-          <span>Equivalência em Clientes</span>
-          <span>⚡</span>
+      <div class="metric-pill-box">
+        <div class="metric-top">
+          <span class="metric-tag">Criação de Sites</span>
+          <div class="metric-icon-wrap" style="color:var(--genz-cyan);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+          </div>
         </div>
-        <div class="metric-card-val">38 Clientes</div>
-        <div class="metric-card-sub">A R$ 79/mês cobre 100% da sua meta</div>
+        <div class="metric-number">R$ 750 <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">/ site</span></div>
+        <div class="metric-detail" style="color:var(--genz-cyan);">Apenas 10 sites fecham sua meta</div>
       </div>
 
-      <div class="metric-card">
-        <div class="metric-card-label">
-          <span>Leads no Radar Local</span>
-          <span>📍</span>
+      <div class="metric-pill-box">
+        <div class="metric-top">
+          <span class="metric-tag">Plano Híbrido</span>
+          <div class="metric-icon-wrap" style="color:var(--genz-lavender);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          </div>
         </div>
-        <div class="metric-card-val" id="totalLeadsCount">12 Ativos</div>
-        <div class="metric-card-sub">Porto Seguro, Arraial, Trancoso, Eunápolis</div>
+        <div class="metric-number">Mix Perfeito</div>
+        <div class="metric-detail" style="color:var(--genz-lavender);">50 assinaturas R$ 79 + 4 sites/mês</div>
       </div>
 
-      <div class="metric-card">
-        <div class="metric-card-label">
-          <span>Rotina de Monitoramento</span>
-          <span>🛡️</span>
+      <div class="metric-pill-box">
+        <div class="metric-top">
+          <span class="metric-tag">Radar de Leads</span>
+          <div class="metric-icon-wrap" style="color:var(--genz-green);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="m12 12 5-5"/></svg>
+          </div>
         </div>
-        <div class="metric-card-val">3 Toques/Dia</div>
-        <div class="metric-card-sub">Direto no WhatsApp, sem tomar seu tempo</div>
+        <div class="metric-number" id="metricTotalLeads">12 Ativos</div>
+        <div class="metric-detail" style="color:var(--genz-green);" id="metricContactedCount">0 contatados</div>
       </div>
     </div>
 
-    <!-- Navigation Tabs -->
-    <nav class="dash-tabs" aria-label="Abas de Navegação">
-      <button class="dash-tab-btn active" onclick="switchTab('radar')">📡 Radar Sentinela (Leads WhatsApp)</button>
-      <button class="dash-tab-btn" onclick="switchTab('produtos')">💎 Vitrine de 18 Micro-Produtos & Links</button>
-      <button class="dash-tab-btn" onclick="switchTab('conteudo')">🎬 Fábrica de Vídeos Sem Rosto (7 Dias)</button>
-      <button class="dash-tab-btn" onclick="switchTab('automacao')">⚙️ Automação 24/7 & Google Cloud</button>
+    <!-- Navegação de Abas -->
+    <nav class="tabs-bar" aria-label="Abas de Navegação">
+      <button class="tab-btn active" onclick="switchTab('radar')">
+        <span class="tab-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 10 10"/><path d="m12 12 5-5"/></svg>
+        </span>
+        <span>Radar de Leads Locais</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('sites')">
+        <span class="tab-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+        </span>
+        <span>Criação de Sites Rápidos</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('produtos')">
+        <span class="tab-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+        </span>
+        <span>Vitrine de 18 Micro-Produtos</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('conteudo')">
+        <span class="tab-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+        </span>
+        <span>Fábrica de Vídeos Sem Rosto</span>
+      </button>
+
+      <button class="tab-btn" onclick="switchTab('ajuda')">
+        <span class="tab-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+        </span>
+        <span>Conexão IArretado & WhatsApp</span>
+      </button>
     </nav>
 
-    <!-- TAB 1: RADAR SENTINELA -->
+    <!-- ABA 1: RADAR DE LEADS -->
     <section id="tab-radar" class="tab-content active">
-      <div class="filter-bar">
-        <input type="text" id="leadSearch" class="filter-input" placeholder="Buscar por pousada, restaurante, clínica..." oninput="filterLeads()">
-        <select id="cityFilter" class="filter-select" onchange="filterLeads()">
-          <option value="todas">Todas as Cidades</option>
-          <option value="Porto Seguro">Porto Seguro</option>
-          <option value="Arraial d'Ajuda">Arraial d'Ajuda</option>
-          <option value="Trancoso">Trancoso</option>
-          <option value="Caraíva">Caraíva</option>
-          <option value="Eunápolis">Eunápolis</option>
-          <option value="Santa Cruz Cabrália">Santa Cruz Cabrália</option>
-        </select>
-        <select id="statusFilter" class="filter-select" onchange="filterLeads()">
-          <option value="todos">Todos os Status</option>
-          <option value="pendente">A Contatar (Pendente)</option>
-          <option value="em-conversa">Em Conversa</option>
-          <option value="fechado">Fechado (R$ 79/mês)</option>
-        </select>
+      <div class="leads-control-bar">
+        <div class="control-filters">
+          <input type="text" id="leadSearch" class="input-clean" placeholder="Buscar estabelecimento ou setor..." oninput="filterLeads()">
+          <select id="cityFilter" class="select-clean" onchange="filterLeads()">
+            <option value="todas">Todas as Cidades</option>
+            <option value="Porto Seguro">Porto Seguro</option>
+            <option value="Arraial d'Ajuda">Arraial d'Ajuda</option>
+            <option value="Trancoso">Trancoso</option>
+            <option value="Caraíva">Caraíva</option>
+            <option value="Eunápolis">Eunápolis</option>
+            <option value="Santa Cruz Cabrália">Santa Cruz Cabrália</option>
+          </select>
+          <select id="statusFilter" class="select-clean" onchange="filterLeads()">
+            <option value="todos">Todos os Status</option>
+            <option value="pendente">A Contatar (Novo)</option>
+            <option value="em-conversa">Em Conversa</option>
+            <option value="fechado">Fechado (Cliente)</option>
+            <option value="arquivado">Arquivado</option>
+          </select>
+        </div>
+        <label class="toggle-wrap">
+          <input type="checkbox" id="hideContactedToggle" class="toggle-checkbox" onchange="filterLeads()">
+          <span>Ocultar já contatados</span>
+        </label>
+      </div>
+      <div class="leads-grid" id="leadsContainer"></div>
+    </section>
+
+    <!-- ABA 2: CRIAÇÃO DE SITES RÁPIDOS (NOVO SERVIÇO DE ALTO TICKET) -->
+    <section id="tab-sites" class="tab-content">
+      <div style="margin-bottom:18px;">
+        <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Criação de Sites para Estabelecimentos Comerciais & Pousadas</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
+          A forma mais rápida de bater a meta de <strong>R$ 250 por dia (R$ 7.500/mês)</strong>. Crie e publique sites ultra-rápidos com entrega em 48 a 72 horas.
+        </p>
       </div>
 
-      <div class="leads-grid" id="leadsContainer">
-        <!-- Renderizado dinamicamente via JS -->
+      <div class="catalog-grid">
+        <!-- Pacote 1: Site Express Comercial -->
+        <div class="product-glass-card">
+          <div>
+            <span class="pill-badge sites">Entrega em 48h</span>
+            <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 4px;">Site Express Comercial</h3>
+            <span style="font-size:0.75rem;color:var(--text-dim);">Lojas, Oficinas, Clínicas & Varejo</span>
+            <div style="font-size:1.4rem;font-weight:800;color:#ffffff;margin:8px 0;">
+              R$ 497 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">à vista ou R$ 89/mês</span>
+            </div>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
+              Página única ultra-rápida, adaptada para celular, com botão flutuante de WhatsApp, mapa de localização no Google, galeria de fotos e horários de funcionamento.
+            </p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Site%20Express%20Comercial%20(R$%20497)%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+              <span>Testar Link no WhatsApp</span>
+            </a>
+            <button class="btn-action-copy" onclick="copyText('https://www.iarretada.com.br/links/#site-express-comercial')">
+              <span>Copiar Link de Divulgação</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pacote 2: Site Vitrine Pousada & Gastronomia -->
+        <div class="product-glass-card">
+          <div>
+            <span class="pill-badge sites">Mais Desejado</span>
+            <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 4px;">Site Vitrine Pousada & Gastronomia</h3>
+            <span style="font-size:0.75rem;color:var(--text-dim);">Pousadas, Hotéis, Bares & Restaurantes</span>
+            <div style="font-size:1.4rem;font-weight:800;color:#ffffff;margin:8px 0;">
+              R$ 790 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">à vista ou R$ 139/mês</span>
+            </div>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
+              Site sofisticado com galeria de suítes/pratos em alta resolução, tabela de diárias/cardápio, link de rotas e motor de reservas diretas sem pagar comissão para Booking.
+            </p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20um%20Site%20Vitrine%20para%20minha%20Pousada/Restaurante%20(R$%20790)." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+              <span>Testar Link no WhatsApp</span>
+            </a>
+            <button class="btn-action-copy" onclick="copyText('https://www.iarretada.com.br/links/#site-pousada-gastronomia')">
+              <span>Copiar Link de Divulgação</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Pacote 3: Portal Imobiliário / Casas de Temporada VIP -->
+        <div class="product-glass-card">
+          <div>
+            <span class="pill-badge sites">Alto Padrão</span>
+            <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 4px;">Portal Imóveis & Casas Trancoso</h3>
+            <span style="font-size:0.75rem;color:var(--text-dim);">Corretores, Imobiliárias & Aluguel Temporada</span>
+            <div style="font-size:1.4rem;font-weight:800;color:#ffffff;margin:8px 0;">
+              R$ 1.250 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">à vista ou R$ 199/mês</span>
+            </div>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
+              Estrutura luxuosa para apresentar casas de temporada em Trancoso e Arraial, com filtros por datas, número de hóspedes e triagem automática integrada ao WhatsApp.
+            </p>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;">
+            <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Portal%20de%20Im%C3%B3veis/Temporada%20(R$%201.250)." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+              <span>Testar Link no WhatsApp</span>
+            </a>
+            <button class="btn-action-copy" onclick="copyText('https://www.iarretada.com.br/links/#portal-temporada-vip')">
+              <span>Copiar Link de Divulgação</span>
+            </button>
+          </div>
+        </div>
       </div>
     </section>
 
-    <!-- TAB 2: PRODUTOS & LINKS -->
+    <!-- ABA 3: PRODUTOS & LINKS -->
     <section id="tab-produtos" class="tab-content">
       <div style="margin-bottom:18px;">
-        <h2 style="font-size:1.2rem;margin:0 0 6px;">Catálogo de 18 Micro-Produtos Prontos para Venda</h2>
-        <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-          Links estruturados para compartilhar em conversas de WhatsApp, direct do Instagram ou adicionar à sua bio.
+        <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Catálogo dos 18 Micro-Produtos de R$ 37 a R$ 99</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
+          Links estruturados para compartilhar no WhatsApp, bio do Instagram ou direct.
         </p>
       </div>
-      <div class="products-grid" id="productsContainer">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+      <div class="catalog-grid" id="productsContainer"></div>
     </section>
 
-    <!-- TAB 3: CONTEÚDO SEM ROSTO -->
+    <!-- ABA 4: FÁBRICA DE VÍDEOS SEM ROSTO -->
     <section id="tab-conteudo" class="tab-content">
       <div style="margin-bottom:18px;">
-        <h2 style="font-size:1.2rem;margin:0 0 6px;">Fábrica de Roteiros Faceless (45 Segundos)</h2>
-        <p style="font-size:0.85rem;color:var(--text-muted);margin:0;">
-          Grave apenas a tela do seu celular com o WhatsApp funcionando ou coloque vídeos de praias locais da Bahia com legendas automáticas no CapCut. Zero necessidade de aparecer.
+        <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Roteiros Sem Rosto para CapCut & Reels</h2>
+        <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
+          Vídeos de 45 segundos gravando apenas a tela do celular com WhatsApp ou praias da Bahia. Sem aparecer.
         </p>
       </div>
-      <div id="contentContainer">
-        <!-- Renderizado dinamicamente via JS -->
-      </div>
+      <div id="contentContainer"></div>
     </section>
 
-    <!-- TAB 4: AUTOMAÇÃO 24/7 & GOOGLE CLOUD -->
-    <section id="tab-automacao" class="tab-content">
-      <div class="metric-card" style="margin-bottom:20px;">
-        <h2 style="font-size:1.2rem;margin:0 0 10px;color:var(--accent-lime);">Sua Estratégia de Automação Silenciosa (Zero Estresse)</h2>
-        <p style="font-size:0.9rem;line-height:1.6;color:#cbd5e1;margin-bottom:14px;">
-          Como você cuida dos seus pais e preza pelo controle visual simples ("quanto menos melhor"), sua operação roda com arquitetura <strong>100% gratuita e sem servidores pesados</strong>:
-        </p>
-        <ul style="font-size:0.88rem;color:#94a3b8;line-height:1.7;padding-left:20px;margin-bottom:16px;">
-          <li><strong>Cloudflare Pages & Workers (Ativo):</strong> Mantém o site, painel e as 42 páginas de SEO no ar 24 horas por dia com custo zero e carregamento instantâneo.</li>
-          <li><strong>Disparos Diretos no WhatsApp (Ativo):</strong> Em vez de bots terceiros complicados, o painel gera o link <code>https://wa.me/...</code> com a abordagem perfeita. Você só toca em "Enviar" no celular.</li>
-          <li><strong>Opção Google Cloud / Cloudflare Worker Cron (Pronto para plugar):</strong> Uma rotina serverless gratuita pode rodar diariamente às 09h da manhã e gerar novas oportunidades automaticamente no painel.</li>
-        </ul>
-        <div style="display:flex;gap:12px;flex-wrap:wrap;">
-          <a href="https://wa.me/5573999313401?text=Alerta%20de%20teste%20do%20Painel%20IArretada!" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
-            <span>📲 Testar Notificação no meu WhatsApp</span>
-          </a>
-          <button class="btn-copy-script" onclick="showToast('Backup dos dados do painel salvo no seu navegador!')">
-            <span>💾 Salvar Status Local</span>
-          </button>
+    <!-- ABA 5: CONEXÃO IARRETADO & WHATSAPP -->
+    <section id="tab-ajuda" class="tab-content">
+      <div class="product-glass-card" style="margin-bottom:20px;">
+        <h2 style="font-size:1.2rem;margin:0 0 10px;color:var(--genz-lime);font-weight:800;">
+          Como o "IArretado" Conecta os Clientes com Você
+        </h2>
+        <div style="font-size:0.88rem;color:#cbd5e1;line-height:1.7;">
+          <p>
+            <strong>1. O que é o IArretado no site?</strong><br>
+            O IArretado é o concierge digital com Inteligência Artificial que fica na página principal e nas páginas de serviços. Ele tira dúvidas sobre prazos, valores e funcionamento em tempo real.
+          </p>
+          <p>
+            <strong>2. É uma conexão direta comigo?</strong><br>
+            <strong>Sim!</strong> Quando o visitante clica no botão "Falar no WhatsApp", ele é transferido imediatamente para o seu WhatsApp pessoal oficial, já com a mensagem pronta dizendo exatamente qual serviço ele deseja. Você recebe o lead pronto para fechar!
+          </p>
+          <p>
+            <strong>3. Como saber os leads e não repetir contatos?</strong><br>
+            Aqui no Painel, cada lead do <em>Radar Sentinela</em> possui um <strong>carimbo de data e hora</strong>:
+          </p>
+          <ul style="padding-left:20px;color:var(--text-muted);">
+            <li>Ao clicar em <em>"Abrir WhatsApp Pronto"</em>, o painel muda o status automaticamente para <em>"Em Conversa"</em> e registra a data/hora.</li>
+            <li>Você pode marcar a caixa <em>"Ocultar já contatados"</em> para visualizar somente contatos novos.</li>
+            <li>Você pode adicionar qualquer pousada ou restaurante novo no botão <em>"Adicionar Lead"</em> no topo do painel.</li>
+          </ul>
         </div>
       </div>
     </section>
   </div>
 
+  <!-- Modal Adicionar Lead Manual -->
+  <div class="modal-overlay" id="newLeadModal">
+    <div class="modal-box">
+      <div class="modal-title">
+        <span>Adicionar Lead no Radar</span>
+        <button style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;" onclick="closeNewLeadModal()">✕</button>
+      </div>
+      <form onsubmit="handleSaveNewLead(event)">
+        <div class="modal-form-group">
+          <label class="modal-label">Nome do Estabelecimento</label>
+          <input type="text" id="newLeadName" class="modal-input" placeholder="Ex: Pousada Sol & Mar" required>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Cidade</label>
+          <select id="newLeadCity" class="modal-input" style="background:#090e1d;" required>
+            <option value="Porto Seguro">Porto Seguro</option>
+            <option value="Arraial d'Ajuda">Arraial d'Ajuda</option>
+            <option value="Trancoso">Trancoso</option>
+            <option value="Caraíva">Caraíva</option>
+            <option value="Eunápolis">Eunápolis</option>
+            <option value="Santa Cruz Cabrália">Santa Cruz Cabrália</option>
+          </select>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Setor</label>
+          <input type="text" id="newLeadSector" class="modal-input" placeholder="Ex: Pousada, Restaurante, Clínica" required>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Telefone / WhatsApp (com DDD)</label>
+          <input type="text" id="newLeadPhone" class="modal-input" placeholder="Ex: 5573999998888" required>
+        </div>
+        <div class="modal-form-group">
+          <label class="modal-label">Observação / Dor do Atendimento</label>
+          <input type="text" id="newLeadPain" class="modal-input" placeholder="Ex: Não tem site próprio ou demora no zap">
+        </div>
+        <div class="modal-actions">
+          <button type="submit" class="btn-genz-wa" style="flex:1;justify-content:center;">Salvar Lead</button>
+          <button type="button" class="btn-glass-subtle" onclick="closeNewLeadModal()">Cancelar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
   <!-- Toast -->
-  <div id="toast" class="toast">Mensagem copiada para a área de transferência!</div>
+  <div id="toast" class="toast-box">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+    <span id="toastMsg">Ação concluída com sucesso!</span>
+  </div>
 
   <script>
-    // Carregar dados incorporados
-    const LEADS_DATA = [
+    // Gerenciamento de PIN de Acesso (Segurança Pessoal)
+    const CORRECT_PIN = "7340";
+
+    function checkAuth() {
+      const isAuth = sessionStorage.getItem("iar_dash_auth");
+      const lock = document.getElementById("lockScreen");
+      if (isAuth === "true") {
+        lock.classList.add("unlocked");
+      } else {
+        lock.classList.remove("unlocked");
+        setTimeout(() => document.getElementById("pinInput").focus(), 200);
+      }
+    }
+
+    function handleUnlock(e) {
+      e.preventDefault();
+      const entered = document.getElementById("pinInput").value;
+      if (entered === CORRECT_PIN) {
+        sessionStorage.setItem("iar_dash_auth", "true");
+        document.getElementById("lockScreen").classList.add("unlocked");
+        showToast("Painel desbloqueado com sucesso!");
+      } else {
+        showToast("PIN incorreto. Tente novamente.");
+        document.getElementById("pinInput").value = "";
+      }
+    }
+
+    function lockPanel() {
+      sessionStorage.removeItem("iar_dash_auth");
+      checkAuth();
+    }
+
+    const INITIAL_LEADS = [
       {
         id: "lead-01",
         name: "Pousada Recanto dos Corais",
@@ -573,9 +1086,9 @@
         complaint_snippet: "Tentamos reservar pelo WhatsApp durante 2 dias e ninguém respondeu. Acabamos reservando outra pousada.",
         phone: "5573998811223",
         pain: "Perda de reservas diretas por demora no WhatsApp durante horário de expediente e finais de semana.",
-        solution_name: "Assistente Pousada Express",
-        solution_price: "R$ 79/mês",
-        icebreaker: "Olá, equipe da Recanto dos Corais! Vi que a pousada tem uma localização linda em Arraial. Notei que muitos viajantes mandam WhatsApp tarde da noite buscando disponibilidade e tarifas. Eu desenvolvi um assistente inteligente aqui na região que responde fotos dos quartos, valores e localização em 3 segundos no próprio WhatsApp, 24 horas por dia, por apenas R$ 79/mês. Se quiser testar por 48 horas grátis sem compromisso, me avise por aqui!"
+        solution_name: "Assistente Pousada Express ou Site Rápido",
+        solution_price: "R$ 79/mês ou R$ 497",
+        icebreaker: "Olá, equipe da Recanto dos Corais! Vi que a pousada tem uma localização linda em Arraial. Notei que muitos viajantes mandam WhatsApp tarde da noite buscando disponibilidade e tarifas. Eu desenvolvi um assistente inteligente e site rápido aqui na região que responde fotos dos quartos, valores e localização em 3 segundos no próprio WhatsApp, 24 horas por dia, por apenas R$ 79/mês. Se quiser testar por 48 horas grátis sem compromisso, me avise por aqui!"
       },
       {
         id: "lead-02",
@@ -735,11 +1248,11 @@
 
     const PRODUTOS_DATA = [
       { id: "pousada-express", name: "Assistente Pousada Express", category: "Hotelaria & Pousadas", price: "R$ 79/mês", badge: "Mais Procurado", desc: "Atendimento 24/7 no WhatsApp da pousada com envio de fotos, diárias e mapa.", wa_text: "Olá José! Quero ativar o Assistente Pousada Express (R$ 79/mês) na minha pousada." },
-      { id: "temporada-vip", name: "Triagem Aluguel de Temporada & Casas", category: "Hotelaria & Pousadas", price: "R$ 99/mês", badge: "Alto Padrão", desc: "Filtra contatos no WhatsApp coletando datas, pessoas e orçamento antes de passar ao corretor.", wa_text: "Olá José! Gostaria de ativar a Triagem de Temporada & Casas VIP (R$ 99/mês)." },
-      { id: "guia-hospede-digital", name: "Guia Digital do Hóspede com QR Code", category: "Hotelaria & Pousadas", price: "R$ 67", badge: "Entrega Rápida", desc: "Página mobile personalizada com Wi-Fi automático, passeios e delivery local.", wa_text: "Olá José! Quero encomendar o Guia Digital do Hóspede com QR Code (R$ 67)." },
-      { id: "planilha-reservas", name: "Planilha Inteligente de Ocupação & Tarifas", category: "Hotelaria & Pousadas", price: "R$ 37", badge: "Download Imediato", desc: "Planilha pronta no Google Sheets com cálculo de ocupação mensal e receita líquida.", wa_text: "Olá José! Quero o link da Planilha Inteligente de Ocupação & Tarifas para Pousadas (R$ 37)." },
+      { id: "temporada-vip", name: "Triagem Aluguel de Temporada VIP", category: "Hotelaria & Pousadas", price: "R$ 99/mês", badge: "Alto Padrão", desc: "Filtra contatos no WhatsApp coletando datas, pessoas e orçamento antes de passar ao corretor.", wa_text: "Olá José! Gostaria de ativar a Triagem de Temporada & Casas VIP (R$ 99/mês)." },
+      { id: "guia-hospede-digital", name: "Guia Digital do Hóspede QR Code", category: "Hotelaria & Pousadas", price: "R$ 67", badge: "Entrega Rápida", desc: "Página mobile personalizada com Wi-Fi automático, passeios e delivery local.", wa_text: "Olá José! Quero encomendar o Guia Digital do Hóspede com QR Code (R$ 67)." },
+      { id: "planilha-reservas", name: "Planilha de Ocupação & Tarifas", category: "Hotelaria & Pousadas", price: "R$ 37", badge: "Download Imediato", desc: "Planilha pronta no Google Sheets com cálculo de ocupação mensal e receita líquida.", wa_text: "Olá José! Quero o link da Planilha Inteligente de Ocupação & Tarifas para Pousadas (R$ 37)." },
       { id: "cardapio-zap", name: "Cardápio Inteligente no WhatsApp", category: "Gastronomia & Restaurantes", price: "R$ 79/mês", badge: "Campeão de Vendas", desc: "Apresenta opções em texto leve e fotos rápidas, fechando o pedido sem travar o garçom.", wa_text: "Olá José! Quero instalar o Cardápio Inteligente no WhatsApp (R$ 79/mês)." },
-      { id: "reserva-mesas", name: "Gestor Automático de Reservas & Fila", category: "Gastronomia & Restaurantes", price: "R$ 89/mês", badge: "Alta Temporada", desc: "Organiza fila de espera e reservas de mesas com confirmação automática de tolerância.", wa_text: "Olá José! Quero saber sobre o Gestor Automático de Reservas (R$ 89/mês)." },
+      { id: "reserva-mesas", name: "Gestor Automático de Reservas", category: "Gastronomia & Restaurantes", price: "R$ 89/mês", badge: "Alta Temporada", desc: "Organiza fila de espera e reservas de mesas com confirmação automática de tolerância.", wa_text: "Olá José! Quero saber sobre o Gestor Automático de Reservas (R$ 89/mês)." },
       { id: "kit-google-nota5", name: "Kit Google Meu Negócio Nota 5.0", category: "Gastronomia & Restaurantes", price: "R$ 47", badge: "Download Imediato", desc: "Templates elegantes para placas com QR Code e respostas prontas a reviews negativos.", wa_text: "Olá José! Quero adquirir o Kit Google Meu Negócio Nota 5.0 (R$ 47)." },
       { id: "clinica-confirma", name: "Confirmação Automática de Consultas", category: "Saúde & Consultórios", price: "R$ 79/mês", badge: "Economia Real", desc: "Lembrete 24h antes da consulta com confirmação em 1 toque, reduzindo faltas em 50%.", wa_text: "Olá José! Tenho interesse na Confirmação Automática de Consultas (R$ 79/mês)." },
       { id: "salao-agenda", name: "Recepção para Barbearia & Salão", category: "Saúde & Estética", price: "R$ 79/mês", badge: "Prático", desc: "Envia tabela de serviços e link de horários livres sem precisar largar a tesoura.", wa_text: "Olá José! Quero colocar a Recepção Automática (R$ 79/mês) no meu salão/barbearia." },
@@ -747,7 +1260,7 @@
       { id: "comercio-catalogo", name: "Atendente de Catálogo & Frete Local", category: "Comércio & Varejo", price: "R$ 79/mês", badge: "Zero Perda", desc: "Responde horários, taxa de entrega por bairro e chave Pix no primeiro segundo.", wa_text: "Olá José! Quero o Atendente de Catálogo & Frete Local (R$ 79/mês)." },
       { id: "imob-qualifica", name: "Filtro de Compradores Imobiliários", category: "Imobiliárias", price: "R$ 99/mês", badge: "Fechamento", desc: "Descobre faixa de valor pretendida e tipo de imóvel antes de passar ao corretor.", wa_text: "Olá José! Quero o Filtro de Compradores para Imobiliária (R$ 99/mês)." },
       { id: "oficina-guincho", name: "Plantão Automotivo & Guincho 24h", category: "Serviços Locais", price: "R$ 79/mês", badge: "Emergência 24h", desc: "Pede localização GPS e modelo do carro na BR-367 disparando alerta sonoro para o socorro.", wa_text: "Olá José! Preciso do Plantão Automotivo & Guincho 24h (R$ 79/mês)." },
-      { id: "passeios-turismo", name: "Assistente de Passeios & Ecoturismo", category: "Turismo & Lazer", price: "R$ 79/mês", badge: "Turismo Forte", desc: "Roteiros de escuna, lancha e buggy com envio de Pix para reserva imediata.", wa_text: "Olá José! Quero contratar o Assistente de Passeios (R$ 79/mês)." },
+      { id: "passeios-turismo", name: "Assistente de Passeios & Turismo", category: "Turismo & Lazer", price: "R$ 79/mês", badge: "Turismo Forte", desc: "Roteiros de escuna, lancha e buggy com envio de Pix para reserva imediata.", wa_text: "Olá José! Quero contratar o Assistente de Passeios (R$ 79/mês)." },
       { id: "cobranca-amigavel", name: "Lembrete Educado de Cobrança", category: "Serviços Locais", price: "R$ 79/mês", badge: "Anti-Inadimplência", desc: "Lembretes cordiais de mensalidade 3 dias antes do vencimento com Pix.", wa_text: "Olá José! Quero ativar o Lembrete Educado de Cobrança (R$ 79/mês)." },
       { id: "pack-prompts-hotel", name: "Pack 100 Prompts para Hotelaria", category: "Infoprodutos", price: "R$ 47", badge: "Acesso Imediato", desc: "100 respostas humanizadas prontas para situações delicadas da recepção.", wa_text: "Olá José! Quero comprar o Pack de 100 Prompts para Hotelaria (R$ 47)." },
       { id: "auditoria-express", name: "Mini-Auditoria de Atendimento Digital", category: "Consultoria", price: "R$ 97", badge: "Diagnóstico 24h", desc: "Relatório apontando exatamente onde o negócio está perdendo clientes no WhatsApp.", wa_text: "Olá José! Quero a Mini-Auditoria de Atendimento Digital (R$ 97)." },
@@ -772,14 +1285,14 @@
       {
         day: 3,
         theme: "O terror das faltas em consultórios e clínicas",
-        visual: "Agenda de papel ou calendário com vários nomes riscados em vermelho escrito 'FALTOU'.",
+        visual: "Agenda de papel ou calendário com vários nomes riscados em vermelho com a palavra 'FALTOU'.",
         audio: "Cada paciente que falta sem avisar em Eunápolis ou Porto Seguro custa de cento e cinquenta a trezentos reais para a clínica. E mandar mensagem manual um por um consome a manhã inteira da sua recepcionista. Um lembrete automático 24 horas antes pede confirmação com um toque no WhatsApp. Reduz as faltas pela metade e mantém sua agenda cheia.",
         caption: "Reduza faltas de pacientes em até 50% sem sobrecarregar sua secretária. Conheça a Confirmação Automática por R$ 79/mês. Link na bio! #eunapolis #portoseguro #odontologia #saudeba"
       },
       {
         day: 4,
         theme: "Corretor de imóveis: como parar de atender curioso",
-        visual: "Notificações pipocando: 'Qual o valor?', 'Aceita troca em moto?'. O corretor afogado em mensagens.",
+        visual: "Notificações na tela: 'Qual o valor?', 'Aceita troca em moto?'. O corretor afogado em mensagens.",
         audio: "Se você trabalha com temporada ou venda de imóveis em Trancoso e Arraial d'Ajuda, já sabe: de cada dez mensagens no WhatsApp, oito são curiosos que somem depois que você envia o catálogo. Com uma triagem inteligente de IA, o próprio sistema pergunta as datas, quantidade de pessoas e faixa de orçamento antes de transferir para você. Você só conversa com quem realmente tem dinheiro na mão.",
         caption: "Poupe seu tempo para fechar negócios reais. Triagem de temporada e imóveis por R$ 99/mês. Fale no WhatsApp da bio! #trancoso #temporadatrancoso #imoveisdeluxo #corretores"
       },
@@ -806,92 +1319,196 @@
       }
     ];
 
-    // Gerenciamento de Status no LocalStorage
-    function getLeadStatus(id) {
-      return localStorage.getItem('lead_status_' + id) || 'pendente';
-    }
-    function setLeadStatus(id, status) {
-      localStorage.setItem('lead_status_' + id, status);
-      showToast('Status do lead atualizado!');
+    function getStoredLeads() {
+      const stored = localStorage.getItem('iar_custom_leads');
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {}
+      }
+      return INITIAL_LEADS;
     }
 
-    // Navegação de Abas
+    function saveStoredLeads(leads) {
+      localStorage.setItem('iar_custom_leads', JSON.stringify(leads));
+    }
+
+    function getLeadMetadata(id) {
+      const meta = localStorage.getItem('lead_meta_' + id);
+      return meta ? JSON.parse(meta) : { status: 'pendente', lastContact: null };
+    }
+
+    function setLeadMetadata(id, meta) {
+      localStorage.setItem('lead_meta_' + id, JSON.stringify(meta));
+    }
+
+    function recordContact(id) {
+      const now = new Date();
+      const formatted = now.toLocaleDateString('pt-BR') + ' às ' + now.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      const current = getLeadMetadata(id);
+      current.status = 'em-conversa';
+      current.lastContact = formatted;
+      setLeadMetadata(id, current);
+      showToast('Contato registrado! Marcado como "Em Conversa".');
+      filterLeads();
+    }
+
     function switchTab(tabId) {
       document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
-      document.querySelectorAll('.dash-tab-btn').forEach(el => el.classList.remove('active'));
-      const targetContent = document.getElementById('tab-' + tabId);
-      if (targetContent) targetContent.classList.add('active');
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      const target = document.getElementById('tab-' + tabId);
+      if (target) target.classList.add('active');
       event.currentTarget.classList.add('active');
     }
 
-    // Renderização de Leads
     function renderLeads(leads) {
       const container = document.getElementById('leadsContainer');
       container.innerHTML = '';
-      document.getElementById('totalLeadsCount').innerText = `${leads.length} Ativos`;
+      
+      let contactedCount = 0;
 
       leads.forEach(lead => {
-        const currentStatus = getLeadStatus(lead.id);
+        const meta = getLeadMetadata(lead.id);
+        if (meta.lastContact) contactedCount++;
+
         const waUrl = `https://wa.me/${lead.phone}?text=${encodeURIComponent(lead.icebreaker)}`;
 
+        let cardClass = 'lead-card';
+        if (meta.status === 'em-conversa') cardClass += ' contacted';
+        if (meta.status === 'fechado') cardClass += ' closed';
+
         const card = document.createElement('div');
-        card.className = 'lead-card';
+        card.className = cardClass;
         card.innerHTML = `
           <div>
             <div class="lead-header">
-              <h3 class="lead-title">${lead.name}</h3>
-              <span class="lead-city-tag">${lead.city}</span>
+              <h3 class="lead-name">${lead.name}</h3>
+              <span class="lead-city-pill">${lead.city}</span>
             </div>
-            <div class="lead-sector">${lead.sector}</div>
+            <div class="lead-meta">${lead.sector}</div>
+            
             <div class="lead-ratings">
-              ${lead.rating_tripadvisor ? `<span class="rating-badge">TripAdvisor ⭐ ${lead.rating_tripadvisor}</span>` : ''}
-              <span class="rating-badge">Google ⭐ ${lead.rating_google}</span>
+              ${lead.rating_tripadvisor ? `<span class="rating-chip"><svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> TripAdvisor ${lead.rating_tripadvisor}</span>` : ''}
+              <span class="rating-chip"><svg width="11" height="11" viewBox="0 0 24 24" fill="#fbbf24"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Google ${lead.rating_google || '4.0'}</span>
             </div>
-            <div class="lead-pain-box">
-              <strong>⚠️ Ponto Fraco Detectado:</strong><br>
+
+            <div class="lead-complaint-box">
+              <strong style="color:var(--genz-coral);display:block;margin-bottom:2px;">Ponto Fraco Detectado:</strong>
               "${lead.complaint_snippet}"
             </div>
+
             <div class="lead-solution-box">
-              <span>💡 ${lead.solution_name}</span>
-              <strong>${lead.solution_price}</strong>
+              <span>${lead.solution_name}</span>
+              <strong style="color:var(--genz-lime);">${lead.solution_price}</strong>
+            </div>
+
+            <div class="lead-stamp ${meta.lastContact ? 'active' : ''}">
+              <span>${meta.lastContact ? 'Último Contato: ' + meta.lastContact : 'Ainda não contatado'}</span>
+              ${meta.lastContact ? '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>' : ''}
             </div>
           </div>
-          <div class="lead-actions">
-            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
-              <span>📲 Abrir WhatsApp Pronto</span>
+
+          <div class="lead-actions-col">
+            <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-action-wa" onclick="recordContact('${lead.id}')">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <span>Abrir WhatsApp Pronto</span>
             </a>
-            <button class="btn-copy-script" onclick="copyToClipboard('${escapeJs(lead.icebreaker)}')">
-              <span>📋 Copiar Abordagem</span>
+
+            <button class="btn-action-copy" onclick="copyText('${escapeJs(lead.icebreaker)}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              <span>Copiar Mensagem</span>
             </button>
-            <select class="lead-status-select" onchange="setLeadStatus('${lead.id}', this.value)">
-              <option value="pendente" ${currentStatus === 'pendente' ? 'selected' : ''}>⏳ Status: A Contatar</option>
-              <option value="em-conversa" ${currentStatus === 'em-conversa' ? 'selected' : ''}>💬 Status: Em Conversa</option>
-              <option value="fechado" ${currentStatus === 'fechado' ? 'selected' : ''}>🎉 Status: Fechado (R$ 79/mês)</option>
-              <option value="recusado" ${currentStatus === 'recusado' ? 'selected' : ''}>❌ Status: Recusado</option>
-            </select>
+
+            <div class="status-select-wrap">
+              <select class="status-select" onchange="updateLeadStatus('${lead.id}', this.value)">
+                <option value="pendente" ${meta.status === 'pendente' ? 'selected' : ''}>A Contatar (Novo)</option>
+                <option value="em-conversa" ${meta.status === 'em-conversa' ? 'selected' : ''}>Em Conversa</option>
+                <option value="fechado" ${meta.status === 'fechado' ? 'selected' : ''}>Fechado (Cliente)</option>
+                <option value="arquivado" ${meta.status === 'arquivado' ? 'selected' : ''}>Arquivado</option>
+              </select>
+            </div>
           </div>
         `;
         container.appendChild(card);
       });
+
+      document.getElementById('metricTotalLeads').innerText = `${leads.length} Ativos`;
+      document.getElementById('metricContactedCount').innerText = `${contactedCount} contatados`;
     }
 
-    // Filtros de Leads
     function filterLeads() {
       const search = document.getElementById('leadSearch').value.toLowerCase();
       const city = document.getElementById('cityFilter').value;
       const status = document.getElementById('statusFilter').value;
+      const hideContacted = document.getElementById('hideContactedToggle').checked;
 
-      const filtered = LEADS_DATA.filter(l => {
+      const all = getStoredLeads();
+      const filtered = all.filter(l => {
+        const meta = getLeadMetadata(l.id);
         const matchesSearch = l.name.toLowerCase().includes(search) || l.sector.toLowerCase().includes(search);
         const matchesCity = city === 'todas' || l.city === city;
-        const currentStatus = getLeadStatus(l.id);
-        const matchesStatus = status === 'todos' || currentStatus === status;
-        return matchesSearch && matchesCity && matchesStatus;
+        const matchesStatus = status === 'todos' || meta.status === status;
+        const matchesHide = !hideContacted || !meta.lastContact;
+        return matchesSearch && matchesCity && matchesStatus && matchesHide;
       });
       renderLeads(filtered);
     }
 
-    // Renderização de Produtos
+    function updateLeadStatus(id, newStatus) {
+      const meta = getLeadMetadata(id);
+      meta.status = newStatus;
+      setLeadMetadata(id, meta);
+      showToast('Status atualizado para: ' + newStatus);
+      filterLeads();
+    }
+
+    function openNewLeadModal() {
+      document.getElementById('newLeadModal').classList.add('show');
+    }
+    function closeNewLeadModal() {
+      document.getElementById('newLeadModal').classList.remove('show');
+    }
+
+    function handleSaveNewLead(e) {
+      e.preventDefault();
+      const name = document.getElementById('newLeadName').value.trim();
+      const city = document.getElementById('newLeadCity').value;
+      const sector = document.getElementById('newLeadSector').value.trim();
+      const phone = document.getElementById('newLeadPhone').value.replace(/\D/g, '');
+      const pain = document.getElementById('newLeadPain').value.trim() || 'Atendimento com retorno lento ou sem site próprio';
+
+      const newId = 'lead-' + Date.now();
+      const icebreaker = `Olá, equipe da ${name}! Notei seu trabalho em ${city}. Desenvolvi um assistente inteligente e modelo de site rápido aqui na região que responde dúvidas e reservas no WhatsApp em 3 segundos, por R$ 79/mês. Gostariam de ver uma demonstração sem custo?`;
+
+      const newLead = {
+        id: newId,
+        name,
+        city,
+        sector,
+        rating_tripadvisor: null,
+        rating_google: 4.0,
+        complaint_snippet: pain,
+        phone,
+        pain,
+        solution_name: "Assistente Inteligente & Site Rápido",
+        solution_price: "R$ 79/mês ou R$ 497",
+        icebreaker
+      };
+
+      const current = getStoredLeads();
+      current.unshift(newLead);
+      saveStoredLeads(current);
+
+      closeNewLeadModal();
+      document.getElementById('newLeadName').value = '';
+      document.getElementById('newLeadPhone').value = '';
+      document.getElementById('newLeadSector').value = '';
+      document.getElementById('newLeadPain').value = '';
+
+      showToast('Novo lead adicionado com sucesso!');
+      filterLeads();
+    }
+
     function renderProducts() {
       const container = document.getElementById('productsContainer');
       container.innerHTML = '';
@@ -900,21 +1517,23 @@
         const shareLink = `https://www.iarretada.com.br/links/#${p.id}`;
 
         const card = document.createElement('div');
-        card.className = 'product-card';
+        card.className = 'product-glass-card';
         card.innerHTML = `
           <div>
-            <span class="product-badge">${p.badge}</span>
-            <h3 style="font-size:1.1rem;margin:0 0 4px;font-weight:700;">${p.name}</h3>
-            <span style="font-size:0.75rem;color:var(--text-muted);">${p.category}</span>
-            <div class="product-price">${p.price}</div>
-            <p class="product-desc">${p.desc}</p>
+            <span class="pill-badge">${p.badge}</span>
+            <h3 style="font-size:1.05rem;margin:0 0 4px;font-weight:700;">${p.name}</h3>
+            <span style="font-size:0.75rem;color:var(--text-dim);">${p.category}</span>
+            <div style="font-size:1.35rem;font-weight:800;color:#ffffff;margin:8px 0;">${p.price}</div>
+            <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">${p.desc}</p>
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-wa-direct">
-              <span>📲 Testar Link WhatsApp</span>
+            <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
+              <span>Testar no WhatsApp</span>
             </a>
-            <button class="btn-copy-script" onclick="copyToClipboard('${shareLink}')">
-              <span>🔗 Copiar Link de Divulgação</span>
+            <button class="btn-action-copy" onclick="copyText('${shareLink}')">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+              <span>Copiar Link Direto</span>
             </button>
           </div>
         `;
@@ -922,44 +1541,42 @@
       });
     }
 
-    // Renderização de Conteúdo Faceless
     function renderContent() {
       const container = document.getElementById('contentContainer');
       container.innerHTML = '';
       CONTEUDO_DATA.forEach(c => {
         const card = document.createElement('div');
-        card.className = 'content-card';
+        card.className = 'product-glass-card';
+        card.style.marginBottom = '14px';
         card.innerHTML = `
-          <span class="content-day-badge">Dia ${c.day} · Vídeo de 45s</span>
-          <h3 class="content-theme">${c.theme}</h3>
-          <div class="content-block">
-            <div class="content-block-label">📹 O que mostrar no vídeo (Sem Rosto)</div>
-            ${c.visual}
+          <div>
+            <span class="pill-badge">Roteiro Dia ${c.day} · 45 Segundos</span>
+            <h3 style="font-size:1.1rem;font-weight:700;margin:4px 0 10px;color:#ffffff;">${c.theme}</h3>
+            <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;font-size:0.82rem;margin-bottom:8px;line-height:1.45;">
+              <strong style="color:var(--genz-lime);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Cena Visual (Sem Rosto):</strong>
+              ${c.visual}
+            </div>
+            <div style="background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:10px;font-size:0.82rem;margin-bottom:12px;line-height:1.45;">
+              <strong style="color:var(--genz-cyan);display:block;margin-bottom:2px;font-size:0.72rem;text-transform:uppercase;">Áudio da Locução:</strong>
+              "${c.audio}"
+            </div>
           </div>
-          <div class="content-block">
-            <div class="content-block-label">🎙️ Texto da Locução / Voz (CapCut ou gravado)</div>
-            "${c.audio}"
-          </div>
-          <div class="content-block">
-            <div class="content-block-label">📝 Legenda Pronta com Hashtags</div>
-            ${c.caption}
-          </div>
-          <button class="btn-copy-script" onclick="copyToClipboard('${escapeJs(c.audio + '\\n\\n' + c.caption)}')">
-            <span>📋 Copiar Áudio + Legenda do Dia ${c.day}</span>
+          <button class="btn-action-copy" onclick="copyText('${escapeJs(c.audio + '\\n\\n' + c.caption)}')">
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copiar Áudio + Legenda</span>
           </button>
         `;
         container.appendChild(card);
       });
     }
 
-    // Utilitários
     function escapeJs(str) {
       return str.replace(/'/g, "\\'").replace(/"/g, '&quot;').replace(/\n/g, '\\n');
     }
 
-    function copyToClipboard(text) {
+    function copyText(text) {
       navigator.clipboard.writeText(text).then(() => {
-        showToast('Texto copiado com sucesso!');
+        showToast('Copiado para a área de transferência!');
       }).catch(() => {
         showToast('Texto selecionado!');
       });
@@ -967,18 +1584,20 @@
 
     function showToast(msg) {
       const toast = document.getElementById('toast');
-      toast.innerText = msg;
+      document.getElementById('toastMsg').innerText = msg;
       toast.classList.add('show');
       setTimeout(() => toast.classList.remove('show'), 2600);
     }
 
-    // Iniciar tudo ao carregar
     document.addEventListener("DOMContentLoaded", () => {
+      checkAuth();
       const stage = document.getElementById("dashEmblem");
-      if (stage && typeof createIArretado3D === "function") {
-        createIArretado3D(stage, 60);
+      const lockStage = document.getElementById("lockEmblem");
+      if (typeof createIArretado3D === "function") {
+        if (stage) createIArretado3D(stage, 56);
+        if (lockStage) createIArretado3D(lockStage, 64);
       }
-      renderLeads(LEADS_DATA);
+      filterLeads();
       renderProducts();
       renderContent();
     });
