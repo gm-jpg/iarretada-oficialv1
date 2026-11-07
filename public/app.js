@@ -241,12 +241,14 @@
   }
 
   // =========================================================================
-  // IARRETADO 3D WEBGL ENGINE (Totalmente 3D, Rotacionando e Piscando)
+  // IARRETADO 3D EMBLEM ENGINE (Símbolo Oficial 3D Interligado com Movimento Relativo)
+  // "o simbolo do iarretado seja esse se movendo entre si 3d"
   // =========================================================================
   function createIArretado3D(container, size = 70) {
     const canvas = document.createElement("canvas");
-    canvas.width = size * window.devicePixelRatio;
-    canvas.height = size * window.devicePixelRatio;
+    const dpr = Math.min(window.devicePixelRatio || 2, 3);
+    canvas.width = size * dpr;
+    canvas.height = size * dpr;
     canvas.style.width = size + "px";
     canvas.style.height = size + "px";
     canvas.style.display = "block";
@@ -256,166 +258,208 @@
     const ctx = canvas.getContext("2d");
     if (!ctx) {
       const fallback = document.createElement("img");
-      fallback.src = "/assets/iarretado/iarretado.webp";
+      fallback.src = "/assets/brand/iarretada-mark.png";
       fallback.width = size;
       fallback.height = size;
+      fallback.alt = "IArretado";
       container.replaceChildren(fallback);
       return;
     }
 
-    let angleX = 0.3;
-    let angleY = 0;
-    let angleZ = 0;
-    let time = 0;
-    let isBlinking = false;
-    let blinkProgress = 0;
-    let targetAngleX = 0.3;
-    let targetAngleY = 0;
+    // Camadas do símbolo oficial da IArretada
+    const layers = {
+      full: new Image(),
+      blue: new Image(),
+      lime: new Image(),
+      dot: new Image()
+    };
+    layers.full.src = "/assets/brand/iarretada-mark-full.png";
+    layers.blue.src = "/assets/brand/iarretada-mark-blue.png";
+    layers.lime.src = "/assets/brand/iarretada-mark-lime.png";
+    layers.dot.src = "/assets/brand/iarretada-mark-dot.png";
 
-    // Interatividade com o mouse
+    let loadedCount = 0;
+    let allLoaded = false;
+    function checkLoaded() {
+      loadedCount++;
+      if (loadedCount >= 4) allLoaded = true;
+    }
+    Object.values(layers).forEach(img => {
+      if (img.complete && img.naturalWidth > 0) checkLoaded();
+      else {
+        img.addEventListener("load", checkLoaded, { once: true });
+        img.addEventListener("error", () => {
+          allLoaded = true;
+        }, { once: true });
+      }
+    });
+
+    let time = Math.random() * 20;
+    let targetAngleX = 0;
+    let targetAngleY = 0;
+    let curAngleX = 0;
+    let curAngleY = 0;
+
+    // Interatividade com o cursor/toque (Parallax 3D)
     window.addEventListener("mousemove", e => {
       const rect = canvas.getBoundingClientRect();
       const cx = rect.left + rect.width / 2;
       const cy = rect.top + rect.height / 2;
-      const dx = (e.clientX - cx) / window.innerWidth;
-      const dy = (e.clientY - cy) / window.innerHeight;
-      targetAngleY = dx * 1.2;
-      targetAngleX = 0.3 + dy * 0.8;
+      const dx = (e.clientX - cx) / (window.innerWidth * 0.5);
+      const dy = (cy - e.clientY) / (window.innerHeight * 0.5);
+      targetAngleY = Math.max(-0.45, Math.min(0.45, dx * 0.45));
+      targetAngleX = Math.max(-0.4, Math.min(0.4, dy * 0.4));
     }, { passive: true });
 
     function render() {
-      time += 0.035;
-      angleY += 0.022; // Rotação contínua 3D
-      angleX += (targetAngleX - angleX) * 0.05;
-
-      // Piscar sincronizado com micro-pulsos
-      const cycle = Math.sin(time * 0.85);
-      if (cycle > 0.985 && !isBlinking) {
-        isBlinking = true;
-        blinkProgress = 0;
-      }
-      if (isBlinking) {
-        blinkProgress += 0.15;
-        if (blinkProgress >= Math.PI) {
-          isBlinking = false;
-          blinkProgress = 0;
-        }
-      }
+      time += 0.028;
+      curAngleX += (targetAngleX - curAngleX) * 0.08;
+      curAngleY += (targetAngleY - curAngleY) * 0.08;
 
       const w = canvas.width;
       const h = canvas.height;
       const cx = w / 2;
       const cy = h / 2;
-      const r = (w / 2) * 0.72;
+      const baseDim = w * 0.84;
 
       ctx.clearRect(0, 0, w, h);
 
-      // 1. Aura e Brilho Atmosférico Fluido (Liquid Glow)
-      const glowGrad = ctx.createRadialGradient(cx, cy, r * 0.2, cx, cy, r * 1.35);
-      const pulseOpacity = 0.45 + Math.sin(time * 2.2) * 0.15;
-      glowGrad.addColorStop(0, `rgba(33, 150, 243, ${pulseOpacity})`);
-      glowGrad.addColorStop(0.55, `rgba(0, 212, 255, ${pulseOpacity * 0.4})`);
-      glowGrad.addColorStop(1, "rgba(10, 25, 47, 0)");
+      // 1. Aura e Brilho Líquido Atmosférico (Glow de Fundo)
+      const pulse = 0.38 + Math.sin(time * 2.2) * 0.14;
+      const glowRad = baseDim * 0.72;
+      const glowGrad = ctx.createRadialGradient(cx, cy, glowRad * 0.15, cx, cy, glowRad);
+      glowGrad.addColorStop(0, `rgba(0, 229, 255, ${pulse * 0.55})`);
+      glowGrad.addColorStop(0.38, `rgba(33, 59, 214, ${pulse * 0.38})`);
+      glowGrad.addColorStop(0.72, `rgba(163, 230, 53, ${pulse * 0.22})`);
+      glowGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
       ctx.fillStyle = glowGrad;
       ctx.beginPath();
-      ctx.arc(cx, cy, r * 1.35, 0, Math.PI * 2);
+      ctx.arc(cx, cy, glowRad, 0, Math.PI * 2);
       ctx.fill();
 
-      // 2. Anéis Orbitais 3D Exteriores (Giro no espaço tridimensional)
-      ctx.save();
-      ctx.translate(cx, cy);
-      
-      // Anel 1 (Inclinado)
-      ctx.save();
-      ctx.rotate(angleY * 0.9);
-      ctx.scale(1, Math.cos(angleX * 1.4));
-      ctx.beginPath();
-      ctx.ellipse(0, 0, r * 1.15, r * 0.55, 0, 0, Math.PI * 2);
-      ctx.lineWidth = 2.2 * window.devicePixelRatio;
-      ctx.strokeStyle = "rgba(64, 196, 255, 0.75)";
-      ctx.shadowColor = "#00e5ff";
-      ctx.shadowBlur = 10 * window.devicePixelRatio;
-      ctx.stroke();
-      ctx.restore();
-
-      // Anel 2 (Cruzado)
-      ctx.save();
-      ctx.rotate(-angleY * 1.1 + Math.PI / 3);
-      ctx.scale(Math.cos(angleX * 1.2), 1);
-      ctx.beginPath();
-      ctx.ellipse(0, 0, r * 0.6, r * 1.2, 0, 0, Math.PI * 2);
-      ctx.lineWidth = 1.8 * window.devicePixelRatio;
-      ctx.strokeStyle = "rgba(0, 229, 255, 0.65)";
-      ctx.shadowColor = "#2979ff";
-      ctx.shadowBlur = 8 * window.devicePixelRatio;
-      ctx.stroke();
-      ctx.restore();
-
-      ctx.restore();
-
-      // 3. Esfera Central Metálica 3D com Sombreamento Esférico
-      ctx.save();
-      const lightX = cx - r * 0.35 + Math.sin(angleY) * (r * 0.15);
-      const lightY = cy - r * 0.35 + Math.cos(angleX) * (r * 0.15);
-      const sphereGrad = ctx.createRadialGradient(lightX, lightY, r * 0.05, cx, cy, r);
-      sphereGrad.addColorStop(0, "#ffffff");
-      sphereGrad.addColorStop(0.18, "#80d8ff");
-      sphereGrad.addColorStop(0.45, "#0091ea");
-      sphereGrad.addColorStop(0.75, "#0d47a1");
-      sphereGrad.addColorStop(0.95, "#061838");
-      sphereGrad.addColorStop(1, "#020a17");
-
-      ctx.fillStyle = sphereGrad;
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Linhas de Latitude/Longitude Tecnológicas
-      ctx.save();
-      ctx.beginPath();
-      ctx.arc(cx, cy, r, 0, Math.PI * 2);
-      ctx.clip();
-
-      ctx.strokeStyle = "rgba(128, 222, 234, 0.3)";
-      ctx.lineWidth = 1.2 * window.devicePixelRatio;
-      for (let i = -2; i <= 2; i++) {
-        const yOffset = (r / 3) * i;
-        const radAtY = Math.sqrt(Math.max(0, r * r - yOffset * yOffset));
-        ctx.beginPath();
-        const squish = Math.sin(angleX + i * 0.3);
-        ctx.ellipse(cx, cy + yOffset, radAtY, radAtY * Math.abs(squish) * 0.45, 0, 0, Math.PI * 2);
-        ctx.stroke();
+      // Placeholder caso assets ainda estejam carregando
+      if (!allLoaded) {
+        if (!reduced()) requestAnimationFrame(render);
+        return;
       }
-      ctx.restore();
 
-      // 4. Olho / Núcleo Óptico Piscando (Blinking Core)
-      const eyeScaleY = isBlinking ? Math.max(0.08, Math.cos(blinkProgress)) : (1 + Math.sin(time * 3) * 0.12);
-      const eyeX = cx + Math.sin(angleY) * (r * 0.22);
-      const eyeY = cy + Math.sin(angleX) * (r * 0.18);
+      // Cinemática 3D Global (Precessão + inclinação orbital + mouse)
+      const globalYaw = Math.sin(time * 0.9) * 0.25 + curAngleY;
+      const globalPitch = Math.cos(time * 0.75) * 0.18 + curAngleX;
+      const globalRoll = Math.sin(time * 0.55) * 0.06;
 
-      const eyeGlow = ctx.createRadialGradient(eyeX, eyeY, 1, eyeX, eyeY, r * 0.35);
-      eyeGlow.addColorStop(0, "#ffffff");
-      eyeGlow.addColorStop(0.4, "#00e5ff");
-      eyeGlow.addColorStop(0.85, "rgba(0, 145, 234, 0.4)");
-      eyeGlow.addColorStop(1, "rgba(0, 0, 0, 0)");
+      // Cinemática Relativa Interna: "SE MOVENDO ENTRE SI 3D"
+      // Fita Azul: torção e oscilação
+      const blueYawOffset = Math.sin(time * 1.35) * 0.11;
+      const bluePitchOffset = Math.cos(time * 1.15) * 0.09;
+      const blueZ = Math.sin(time * 1.35) * 18;
+      const blueScale = 1.0 + Math.sin(time * 1.5) * 0.024;
 
+      // Fita Verde Limão: ondulação contraposta interligada
+      const limeYawOffset = -Math.sin(time * 1.35 + 0.65) * 0.13;
+      const limePitchOffset = -Math.cos(time * 1.15 + 0.65) * 0.11;
+      const limeZ = -Math.sin(time * 1.35) * 18;
+      const limeScale = 1.0 + Math.cos(time * 1.5) * 0.032;
+
+      // Cubo / Ponto Flutuante Verde Limão (topo direito): levitação livre 3D
+      const dotFloatX = Math.cos(time * 2.2) * (baseDim * 0.04);
+      const dotFloatY = Math.sin(time * 2.6) * (baseDim * 0.05);
+      const dotZ = 24 + Math.sin(time * 2.0) * 12;
+      const dotRoll = Math.sin(time * 2.0) * 0.16;
+
+      const camDist = baseDim * 3.3;
+
+      function draw3DLayer(img, localYaw, localPitch, localRoll, localZ, scaleMult, offsetX = 0, offsetY = 0, sheenPhase = 0) {
+        ctx.save();
+        const pScale = camDist / (camDist + localZ);
+        const finalScale = pScale * scaleMult;
+        const px = cx + offsetX * pScale;
+        const py = cy + offsetY * pScale;
+
+        ctx.translate(px, py);
+        ctx.rotate(globalRoll + localRoll);
+
+        const totalYaw = globalYaw + localYaw;
+        const totalPitch = globalPitch + localPitch;
+
+        ctx.scale(
+          Math.cos(totalYaw) * finalScale,
+          Math.cos(totalPitch) * finalScale
+        );
+
+        ctx.drawImage(img, -baseDim / 2, -baseDim / 2, baseDim, baseDim);
+
+        // Brilho Líquido Especular (Liquid Sheen Sweep)
+        if (sheenPhase > 0) {
+          ctx.save();
+          ctx.globalCompositeOperation = "screen";
+          const sheenAngle = time * 1.9 + sheenPhase;
+          const sheenX = Math.sin(sheenAngle) * (baseDim * 0.55);
+          const sheenY = Math.cos(sheenAngle) * (baseDim * 0.55);
+          const sheenGrad = ctx.createRadialGradient(sheenX, sheenY, 0, sheenX, sheenY, baseDim * 0.42);
+          sheenGrad.addColorStop(0, "rgba(255, 255, 255, 0.72)");
+          sheenGrad.addColorStop(0.32, "rgba(0, 229, 255, 0.32)");
+          sheenGrad.addColorStop(0.7, "rgba(163, 230, 53, 0.12)");
+          sheenGrad.addColorStop(1, "rgba(0, 0, 0, 0)");
+          ctx.fillStyle = sheenGrad;
+          ctx.beginPath();
+          ctx.arc(0, 0, baseDim * 0.5, 0, Math.PI * 2);
+          ctx.fill();
+          ctx.restore();
+        }
+
+        ctx.restore();
+      }
+
+      // Ordenação dinâmica de profundidade (entre si 3D)
+      const renderList = [
+        {
+          name: "blue",
+          z: blueZ,
+          draw: () => draw3DLayer(layers.blue, blueYawOffset, bluePitchOffset, 0, blueZ, blueScale, 0, 0, 0.4)
+        },
+        {
+          name: "lime",
+          z: limeZ,
+          draw: () => draw3DLayer(layers.lime, limeYawOffset, limePitchOffset, 0, limeZ, limeScale, 0, 0, 1.2)
+        },
+        {
+          name: "dot",
+          z: dotZ,
+          draw: () => {
+            ctx.save();
+            ctx.beginPath();
+            const shadowX = cx + (baseDim * 0.28) + dotFloatX * 0.6;
+            const shadowY = cy - (baseDim * 0.22) + dotFloatY * 0.4 + 10;
+            ctx.ellipse(shadowX, shadowY, baseDim * 0.11, baseDim * 0.055, 0, 0, Math.PI * 2);
+            ctx.fillStyle = "rgba(10, 20, 60, 0.32)";
+            ctx.fill();
+            ctx.restore();
+
+            draw3DLayer(layers.dot, 0, 0, dotRoll, dotZ, 1.0, dotFloatX, dotFloatY, 2.2);
+          }
+        }
+      ];
+
+      renderList.sort((a, b) => a.z - b.z);
+      renderList.forEach(layer => layer.draw());
+
+      // Ponto de luz cintilante (Star Glint)
       ctx.save();
-      ctx.translate(eyeX, eyeY);
-      ctx.scale(1, eyeScaleY);
-      ctx.fillStyle = eyeGlow;
-      ctx.beginPath();
-      ctx.arc(0, 0, r * 0.35, 0, Math.PI * 2);
-      ctx.fill();
-
-      // Pupila Brilhante / Foco de IA
-      ctx.fillStyle = "#ffffff";
-      ctx.shadowColor = "#ffffff";
-      ctx.shadowBlur = 12 * window.devicePixelRatio;
-      ctx.beginPath();
-      ctx.arc(0, 0, r * 0.12, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-
+      const glintPulse = (Math.sin(time * 2.8) + 1) / 2;
+      if (glintPulse > 0.72) {
+        const glintIntensity = (glintPulse - 0.72) / 0.28;
+        const glintX = cx + Math.sin(time * 0.6) * (baseDim * 0.12) - baseDim * 0.1;
+        const glintY = cy + Math.cos(time * 0.6) * (baseDim * 0.12) - baseDim * 0.16;
+        const starGrad = ctx.createRadialGradient(glintX, glintY, 0, glintX, glintY, baseDim * 0.16 * glintIntensity);
+        starGrad.addColorStop(0, "rgba(255, 255, 255, 0.95)");
+        starGrad.addColorStop(0.35, "rgba(180, 255, 255, 0.65)");
+        starGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
+        ctx.fillStyle = starGrad;
+        ctx.beginPath();
+        ctx.arc(glintX, glintY, baseDim * 0.16 * glintIntensity, 0, Math.PI * 2);
+        ctx.fill();
+      }
       ctx.restore();
 
       if (!reduced()) {
@@ -426,7 +470,7 @@
     render();
   }
 
-  // =========================================================================
+    // =========================================================================
   // ASSISTENTE VIRTUAL IARRETADO & COMPONENTE WHATSAPP DIRETO
   // =========================================================================
   const topics = [
