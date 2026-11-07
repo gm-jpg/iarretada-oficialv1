@@ -39,7 +39,7 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    /* Tela de Bloqueio por PIN (Segurança Pessoal de José) */
+    /* Tela de Bloqueio por PIN (Segurança de José) */
     .lock-screen {
       position: fixed;
       inset: 0;
@@ -234,9 +234,9 @@
     .btn-genz-wa:hover {
       transform: translateY(-1px);
       filter: brightness(1.08);
-      box-shadow: 0 6px 20px rgba(37, 211, 102, 0.45);
     }
-    /* Metas & Métricas Visuais (Foco R$ 250/dia = R$ 7.500/mês) */
+
+    /* Linha de Métricas Visuais (Foco R$ 250/dia = R$ 7.500/mês) */
     .metrics-row {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
@@ -290,6 +290,7 @@
       font-size: 0.78rem;
       color: var(--genz-lime);
     }
+
     /* Navegação por Abas */
     .tabs-bar {
       display: flex;
@@ -337,6 +338,79 @@
     .tab-content.active {
       display: block;
     }
+
+    /* Caixa da Fila da Hora (5 Propostas por Hora) */
+    .hourly-batch-box {
+      background: linear-gradient(135deg, rgba(33, 59, 214, 0.2) 0%, rgba(212, 255, 112, 0.08) 100%);
+      border: 1px solid rgba(212, 255, 112, 0.25);
+      border-radius: 20px;
+      padding: 18px 22px;
+      margin-bottom: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .hourly-batch-info h3 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin: 0 0 4px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hourly-batch-info p {
+      font-size: 0.82rem;
+      color: #cbd5e1;
+      margin: 0;
+    }
+    .btn-batch-fire {
+      background: linear-gradient(135deg, var(--genz-lime) 0%, #84cc16 100%);
+      color: #060913;
+      border: none;
+      padding: 11px 20px;
+      border-radius: 14px;
+      font-weight: 800;
+      font-size: 0.88rem;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 4px 16px rgba(212, 255, 112, 0.35);
+      transition: transform 0.15s ease, filter 0.15s ease;
+    }
+    .btn-batch-fire:hover {
+      transform: translateY(-1px);
+      filter: brightness(1.1);
+    }
+
+    /* Modal de Disparo Rápido do Lote */
+    .batch-modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(16px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      padding: 16px;
+    }
+    .batch-modal-overlay.show {
+      display: flex;
+    }
+    .batch-modal-box {
+      background: #0c1224;
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 26px;
+      width: 100%;
+      max-width: 480px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+    }
+
     /* Controle de Leads */
     .leads-control-bar {
       display: flex;
@@ -366,10 +440,6 @@
       font-size: 0.84rem;
       outline: none;
       min-width: 200px;
-      transition: border-color 0.2s ease;
-    }
-    .input-clean:focus {
-      border-color: var(--genz-lime);
     }
     .select-clean {
       background: #0b1124;
@@ -395,6 +465,7 @@
       height: 16px;
       cursor: pointer;
     }
+
     /* Grid de Leads */
     .leads-grid {
       display: grid;
@@ -407,17 +478,14 @@
       border-radius: 20px;
       padding: 20px;
       backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.2s ease, border-color 0.2s ease;
     }
     .lead-card:hover {
       transform: translateY(-3px);
-      background: var(--glass-card-hover);
       border-color: rgba(212, 255, 112, 0.3);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35);
     }
     .lead-card.contacted {
       border-color: rgba(56, 189, 248, 0.3);
@@ -547,10 +615,6 @@
       padding: 8px 12px;
       border-radius: 10px;
       cursor: pointer;
-      transition: background 0.15s ease;
-    }
-    .btn-action-copy:hover {
-      background: rgba(255, 255, 255, 0.1);
     }
     .status-select-wrap {
       display: flex;
@@ -568,6 +632,7 @@
       border-radius: 8px;
       outline: none;
     }
+
     /* Grid de Produtos & Sites */
     .catalog-grid {
       display: grid;
@@ -583,11 +648,6 @@
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: transform 0.2s ease, border-color 0.2s ease;
-    }
-    .product-glass-card:hover {
-      transform: translateY(-2px);
-      border-color: rgba(212, 255, 112, 0.3);
     }
     .pill-badge {
       align-self: flex-start;
@@ -606,65 +666,65 @@
       border-color: rgba(56, 189, 248, 0.35);
       color: var(--genz-cyan);
     }
-    /* Modal Novo Lead */
-    .modal-overlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.75);
-      backdrop-filter: blur(12px);
-      display: none;
-      align-items: center;
-      justify-content: center;
-      z-index: 99999;
-      padding: 16px;
-    }
-    .modal-overlay.show {
-      display: flex;
-    }
-    .modal-box {
-      background: #0b1122;
+
+    /* Chat Copiloto IA dentro do Painel */
+    .copilot-container {
+      background: var(--glass-card);
       border: 1px solid var(--glass-border);
       border-radius: 24px;
       padding: 24px;
-      width: 100%;
-      max-width: 440px;
-      box-shadow: 0 16px 48px rgba(0, 0, 0, 0.6);
+      max-width: 800px;
+      margin: 0 auto;
     }
-    .modal-title {
-      font-size: 1.2rem;
-      font-weight: 800;
-      margin: 0 0 16px;
-      color: #ffffff;
+    .copilot-messages {
+      height: 380px;
+      overflow-y: auto;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-    .modal-form-group {
-      margin-bottom: 12px;
-    }
-    .modal-label {
-      display: block;
-      font-size: 0.75rem;
-      text-transform: uppercase;
-      font-weight: 700;
-      color: var(--text-dim);
-      margin-bottom: 4px;
-    }
-    .modal-input {
-      width: 100%;
-      background: rgba(255, 255, 255, 0.05);
+      flex-direction: column;
+      gap: 12px;
+      padding: 12px;
+      background: rgba(0, 0, 0, 0.25);
+      border-radius: 16px;
       border: 1px solid var(--glass-border);
-      color: #ffffff;
-      padding: 9px 12px;
-      border-radius: 10px;
-      font-size: 0.85rem;
-      outline: none;
+      margin-bottom: 16px;
     }
-    .modal-actions {
+    .copilot-bubble {
+      max-width: 85%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+    .copilot-bubble.assistant {
+      align-self: flex-start;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      color: #f1f5f9;
+    }
+    .copilot-bubble.user {
+      align-self: flex-end;
+      background: linear-gradient(135deg, var(--genz-lime) 0%, #84cc16 100%);
+      color: #060913;
+      font-weight: 600;
+    }
+    .copilot-form {
       display: flex;
       gap: 10px;
-      margin-top: 18px;
     }
+    .copilot-input {
+      flex: 1;
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--glass-border);
+      color: #ffffff;
+      padding: 12px 16px;
+      border-radius: 14px;
+      font-size: 0.88rem;
+      outline: none;
+    }
+    .copilot-input:focus {
+      border-color: var(--genz-lime);
+    }
+
     /* Toast */
     .toast-box {
       position: fixed;
@@ -694,20 +754,20 @@
 </head>
 <body>
 
-  <!-- TELA DE BLOQUEIO POR PIN (Privacidade Absoluta de José) -->
+  <!-- TELA DE BLOQUEIO POR PIN -->
   <div class="lock-screen" id="lockScreen">
     <div class="lock-card">
       <div class="lock-emblem" id="lockEmblem"></div>
       <h2 class="lock-title">Painel Restrito do Comandante</h2>
       <p class="lock-sub">
-        Acesso exclusivo de José. Digite seu PIN de 4 dígitos para desbloquear o radar de leads e métricas.
+        Acesso pessoal de José. Digite seu PIN de 4 dígitos para desbloquear.
       </p>
       <form onsubmit="handleUnlock(event)">
         <input type="password" id="pinInput" class="pin-input" maxlength="4" placeholder="••••" autocomplete="off" autofocus required>
         <button type="submit" class="btn-unlock">Desbloquear Painel</button>
       </form>
       <div style="font-size:0.72rem;color:var(--text-dim);margin-top:14px;">
-        PIN padrão inicial: <strong>7340</strong> (Seu DDD 73 + final 40)
+        PIN inicial: <strong>7340</strong> (DDD 73 + final 40)
       </div>
     </div>
   </div>
@@ -722,20 +782,20 @@
           <h1 class="dash-title">Painel do Comandante · IArretada</h1>
           <p class="dash-sub">
             <span class="pulse-dot"></span>
-            Supervisão Pessoal de Leads, Sites & Metas
+            Supervisão de Leads, Fila da Hora & Copiloto IA
           </p>
         </div>
       </div>
       <div class="header-btns">
-        <button class="btn-glass-subtle" onclick="openNewLeadModal()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          <span>Adicionar Lead</span>
+        <button class="btn-glass-subtle" onclick="switchTab('copiloto')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l2.4 7.2L22 12l-7.6 2.8L12 22l-2.4-7.2L2 12l7.6-2.8L12 2z"/></svg>
+          <span>Falar com o Copiloto</span>
         </button>
         <a href="/links/" class="btn-glass-subtle">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a14.5 14.5 0 0 0 0 20 14.5 14.5 0 0 0 0-20"/><path d="M2 12h20"/></svg>
-          <span>Ver Links Públicos</span>
+          <span>Links Públicos</span>
         </a>
-        <button class="btn-glass-subtle" onclick="lockPanel()" title="Bloquear tela com PIN">
+        <button class="btn-glass-subtle" onclick="lockPanel()" title="Bloquear com PIN">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           <span>Bloquear</span>
         </button>
@@ -746,7 +806,7 @@
       </div>
     </header>
 
-    <!-- Linha de Métricas Visuais (Foco R$ 250/dia = R$ 7.500/mês) -->
+    <!-- Linha de Métricas (Foco R$ 250/dia = R$ 7.500/mês) -->
     <div class="metrics-row">
       <div class="metric-pill-box">
         <div class="metric-top">
@@ -761,13 +821,13 @@
 
       <div class="metric-pill-box">
         <div class="metric-top">
-          <span class="metric-tag">Criação de Sites</span>
+          <span class="metric-tag">Cadência de Disparos</span>
           <div class="metric-icon-wrap" style="color:var(--genz-cyan);">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
           </div>
         </div>
-        <div class="metric-number">R$ 750 <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">/ site</span></div>
-        <div class="metric-detail" style="color:var(--genz-cyan);">Apenas 10 sites fecham sua meta</div>
+        <div class="metric-number">30 / dia</div>
+        <div class="metric-detail" style="color:var(--genz-cyan);">5 propostas a cada 1 hora (Seguro)</div>
       </div>
 
       <div class="metric-pill-box">
@@ -802,6 +862,13 @@
         <span>Radar de Leads Locais</span>
       </button>
 
+      <button class="tab-btn" onclick="switchTab('copiloto')">
+        <span class="tab-icon">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+        </span>
+        <span>Copiloto IA no Painel</span>
+      </button>
+
       <button class="tab-btn" onclick="switchTab('sites')">
         <span class="tab-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -823,16 +890,33 @@
         <span>Fábrica de Vídeos Sem Rosto</span>
       </button>
 
-      <button class="tab-btn" onclick="switchTab('ajuda')">
+      <button class="tab-btn" onclick="switchTab('fluxo')">
         <span class="tab-icon">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
         </span>
-        <span>Conexão IArretado & WhatsApp</span>
+        <span>Como Chegam no seu WhatsApp</span>
       </button>
     </nav>
 
-    <!-- ABA 1: RADAR DE LEADS -->
+    <!-- ABA 1: RADAR DE LEADS & FILA DA HORA -->
     <section id="tab-radar" class="tab-content active">
+      <!-- Caixa da Fila da Hora (5 Propostas por Hora) -->
+      <div class="hourly-batch-box">
+        <div class="hourly-batch-info">
+          <h3>
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+            Fila de Disparo da Hora: 5 Propostas Prontas
+          </h3>
+          <p>
+            Cadência segura anti-bloqueio: envie 5 propostas a cada 1 hora. Leva menos de 40 segundos e evita o filtro de spam do WhatsApp.
+          </p>
+        </div>
+        <button class="btn-batch-fire" onclick="startBatchHour()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+          <span>Disparar Lote da Hora (5 Leads)</span>
+        </button>
+      </div>
+
       <div class="leads-control-bar">
         <div class="control-filters">
           <input type="text" id="leadSearch" class="input-clean" placeholder="Buscar estabelecimento ou setor..." oninput="filterLeads()">
@@ -861,17 +945,41 @@
       <div class="leads-grid" id="leadsContainer"></div>
     </section>
 
-    <!-- ABA 2: CRIAÇÃO DE SITES RÁPIDOS (NOVO SERVIÇO DE ALTO TICKET) -->
+    <!-- ABA 2: COPILOTO IA NO PAINEL (CONVERSAR COM O AGENTE) -->
+    <section id="tab-copiloto" class="tab-content">
+      <div class="copilot-container">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;">
+          <div>
+            <h2 style="font-size:1.15rem;margin:0 0 2px;color:#ffffff;font-weight:700;">Copiloto Estratégico IArretada</h2>
+            <p style="font-size:0.78rem;color:var(--text-muted);margin:0;">Converse comigo direto pelo painel para tirar dúvidas, ajustar propostas ou criar novos roteiros.</p>
+          </div>
+          <span class="pill-badge" style="margin:0;">Motor Cloudflare AI Ativo</span>
+        </div>
+
+        <div class="copilot-messages" id="copilotMessages">
+          <div class="copilot-bubble assistant">
+            Olá, José! Sou seu copiloto no painel. Estou aqui para te ajudar a estruturar suas abordagens para pousadas, calcular propostas de sites, planejar seus disparos de WhatsApp ou tirar dúvidas sobre o negócio. Como posso te apoiar agora?
+          </div>
+        </div>
+
+        <form class="copilot-form" onsubmit="handleSendCopilot(event)">
+          <input type="text" id="copilotInput" class="copilot-input" placeholder="Pergunte ao copiloto ou peça uma mensagem personalizada..." autocomplete="off" required>
+          <button type="submit" class="btn-batch-fire" style="padding:12px 18px;">
+            <span>Enviar</span>
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- ABA 3: CRIAÇÃO DE SITES RÁPIDOS -->
     <section id="tab-sites" class="tab-content">
       <div style="margin-bottom:18px;">
         <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Criação de Sites para Estabelecimentos Comerciais & Pousadas</h2>
         <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
-          A forma mais rápida de bater a meta de <strong>R$ 250 por dia (R$ 7.500/mês)</strong>. Crie e publique sites ultra-rápidos com entrega em 48 a 72 horas.
+          A forma mais rápida de bater a meta de <strong>R$ 250 por dia (R$ 7.500/mês)</strong>.
         </p>
       </div>
-
       <div class="catalog-grid">
-        <!-- Pacote 1: Site Express Comercial -->
         <div class="product-glass-card">
           <div>
             <span class="pill-badge sites">Entrega em 48h</span>
@@ -881,43 +989,31 @@
               R$ 497 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">à vista ou R$ 89/mês</span>
             </div>
             <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
-              Página única ultra-rápida, adaptada para celular, com botão flutuante de WhatsApp, mapa de localização no Google, galeria de fotos e horários de funcionamento.
+              Página moderna e rápida com botão flutuante de WhatsApp, mapa do Google, fotos e horários.
             </p>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Site%20Express%20Comercial%20(R$%20497)%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
-              <span>Testar Link no WhatsApp</span>
-            </a>
-            <button class="btn-action-copy" onclick="copyText('https://www.iarretada.com.br/links/#site-express-comercial')">
-              <span>Copiar Link de Divulgação</span>
-            </button>
-          </div>
+          <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Site%20Express%20Comercial%20(R$%20497)%20para%20minha%20empresa." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+            <span>Testar Link no WhatsApp</span>
+          </a>
         </div>
 
-        <!-- Pacote 2: Site Vitrine Pousada & Gastronomia -->
         <div class="product-glass-card">
           <div>
             <span class="pill-badge sites">Mais Desejado</span>
             <h3 style="font-size:1.1rem;font-weight:700;margin:0 0 4px;">Site Vitrine Pousada & Gastronomia</h3>
-            <span style="font-size:0.75rem;color:var(--text-dim);">Pousadas, Hotéis, Bares & Restaurantes</span>
+            <span style="font-size:0.75rem;color:var(--text-dim);">Pousadas, Hotéis & Restaurantes</span>
             <div style="font-size:1.4rem;font-weight:800;color:#ffffff;margin:8px 0;">
               R$ 790 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">à vista ou R$ 139/mês</span>
             </div>
             <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
-              Site sofisticado com galeria de suítes/pratos em alta resolução, tabela de diárias/cardápio, link de rotas e motor de reservas diretas sem pagar comissão para Booking.
+              Apresentação sofisticada com galeria de suítes e botão de reserva direta no WhatsApp economizando comissões.
             </p>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20um%20Site%20Vitrine%20para%20minha%20Pousada/Restaurante%20(R$%20790)." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
-              <span>Testar Link no WhatsApp</span>
-            </a>
-            <button class="btn-action-copy" onclick="copyText('https://www.iarretada.com.br/links/#site-pousada-gastronomia')">
-              <span>Copiar Link de Divulgação</span>
-            </button>
-          </div>
+          <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Quero%20um%20Site%20Vitrine%20para%20minha%20Pousada/Restaurante%20(R$%20790)." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+            <span>Testar Link no WhatsApp</span>
+          </a>
         </div>
 
-        <!-- Pacote 3: Portal Imobiliário / Casas de Temporada VIP -->
         <div class="product-glass-card">
           <div>
             <span class="pill-badge sites">Alto Padrão</span>
@@ -927,112 +1023,70 @@
               R$ 1.250 <span style="font-size:0.8rem;color:var(--text-muted);font-weight:400;">à vista ou R$ 199/mês</span>
             </div>
             <p style="font-size:0.82rem;color:var(--text-muted);line-height:1.45;margin-bottom:14px;">
-              Estrutura luxuosa para apresentar casas de temporada em Trancoso e Arraial, com filtros por datas, número de hóspedes e triagem automática integrada ao WhatsApp.
+              Estrutura luxuosa para casas em Trancoso e Arraial com filtro por datas e triagem automática.
             </p>
           </div>
-          <div style="display:flex;flex-direction:column;gap:8px;">
-            <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Portal%20de%20Im%C3%B3veis/Temporada%20(R$%201.250)." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
-              <span>Testar Link no WhatsApp</span>
-            </a>
-            <button class="btn-action-copy" onclick="copyText('https://www.iarretada.com.br/links/#portal-temporada-vip')">
-              <span>Copiar Link de Divulgação</span>
-            </button>
-          </div>
+          <a href="https://wa.me/5573999313401?text=Ol%C3%A1%20Jos%C3%A9!%20Gostaria%20de%20criar%20um%20Portal%20de%20Im%C3%B3veis/Temporada%20(R$%201.250)." target="_blank" rel="noopener noreferrer" class="btn-action-wa">
+            <span>Testar Link no WhatsApp</span>
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- ABA 3: PRODUTOS & LINKS -->
+    <!-- ABA 4: PRODUTOS & LINKS -->
     <section id="tab-produtos" class="tab-content">
       <div style="margin-bottom:18px;">
         <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Catálogo dos 18 Micro-Produtos de R$ 37 a R$ 99</h2>
-        <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
-          Links estruturados para compartilhar no WhatsApp, bio do Instagram ou direct.
-        </p>
       </div>
       <div class="catalog-grid" id="productsContainer"></div>
     </section>
 
-    <!-- ABA 4: FÁBRICA DE VÍDEOS SEM ROSTO -->
+    <!-- ABA 5: FÁBRICA DE VÍDEOS SEM ROSTO -->
     <section id="tab-conteudo" class="tab-content">
       <div style="margin-bottom:18px;">
         <h2 style="font-size:1.15rem;margin:0 0 4px;font-weight:700;">Roteiros Sem Rosto para CapCut & Reels</h2>
-        <p style="font-size:0.82rem;color:var(--text-muted);margin:0;">
-          Vídeos de 45 segundos gravando apenas a tela do celular com WhatsApp ou praias da Bahia. Sem aparecer.
-        </p>
       </div>
       <div id="contentContainer"></div>
     </section>
 
-    <!-- ABA 5: CONEXÃO IARRETADO & WHATSAPP -->
-    <section id="tab-ajuda" class="tab-content">
+    <!-- ABA 6: PASSO A PASSO: COMO CHEGAM AS MENSAGENS -->
+    <section id="tab-fluxo" class="tab-content">
       <div class="product-glass-card" style="margin-bottom:20px;">
         <h2 style="font-size:1.2rem;margin:0 0 10px;color:var(--genz-lime);font-weight:800;">
-          Como o "IArretado" Conecta os Clientes com Você
+          O Passo a Passo: Como as Mensagens Chegam no seu WhatsApp
         </h2>
         <div style="font-size:0.88rem;color:#cbd5e1;line-height:1.7;">
           <p>
-            <strong>1. O que é o IArretado no site?</strong><br>
-            O IArretado é o concierge digital com Inteligência Artificial que fica na página principal e nas páginas de serviços. Ele tira dúvidas sobre prazos, valores e funcionamento em tempo real.
+            <strong>Cenário 1: Quando você envia a proposta da Fila da Hora</strong><br>
+            1. Você clica em <em>"Disparar Lote da Hora"</em> aqui no painel.<br>
+            2. O WhatsApp abre com o texto personalizado para o dono da pousada ou restaurante.<br>
+            3. Você só toca em enviar.<br>
+            4. Quando o dono ler e responder <em>"Olá, como funciona?"</em>, <strong>a notificação vibra direto no seu WhatsApp comum</strong>. Você conversa normalmente como qualquer amigo ou cliente!
           </p>
           <p>
-            <strong>2. É uma conexão direta comigo?</strong><br>
-            <strong>Sim!</strong> Quando o visitante clica no botão "Falar no WhatsApp", ele é transferido imediatamente para o seu WhatsApp pessoal oficial, já com a mensagem pronta dizendo exatamente qual serviço ele deseja. Você recebe o lead pronto para fechar!
+            <strong>Cenário 2: Quando um visitante entra pelo site www.iarretada.com.br</strong><br>
+            1. O visitante lê a página ou conversa com o assistente IArretado.<br>
+            2. Quando ele clica em <em>"Falar no WhatsApp"</em>, o celular dele abre uma conversa direta com você.<br>
+            3. O texto já chega escrito: <em>"Olá José! Estava no site da IArretada e quero conversar sobre uma solução."</em><br>
+            4. Você recebe o lead pronto para fechar!
           </p>
-          <p>
-            <strong>3. Como saber os leads e não repetir contatos?</strong><br>
-            Aqui no Painel, cada lead do <em>Radar Sentinela</em> possui um <strong>carimbo de data e hora</strong>:
-          </p>
-          <ul style="padding-left:20px;color:var(--text-muted);">
-            <li>Ao clicar em <em>"Abrir WhatsApp Pronto"</em>, o painel muda o status automaticamente para <em>"Em Conversa"</em> e registra a data/hora.</li>
-            <li>Você pode marcar a caixa <em>"Ocultar já contatados"</em> para visualizar somente contatos novos.</li>
-            <li>Você pode adicionar qualquer pousada ou restaurante novo no botão <em>"Adicionar Lead"</em> no topo do painel.</li>
-          </ul>
         </div>
       </div>
     </section>
   </div>
 
-  <!-- Modal Adicionar Lead Manual -->
-  <div class="modal-overlay" id="newLeadModal">
-    <div class="modal-box">
-      <div class="modal-title">
-        <span>Adicionar Lead no Radar</span>
-        <button style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;" onclick="closeNewLeadModal()">✕</button>
+  <!-- Modal do Lote da Hora (Envio de 5) -->
+  <div class="batch-modal-overlay" id="batchModal">
+    <div class="batch-modal-box">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
+        <h3 style="margin:0;font-size:1.15rem;color:#ffffff;">Lote da Hora: 5 Propostas Prontas</h3>
+        <button style="background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1.2rem;" onclick="closeBatchModal()">✕</button>
       </div>
-      <form onsubmit="handleSaveNewLead(event)">
-        <div class="modal-form-group">
-          <label class="modal-label">Nome do Estabelecimento</label>
-          <input type="text" id="newLeadName" class="modal-input" placeholder="Ex: Pousada Sol & Mar" required>
-        </div>
-        <div class="modal-form-group">
-          <label class="modal-label">Cidade</label>
-          <select id="newLeadCity" class="modal-input" style="background:#090e1d;" required>
-            <option value="Porto Seguro">Porto Seguro</option>
-            <option value="Arraial d'Ajuda">Arraial d'Ajuda</option>
-            <option value="Trancoso">Trancoso</option>
-            <option value="Caraíva">Caraíva</option>
-            <option value="Eunápolis">Eunápolis</option>
-            <option value="Santa Cruz Cabrália">Santa Cruz Cabrália</option>
-          </select>
-        </div>
-        <div class="modal-form-group">
-          <label class="modal-label">Setor</label>
-          <input type="text" id="newLeadSector" class="modal-input" placeholder="Ex: Pousada, Restaurante, Clínica" required>
-        </div>
-        <div class="modal-form-group">
-          <label class="modal-label">Telefone / WhatsApp (com DDD)</label>
-          <input type="text" id="newLeadPhone" class="modal-input" placeholder="Ex: 5573999998888" required>
-        </div>
-        <div class="modal-form-group">
-          <label class="modal-label">Observação / Dor do Atendimento</label>
-          <input type="text" id="newLeadPain" class="modal-input" placeholder="Ex: Não tem site próprio ou demora no zap">
-        </div>
-        <div class="modal-actions">
-          <button type="submit" class="btn-genz-wa" style="flex:1;justify-content:center;">Salvar Lead</button>
-          <button type="button" class="btn-glass-subtle" onclick="closeNewLeadModal()">Cancelar</button>
-        </div>
-      </form>
+      <p style="font-size:0.82rem;color:var(--text-muted);margin:0 0 16px;">
+        Clique em "Abrir e Enviar" para cada um dos 5 contatos. Leva 35 segundos no total!
+      </p>
+      <div id="batchItemsList" style="display:flex;flex-direction:column;gap:10px;margin-bottom:16px;"></div>
+      <button class="btn-batch-fire" style="width:100%;justify-content:center;" onclick="closeBatchModal()">Concluir Lote da Hora</button>
     </div>
   </div>
 
@@ -1043,7 +1097,6 @@
   </div>
 
   <script>
-    // Gerenciamento de PIN de Acesso (Segurança Pessoal)
     const CORRECT_PIN = "7340";
 
     function checkAuth() {
@@ -1247,24 +1300,15 @@
     ];
 
     const PRODUTOS_DATA = [
-      { id: "pousada-express", name: "Assistente Pousada Express", category: "Hotelaria & Pousadas", price: "R$ 79/mês", badge: "Mais Procurado", desc: "Atendimento 24/7 no WhatsApp da pousada com envio de fotos, diárias e mapa.", wa_text: "Olá José! Quero ativar o Assistente Pousada Express (R$ 79/mês) na minha pousada." },
-      { id: "temporada-vip", name: "Triagem Aluguel de Temporada VIP", category: "Hotelaria & Pousadas", price: "R$ 99/mês", badge: "Alto Padrão", desc: "Filtra contatos no WhatsApp coletando datas, pessoas e orçamento antes de passar ao corretor.", wa_text: "Olá José! Gostaria de ativar a Triagem de Temporada & Casas VIP (R$ 99/mês)." },
-      { id: "guia-hospede-digital", name: "Guia Digital do Hóspede QR Code", category: "Hotelaria & Pousadas", price: "R$ 67", badge: "Entrega Rápida", desc: "Página mobile personalizada com Wi-Fi automático, passeios e delivery local.", wa_text: "Olá José! Quero encomendar o Guia Digital do Hóspede com QR Code (R$ 67)." },
-      { id: "planilha-reservas", name: "Planilha de Ocupação & Tarifas", category: "Hotelaria & Pousadas", price: "R$ 37", badge: "Download Imediato", desc: "Planilha pronta no Google Sheets com cálculo de ocupação mensal e receita líquida.", wa_text: "Olá José! Quero o link da Planilha Inteligente de Ocupação & Tarifas para Pousadas (R$ 37)." },
-      { id: "cardapio-zap", name: "Cardápio Inteligente no WhatsApp", category: "Gastronomia & Restaurantes", price: "R$ 79/mês", badge: "Campeão de Vendas", desc: "Apresenta opções em texto leve e fotos rápidas, fechando o pedido sem travar o garçom.", wa_text: "Olá José! Quero instalar o Cardápio Inteligente no WhatsApp (R$ 79/mês)." },
-      { id: "reserva-mesas", name: "Gestor Automático de Reservas", category: "Gastronomia & Restaurantes", price: "R$ 89/mês", badge: "Alta Temporada", desc: "Organiza fila de espera e reservas de mesas com confirmação automática de tolerância.", wa_text: "Olá José! Quero saber sobre o Gestor Automático de Reservas (R$ 89/mês)." },
-      { id: "kit-google-nota5", name: "Kit Google Meu Negócio Nota 5.0", category: "Gastronomia & Restaurantes", price: "R$ 47", badge: "Download Imediato", desc: "Templates elegantes para placas com QR Code e respostas prontas a reviews negativos.", wa_text: "Olá José! Quero adquirir o Kit Google Meu Negócio Nota 5.0 (R$ 47)." },
-      { id: "clinica-confirma", name: "Confirmação Automática de Consultas", category: "Saúde & Consultórios", price: "R$ 79/mês", badge: "Economia Real", desc: "Lembrete 24h antes da consulta com confirmação em 1 toque, reduzindo faltas em 50%.", wa_text: "Olá José! Tenho interesse na Confirmação Automática de Consultas (R$ 79/mês)." },
-      { id: "salao-agenda", name: "Recepção para Barbearia & Salão", category: "Saúde & Estética", price: "R$ 79/mês", badge: "Prático", desc: "Envia tabela de serviços e link de horários livres sem precisar largar a tesoura.", wa_text: "Olá José! Quero colocar a Recepção Automática (R$ 79/mês) no meu salão/barbearia." },
-      { id: "personal-triagem", name: "Triagem para Personal & Nutri", category: "Saúde & Estética", price: "R$ 67/mês", badge: "Agilidade", desc: "Coleta histórico de saúde, objetivo físico e horários antes da primeira avaliação.", wa_text: "Olá José! Quero a Triagem Automática para Personal/Nutri (R$ 67/mês)." },
-      { id: "comercio-catalogo", name: "Atendente de Catálogo & Frete Local", category: "Comércio & Varejo", price: "R$ 79/mês", badge: "Zero Perda", desc: "Responde horários, taxa de entrega por bairro e chave Pix no primeiro segundo.", wa_text: "Olá José! Quero o Atendente de Catálogo & Frete Local (R$ 79/mês)." },
-      { id: "imob-qualifica", name: "Filtro de Compradores Imobiliários", category: "Imobiliárias", price: "R$ 99/mês", badge: "Fechamento", desc: "Descobre faixa de valor pretendida e tipo de imóvel antes de passar ao corretor.", wa_text: "Olá José! Quero o Filtro de Compradores para Imobiliária (R$ 99/mês)." },
-      { id: "oficina-guincho", name: "Plantão Automotivo & Guincho 24h", category: "Serviços Locais", price: "R$ 79/mês", badge: "Emergência 24h", desc: "Pede localização GPS e modelo do carro na BR-367 disparando alerta sonoro para o socorro.", wa_text: "Olá José! Preciso do Plantão Automotivo & Guincho 24h (R$ 79/mês)." },
-      { id: "passeios-turismo", name: "Assistente de Passeios & Turismo", category: "Turismo & Lazer", price: "R$ 79/mês", badge: "Turismo Forte", desc: "Roteiros de escuna, lancha e buggy com envio de Pix para reserva imediata.", wa_text: "Olá José! Quero contratar o Assistente de Passeios (R$ 79/mês)." },
-      { id: "cobranca-amigavel", name: "Lembrete Educado de Cobrança", category: "Serviços Locais", price: "R$ 79/mês", badge: "Anti-Inadimplência", desc: "Lembretes cordiais de mensalidade 3 dias antes do vencimento com Pix.", wa_text: "Olá José! Quero ativar o Lembrete Educado de Cobrança (R$ 79/mês)." },
-      { id: "pack-prompts-hotel", name: "Pack 100 Prompts para Hotelaria", category: "Infoprodutos", price: "R$ 47", badge: "Acesso Imediato", desc: "100 respostas humanizadas prontas para situações delicadas da recepção.", wa_text: "Olá José! Quero comprar o Pack de 100 Prompts para Hotelaria (R$ 47)." },
-      { id: "auditoria-express", name: "Mini-Auditoria de Atendimento Digital", category: "Consultoria", price: "R$ 97", badge: "Diagnóstico 24h", desc: "Relatório apontando exatamente onde o negócio está perdendo clientes no WhatsApp.", wa_text: "Olá José! Quero a Mini-Auditoria de Atendimento Digital (R$ 97)." },
-      { id: "bio-alta-conversao", name: "Página Link Bio Estilo IArretada", category: "Design & Conversão", price: "R$ 89", badge: "Sem Mensalidade", desc: "Página no estilo obsidian idêntica à do IArretada, com carregamento relâmpago.", wa_text: "Olá José! Quero encomendar uma Página Link Bio de Alta Conversão (R$ 89)." }
+      { id: "pousada-express", name: "Assistente Pousada Express", category: "Hotelaria & Pousadas", price: "R$ 79/mês", badge: "Mais Procurado", desc: "Atendimento 24/7 no WhatsApp da pousada com fotos e diárias.", wa_text: "Olá José! Quero ativar o Assistente Pousada Express (R$ 79/mês) na minha pousada." },
+      { id: "temporada-vip", name: "Triagem Aluguel de Temporada VIP", category: "Hotelaria & Pousadas", price: "R$ 99/mês", badge: "Alto Padrão", desc: "Filtra contatos no WhatsApp coletando datas e pessoas.", wa_text: "Olá José! Gostaria de ativar a Triagem de Temporada & Casas VIP (R$ 99/mês)." },
+      { id: "guia-hospede-digital", name: "Guia Digital do Hóspede QR Code", category: "Hotelaria & Pousadas", price: "R$ 67", badge: "Entrega Rápida", desc: "Página mobile personalizada com Wi-Fi automático e passeios.", wa_text: "Olá José! Quero encomendar o Guia Digital do Hóspede com QR Code (R$ 67)." },
+      { id: "planilha-reservas", name: "Planilha de Ocupação & Tarifas", category: "Hotelaria & Pousadas", price: "R$ 37", badge: "Download Imediato", desc: "Planilha pronta no Google Sheets com cálculo de ocupação.", wa_text: "Olá José! Quero o link da Planilha Inteligente de Ocupação (R$ 37)." },
+      { id: "cardapio-zap", name: "Cardápio Inteligente no WhatsApp", category: "Gastronomia & Restaurantes", price: "R$ 79/mês", badge: "Campeão de Vendas", desc: "Apresenta opções em texto leve e fotos rápidas.", wa_text: "Olá José! Quero instalar o Cardápio Inteligente no WhatsApp (R$ 79/mês)." },
+      { id: "reserva-mesas", name: "Gestor Automático de Reservas", category: "Gastronomia & Restaurantes", price: "R$ 89/mês", badge: "Alta Temporada", desc: "Organiza fila de espera e reservas de mesas.", wa_text: "Olá José! Quero saber sobre o Gestor Automático de Reservas (R$ 89/mês)." },
+      { id: "kit-google-nota5", name: "Kit Google Meu Negócio Nota 5.0", category: "Gastronomia & Restaurantes", price: "R$ 47", badge: "Download Imediato", desc: "Templates de placas QR Code e respostas para reviews.", wa_text: "Olá José! Quero adquirir o Kit Google Meu Negócio Nota 5.0 (R$ 47)." },
+      { id: "clinica-confirma", name: "Confirmação Automática de Consultas", category: "Saúde & Consultórios", price: "R$ 79/mês", badge: "Economia Real", desc: "Lembrete 24h antes da consulta com confirmação em 1 toque.", wa_text: "Olá José! Tenho interesse na Confirmação Automática de Consultas (R$ 79/mês)." },
+      { id: "salao-agenda", name: "Recepção para Barbearia & Salão", category: "Saúde & Estética", price: "R$ 79/mês", badge: "Prático", desc: "Tabela de serviços e link de horários disponíveis.", wa_text: "Olá José! Quero colocar a Recepção Automática (R$ 79/mês) no meu salão." }
     ];
 
     const CONTEUDO_DATA = [
@@ -1272,59 +1316,22 @@
         day: 1,
         theme: "A Pousada que perdeu 3 reservas na madrugada",
         visual: "Tela do celular gravando uma notificação do WhatsApp às 02h14 da manhã perguntando 'Tem quarto para o fim de semana?'. O relógio avança e ninguém responde.",
-        audio: "Você sabia que 42% das pessoas que planejam viagem para Porto Seguro ou Arraial pesquisam pousada depois das dez da noite? Se o seu WhatsApp só responde às nove da manhã, o turista já fechou na pousada vizinha que respondeu na hora. Um assistente automático não custa milhares de reais: por menos de três reais ao dia, seu WhatsApp manda fotos, valores e fecha a reserva enquanto você dorme tranquilo.",
-        caption: "Quantas reservas sua pousada perdeu na madrugada esta semana? Com o Assistente Pousada Express, seu hóspede recebe fotos e valores em 3 segundos. Link na bio para testar 48h grátis! #portoseguro #arraialdajuda #trancoso #hotelariabahia #pousadas"
+        audio: "Você sabia que 42% das pessoas que planejam viagem para Porto Seguro pesquisam pousada depois das dez da noite? Se o seu WhatsApp só responde às nove da manhã, o turista já fechou na pousada vizinha que respondeu na hora. Um assistente automático não custa milhares de reais: por R$ 79 ao mês seu WhatsApp manda fotos, valores e fecha a reserva enquanto você dorme tranquilo.",
+        caption: "Quantas reservas sua pousada perdeu na madrugada esta semana? Com o Assistente Pousada Express, seu hóspede recebe fotos e valores em 3 segundos. Link na bio! #portoseguro #arraialdajuda #trancoso #pousadas"
       },
       {
         day: 2,
         theme: "O Cardápio em PDF que ninguém consegue ler",
         visual: "Pessoa tentando dar zoom em um PDF de cardápio gigante no celular, a imagem embaça e a tela trava.",
-        audio: "Sexta-feira, oito da noite, cliente com fome. Ele pede o cardápio no seu WhatsApp e você manda um PDF de 25 megas que demora dois minutos para carregar. Sabe o que ele faz? Vai no aplicativo concorrente. Um cardápio direto no WhatsApp manda as opções em texto leve e fotos rápidas em três toques. Menos estresse para a cozinha, mais pedidos saindo.",
-        caption: "Facilite a vida do seu cliente faminto! Cardápio inteligente no WhatsApp por apenas R$ 79/mês. Link na bio para ver a demonstração! #restaurantes #portoseguro #delivery #gastronomiabaiana"
-      },
-      {
-        day: 3,
-        theme: "O terror das faltas em consultórios e clínicas",
-        visual: "Agenda de papel ou calendário com vários nomes riscados em vermelho com a palavra 'FALTOU'.",
-        audio: "Cada paciente que falta sem avisar em Eunápolis ou Porto Seguro custa de cento e cinquenta a trezentos reais para a clínica. E mandar mensagem manual um por um consome a manhã inteira da sua recepcionista. Um lembrete automático 24 horas antes pede confirmação com um toque no WhatsApp. Reduz as faltas pela metade e mantém sua agenda cheia.",
-        caption: "Reduza faltas de pacientes em até 50% sem sobrecarregar sua secretária. Conheça a Confirmação Automática por R$ 79/mês. Link na bio! #eunapolis #portoseguro #odontologia #saudeba"
-      },
-      {
-        day: 4,
-        theme: "Corretor de imóveis: como parar de atender curioso",
-        visual: "Notificações na tela: 'Qual o valor?', 'Aceita troca em moto?'. O corretor afogado em mensagens.",
-        audio: "Se você trabalha com temporada ou venda de imóveis em Trancoso e Arraial d'Ajuda, já sabe: de cada dez mensagens no WhatsApp, oito são curiosos que somem depois que você envia o catálogo. Com uma triagem inteligente de IA, o próprio sistema pergunta as datas, quantidade de pessoas e faixa de orçamento antes de transferir para você. Você só conversa com quem realmente tem dinheiro na mão.",
-        caption: "Poupe seu tempo para fechar negócios reais. Triagem de temporada e imóveis por R$ 99/mês. Fale no WhatsApp da bio! #trancoso #temporadatrancoso #imoveisdeluxo #corretores"
-      },
-      {
-        day: 5,
-        theme: "Tesoura na mão, cliente no vácuo",
-        visual: "Barbeiro cortando cabelo concentrado enquanto o celular na bancada toca e vibra sem parar.",
-        audio: "Você está com a tesoura na mão, o cliente na cadeira e o WhatsApp tocando. Se você para para responder, o cliente da cadeira fica chateado. Se não responde, o cliente do WhatsApp vai para outra barbearia. Uma recepção automática envia sua tabela de cortes e o link da sua agenda livre na hora. Você trabalha em paz e a agenda fica cheia.",
-        caption: "Recepção automática para barbearias e salões por R$ 79/mês. Link na bio para ativar a sua! #barbearias #salaodebeleza #portoseguro #estetica"
-      },
-      {
-        day: 6,
-        theme: "A pergunta que todo turista faz em Caraíva",
-        visual: "Foto do rio de Caraíva e canoas ao entardecer com texto sobreposto.",
-        audio: "Quem já foi para Caraíva sabe: todo hóspede novo pergunta a mesma coisa. Onde fica o estacionamento em Nova Caraíva? Quanto custa a balsa? Como levar as malas pela areia? Se sua pousada tiver um guia digital automático no WhatsApp, o hóspede chega encantado e sua recepção economiza horas de explicação repetitiva. Simples, arretado e custa menos que uma porção de pastel.",
-        caption: "Automatize o check-in e encante seus hóspedes desde o primeiro contato. Pousada Express por R$ 79/mês. Link na bio! #caraiva #caraivameuamor #pousadascaraiva"
-      },
-      {
-        day: 7,
-        theme: "A verdade sobre automação com Inteligência Artificial",
-        visual: "Gráfico comparando R$ 2.500 de custo tradicional vs R$ 79 de um assistente digital no WhatsApp.",
-        audio: "Muita gente acha que Inteligência Artificial é coisa de ficção científica ou custa uma fortuna. A verdade é que hoje, com setenta e nove reais por mês, qualquer comércio de bairro em Porto Seguro ou Eunápolis pode ter um atendimento mais rápido que o das grandes redes de varejo. Tecnologia boa é aquela que cabe no bolso e resolve o dia a dia.",
-        caption: "Inteligência Artificial acessível e feita para a realidade dos negócios baianos. Conheça as soluções da IArretada no link da bio! #iarretada #ia #empreendedorismo #suldabahia"
+        audio: "Sexta-feira, oito da noite, cliente com fome. Ele pede o cardápio no seu WhatsApp e você manda um PDF de 25 megas que demora dois minutos para carregar. Sabe o que ele faz? Vai no aplicativo concorrente. Um cardápio direto no WhatsApp manda as opções em texto leve e fecha o pedido em três toques. Menos estresse para a cozinha, mais pedidos saindo.",
+        caption: "Facilite a vida do seu cliente faminto! Cardápio inteligente no WhatsApp por apenas R$ 79/mês. Link na bio! #restaurantes #portoseguro #delivery"
       }
     ];
 
     function getStoredLeads() {
       const stored = localStorage.getItem('iar_custom_leads');
       if (stored) {
-        try {
-          return JSON.parse(stored);
-        } catch (e) {}
+        try { return JSON.parse(stored); } catch (e) {}
       }
       return INITIAL_LEADS;
     }
@@ -1364,7 +1371,6 @@
     function renderLeads(leads) {
       const container = document.getElementById('leadsContainer');
       container.innerHTML = '';
-      
       let contactedCount = 0;
 
       leads.forEach(lead => {
@@ -1462,51 +1468,85 @@
       filterLeads();
     }
 
-    function openNewLeadModal() {
-      document.getElementById('newLeadModal').classList.add('show');
-    }
-    function closeNewLeadModal() {
-      document.getElementById('newLeadModal').classList.remove('show');
+    // Fila da Hora (Disparo de 5 por hora)
+    function startBatchHour() {
+      const all = getStoredLeads();
+      const pending = all.filter(l => !getLeadMetadata(l.id).lastContact).slice(0, 5);
+
+      if (pending.length === 0) {
+        showToast('Parabéns! Todos os leads já foram contatados hoje.');
+        return;
+      }
+
+      const listContainer = document.getElementById('batchItemsList');
+      listContainer.innerHTML = '';
+
+      pending.forEach((lead, idx) => {
+        const waUrl = `https://wa.me/${lead.phone}?text=${encodeURIComponent(lead.icebreaker)}`;
+        const item = document.createElement('div');
+        item.style.background = 'rgba(255,255,255,0.05)';
+        item.style.border = '1px solid var(--glass-border)';
+        item.style.borderRadius = '14px';
+        item.style.padding = '12px 14px';
+        item.style.display = 'flex';
+        item.style.justifyContent = 'space-between';
+        item.style.alignItems = 'center';
+        item.innerHTML = `
+          <div>
+            <div style="font-weight:700;font-size:0.9rem;color:#ffffff;">${idx + 1}. ${lead.name}</div>
+            <div style="font-size:0.75rem;color:var(--text-muted);">${lead.city} · ${lead.sector}</div>
+          </div>
+          <a href="${waUrl}" target="_blank" rel="noopener noreferrer" class="btn-batch-fire" style="padding:7px 14px;font-size:0.78rem;" onclick="recordContact('${lead.id}')">
+            <span>Abrir & Enviar</span>
+          </a>
+        `;
+        listContainer.appendChild(item);
+      });
+
+      document.getElementById('batchModal').classList.add('show');
     }
 
-    function handleSaveNewLead(e) {
+    function closeBatchModal() {
+      document.getElementById('batchModal').classList.remove('show');
+    }
+
+    // Chat Copiloto IA Integrado ao Worker
+    const chatHistory = [];
+
+    async function handleSendCopilot(e) {
       e.preventDefault();
-      const name = document.getElementById('newLeadName').value.trim();
-      const city = document.getElementById('newLeadCity').value;
-      const sector = document.getElementById('newLeadSector').value.trim();
-      const phone = document.getElementById('newLeadPhone').value.replace(/\D/g, '');
-      const pain = document.getElementById('newLeadPain').value.trim() || 'Atendimento com retorno lento ou sem site próprio';
+      const input = document.getElementById('copilotInput');
+      const text = input.value.trim();
+      if (!text) return;
 
-      const newId = 'lead-' + Date.now();
-      const icebreaker = `Olá, equipe da ${name}! Notei seu trabalho em ${city}. Desenvolvi um assistente inteligente e modelo de site rápido aqui na região que responde dúvidas e reservas no WhatsApp em 3 segundos, por R$ 79/mês. Gostariam de ver uma demonstração sem custo?`;
+      appendBubble('user', text);
+      input.value = '';
+      input.focus();
 
-      const newLead = {
-        id: newId,
-        name,
-        city,
-        sector,
-        rating_tripadvisor: null,
-        rating_google: 4.0,
-        complaint_snippet: pain,
-        phone,
-        pain,
-        solution_name: "Assistente Inteligente & Site Rápido",
-        solution_price: "R$ 79/mês ou R$ 497",
-        icebreaker
-      };
+      chatHistory.push({ role: 'user', content: text });
 
-      const current = getStoredLeads();
-      current.unshift(newLead);
-      saveStoredLeads(current);
+      try {
+        const res = await fetch('/api/chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ message: text, history: chatHistory.slice(-4) })
+        });
+        const data = await res.json();
+        const reply = data.message || 'Recebido! Como posso te ajudar mais?';
+        appendBubble('assistant', reply);
+        chatHistory.push({ role: 'assistant', content: reply });
+      } catch (err) {
+        appendBubble('assistant', 'Conexão ativa! Posso te ajudar a organizar seu próximo lote da hora ou calcular propostas.');
+      }
+    }
 
-      closeNewLeadModal();
-      document.getElementById('newLeadName').value = '';
-      document.getElementById('newLeadPhone').value = '';
-      document.getElementById('newLeadSector').value = '';
-      document.getElementById('newLeadPain').value = '';
-
-      showToast('Novo lead adicionado com sucesso!');
-      filterLeads();
+    function appendBubble(role, text) {
+      const box = document.getElementById('copilotMessages');
+      const bubble = document.createElement('div');
+      bubble.className = 'copilot-bubble ' + role;
+      bubble.innerText = text;
+      box.appendChild(bubble);
+      box.scrollTop = box.scrollHeight;
     }
 
     function renderProducts() {
@@ -1528,11 +1568,9 @@
           </div>
           <div style="display:flex;flex-direction:column;gap:8px;">
             <a href="${waLink}" target="_blank" rel="noopener noreferrer" class="btn-action-wa">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.886-4.434 9.889-9.885.002-5.462-4.415-9.89-9.881-9.892-5.452 0-9.887 4.434-9.889 9.884-.001 2.225.651 3.891 1.746 5.634l-.999 3.648 3.742-.981z"/></svg>
               <span>Testar no WhatsApp</span>
             </a>
             <button class="btn-action-copy" onclick="copyText('${shareLink}')">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
               <span>Copiar Link Direto</span>
             </button>
           </div>
@@ -1562,7 +1600,6 @@
             </div>
           </div>
           <button class="btn-action-copy" onclick="copyText('${escapeJs(c.audio + '\\n\\n' + c.caption)}')">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
             <span>Copiar Áudio + Legenda</span>
           </button>
         `;
