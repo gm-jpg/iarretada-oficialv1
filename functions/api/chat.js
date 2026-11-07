@@ -1,9 +1,15 @@
-const reply = (status, message) => new Response(JSON.stringify({ message }), {
+const reply = (status, message, data = {}) => new Response(JSON.stringify({ message, ...data }), {
   status,
   headers: { 'Content-Type': 'application/json; charset=utf-8', 'Cache-Control': 'no-store' }
 });
 
-const system = `Você é o IArretado, assistente virtual da IArretada. Responda em português brasileiro, de forma breve, clara e acolhedora. A IArretada desenvolve soluções de IA para pessoas físicas e empresas: atendimento, automações, organização, sites e comunicação. Projetos empresariais têm escopo e orçamento personalizados. Não mencione preço, a menos que a pergunta atual peça preço ou trate especificamente de automação pessoal. Não invente disponibilidade, prazos, integrações, resultados, preços de serviços empresariais nem políticas. Quando faltar informação, diga que a equipe pode avaliar pelo formulário de contato ou WhatsApp oficial +55 73 99931-3401. Não peça dados pessoais na conversa. Perguntas fora do escopo: explique brevemente que ajuda com os serviços da IArretada.`;
+const system = `Você é o IArretado, assistente virtual oficial da IArretada. Responda sempre em português brasileiro com hospitalidade, calor humano, clareza e assertividade.
+A IArretada desenvolve soluções sob medida de IA para pessoas físicas e empresas: atendimento inteligente, automações de rotina, organização de processos, sites modernos e comunicação.
+REGRAS OBRIGATÓRIAS:
+1. NUNCA mencione nem escreva números de telefone em formato legível de texto (+55 73..., 73 99931-3401, etc.). É terminantemente proibido exibir qualquer número de telefone como texto.
+2. Quando faltar alguma informação ou o usuário quiser falar com uma pessoa, explique de forma calorosa que ele pode clicar no botão do WhatsApp logo abaixo para falar diretamente com José e nossa equipe, ou usar o formulário de contato do site.
+3. Não invente disponibilidade, prazos ou preços empresariais (projetos têm orçamento personalizado após entender o escopo). Se perguntarem de automação pessoal para pessoa física, o valor anunciado é R$ 99,99.
+4. Mantenha as respostas amigáveis, acolhedoras e afirmativas, oferecendo opções claras de como a IArretada pode ajudar.`;
 
 export async function onRequestPost({ request, env }) {
   if (!request.headers.get('content-type')?.toLowerCase().startsWith('application/json')) return reply(415, 'Envie a pergunta em formato JSON.');
@@ -28,20 +34,26 @@ export async function onRequestPost({ request, env }) {
     const key = Array.from(new Uint8Array(bytes), x => x.toString(16).padStart(2, '0')).join('');
     await env.DB.prepare('DELETE FROM chat_limits WHERE expires_at < ?').bind(new Date().toISOString()).run();
     const row = await env.DB.prepare('INSERT INTO chat_limits (ip_bucket_hash, request_count, expires_at) VALUES (?, 1, ?) ON CONFLICT(ip_bucket_hash) DO UPDATE SET request_count = request_count + 1 RETURNING request_count').bind(key, expires).first();
-    if (Number(row?.request_count) > 10) return reply(429, 'Limite de perguntas atingido. Aguarde alguns minutos ou fale com a equipe.');
+    if (Number(row?.request_count) > 10) return reply(429, 'Limite de perguntas atingido. Aguarde alguns minutos ou fale com a equipe no WhatsApp abaixo.', { offerWhatsApp: true });
 
     const history = Array.isArray(body.history) ? body.history.slice(-6).filter(x => x && ['user', 'assistant'].includes(x.role) && typeof x.content === 'string').map(x => ({ role: x.role, content: x.content.slice(0, 500) })) : [];
     const priceContext = /pre[çc]o|valor|custa|quanto|99|automa[çc][aã]o pessoal/i.test(message);
     const guidance = priceContext ? `${system} A oferta de automação pessoal para pessoas físicas custa R$ 99,99; não aplique esse valor a projetos empresariais.` : system;
     const result = await env.AI.run('@cf/meta/llama-4-scout-17b-16e-instruct', {
       messages: [{ role: 'system', content: guidance }, ...history, { role: 'user', content: message }],
-      max_tokens: 240
+      max_tokens: 280
     });
-    const answer = typeof result?.response === 'string' ? result.response.trim() : '';
+    let answer = typeof result?.response === 'string' ? result.response.trim() : '';
     if (!answer) throw new Error('Empty AI answer');
-    return reply(200, answer);
+
+    // Sanitização rigorosa: NUNCA exibir telefone como texto
+    answer = answer.replace(/(\+?55\s*)?(\(?73\)?\s*)?9?\d{4}[-\s]?\d{4}/g, 'nosso WhatsApp');
+    answer = answer.replace(/\+55\s*73\s*99931-?3401/gi, 'nosso WhatsApp');
+
+    const offerWhatsApp = /whatsapp|contato|equipe|falar|ligar|telefone|jos[ée]|or[çc]amento/i.test(message + ' ' + answer);
+    return reply(200, answer, { offerWhatsApp });
   } catch (error) {
     console.error('Chat failed', error);
-    return reply(503, 'Não consegui responder agora. Tente novamente ou fale com a equipe.');
+    return reply(503, 'Não consegui responder no momento. Mas você pode falar direto com a gente no botão do WhatsApp abaixo!', { offerWhatsApp: true });
   }
 }
