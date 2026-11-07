@@ -755,4 +755,58 @@
     respond(question);
     chatInput.focus();
   });
+
+  // =========================================================================
+  // SIMULADOR INTERATIVO DE ECONOMIA DE TEMPO
+  // =========================================================================
+  const calcContainer = document.querySelector("#calculadora");
+  if (calcContainer) {
+    const optButtons = calcContainer.querySelectorAll(".calc-opt");
+    const sectorSelect = calcContainer.querySelector("#calc-sector");
+    const hoursDisplay = calcContainer.querySelector("#calc-hours");
+    const ctaBtn = calcContainer.querySelector("#calc-cta-btn");
+
+    let currentMsgs = 35;
+
+    function updateCalc() {
+      // 3 minutos por mensagem repetitiva (digitação, conferência, envio de dados)
+      // 30 dias por mês
+      const hoursPerMonth = Math.round((currentMsgs * 3.5 * 30) / 60);
+      const sectorName = sectorSelect ? sectorSelect.options[sectorSelect.selectedIndex].text : "Empresa";
+      
+      if (hoursDisplay) {
+        hoursDisplay.textContent = `~${hoursPerMonth} horas`;
+      }
+
+      if (ctaBtn) {
+        const msg = encodeURIComponent(`Olá José! Fiz a simulação no site para ${sectorName} (~ ${currentMsgs} msgs/dia) e vi que perco cerca de ${hoursPerMonth}h/mês. Gostaria de desenrolar uma automação [Origem: Calculadora]!`);
+        ctaBtn.href = `https://wa.me/5573999313401?text=${msg}`;
+        ctaBtn.textContent = `Economizar essas ${hoursPerMonth}h/mês no WhatsApp →`;
+      }
+    }
+
+    optButtons.forEach(btn => {
+      btn.addEventListener("click", () => {
+        optButtons.forEach(b => {
+          b.classList.remove("active");
+          b.style.background = "";
+          b.style.color = "";
+          b.style.borderColor = "";
+        });
+        btn.classList.add("active");
+        btn.style.background = "var(--blue)";
+        btn.style.color = "#fff";
+        btn.style.borderColor = "var(--blue)";
+        currentMsgs = Number(btn.dataset.val) || 35;
+        updateCalc();
+      });
+    });
+
+    if (sectorSelect) {
+      sectorSelect.addEventListener("change", updateCalc);
+    }
+
+    updateCalc();
+  }
+
 })();
